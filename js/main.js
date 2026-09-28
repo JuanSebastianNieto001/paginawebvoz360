@@ -808,10 +808,6 @@
       last=t; place();
     }
     requestAnimationFrame(tick);
-    floats.forEach(function(el){
-      el.addEventListener('mouseenter',function(){paused=true;});
-      el.addEventListener('mouseleave',function(){if(!modal.classList.contains('is-open'))paused=false;});
-    });
   
     function open(btn){
       var d=DATA[btn.getAttribute('data-tec')], r=btn.getBoundingClientRect();
