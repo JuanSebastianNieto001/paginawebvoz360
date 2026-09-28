@@ -676,7 +676,7 @@ html.intro-active { overflow: hidden; }
 /* Reels */
 /* Reels dentro de teléfonos */
 .vzi-reels{--gap:22px;display:flex;justify-content:center;align-items:center;gap:var(--gap)}
-.vzi-reel{--bz:9px;position:relative;display:block;flex:0 0 auto;width:min(340px,calc((100svh - 175px) * 9 / 19),calc((100% - var(--gap) * 2) / 3));aspect-ratio:9/19;border-radius:40px;padding:var(--bz);background:linear-gradient(150deg,#1D4677 0%,#0B2344 55%,#071E3A 100%);border:1px solid rgba(155,231,249,.28);box-shadow:0 34px 70px rgba(0,0,0,.45),inset 0 0 0 2px rgba(255,255,255,.05);overflow:hidden;transition:transform .35s var(--ease),box-shadow .35s}
+.vzi-reel{--bz:9px;position:relative;display:block;flex:0 0 auto;width:min(340px,calc((100svh - 175px) * 9 / 16.5),calc((100% - var(--gap) * 2) / 3));aspect-ratio:9/16.5;border-radius:40px;padding:var(--bz);background:linear-gradient(150deg,#1D4677 0%,#0B2344 55%,#071E3A 100%);border:1px solid rgba(155,231,249,.28);box-shadow:0 34px 70px rgba(0,0,0,.45),inset 0 0 0 2px rgba(255,255,255,.05);overflow:hidden;transition:transform .35s var(--ease),box-shadow .35s}
 .vzi-reel:nth-child(2){margin-top:-44px}
 .vzi-reel:hover{transform:translateY(-8px);box-shadow:0 44px 80px rgba(0,0,0,.5),0 0 0 1px rgba(155,231,249,.5)}
 .vzi-reel video,.vzi-reel iframe,.vzi-reel img{position:absolute;inset:var(--bz);width:calc(100% - var(--bz) * 2);height:calc(100% - var(--bz) * 2);object-fit:cover;border:0;border-radius:31px}
@@ -701,8 +701,6 @@ html.intro-active { overflow: hidden; }
 .vzi-s.b3{filter:blur(10px);opacity:.3;animation-duration:15s;animation-delay:-6s}
 .vzi-s.c-cyan{color:var(--sky)}
 .vzi-s.c-real{color:var(--blue)}
-.vzi-pill{display:flex;align-items:center;gap:10px;padding:12px 20px;border-radius:999px;background:rgba(155,231,249,.18);border:1px solid rgba(155,231,249,.35);font-size:15px;font-weight:600;color:#fff;white-space:nowrap}
-.vzi-pill i{width:26px;height:26px;border-radius:50%;background:var(--blue)}
 .vzi-post{width:150px;height:190px;border-radius:22px;background:linear-gradient(160deg,rgba(10,121,232,.55),rgba(155,231,249,.25));border:1px solid rgba(155,231,249,.35)}
 @keyframes vzi-float{0%,100%{transform:rotate(var(--r,0deg)) translateY(0)}50%{transform:rotate(var(--r,0deg)) translateY(-18px)}}
 .vzi-note{margin-top:20px;font-size:14px;color:#B7B7B7}
