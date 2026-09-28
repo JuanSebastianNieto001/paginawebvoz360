@@ -85,6 +85,65 @@
   }
 
   /* ============================================================
+     Header: se oculta al bajar. Con mouse reaparece al acercar el
+     puntero a la parte superior; en pantallas táctiles, al subir.
+     ============================================================ */
+  var header = document.getElementById('site-header');
+  if (header) {
+    var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    var REVEAL_ZONE = 80;   // px desde el borde superior que muestran el header
+    var lastY = window.scrollY;
+    var pointerNear = false;
+    var ticking = false;
+
+    function keyboardFocus() {
+      try { return !!header.querySelector(":focus-visible"); } catch (err) { return false; }
+    }
+
+    function setHidden(hidden) { header.classList.toggle('is-hidden', hidden); }
+
+    function onScroll() {
+      ticking = false;
+      var y = window.scrollY;
+      var atTop = y < 10;
+      header.classList.toggle('is-solid', !atTop);
+
+      if (atTop || nav.classList.contains('is-open') || keyboardFocus()) {
+        setHidden(false);
+      } else if (canHover) {
+        setHidden(!pointerNear);
+      } else if (y > lastY + 4) {
+        setHidden(true);
+      } else if (y < lastY - 4) {
+        setHidden(false);
+      }
+      lastY = y;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+    }, { passive: true });
+
+    if (canHover) {
+      document.addEventListener('mousemove', function (e) {
+        // Mientras está visible, se mantiene si el puntero sigue sobre el header
+        var limit = header.classList.contains('is-hidden') ? REVEAL_ZONE : header.offsetHeight + 24;
+        var near = e.clientY <= limit;
+        if (near === pointerNear) return;
+        pointerNear = near;
+        onScroll();
+      });
+    }
+
+    // Accesibilidad: con teclado, al enfocar un enlace del header se muestra
+    header.addEventListener('focusin', function () { if (keyboardFocus()) setHidden(false); });
+    header.addEventListener('focusout', function () { setTimeout(onScroll, 0); });
+    if (menuBtn) menuBtn.addEventListener('click', onScroll);
+
+    onScroll();
+  }
+
+  /* ============================================================
      Carrusel
      ============================================================ */
   var gallery = document.querySelector('.galeria');
