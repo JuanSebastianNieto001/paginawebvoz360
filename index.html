@@ -20,9 +20,12 @@
 <body>
 
 <!-- ====== INTRO (video al entrar o recargar) ====== -->
-<div class="intro" id="intro">
-  <video class="intro-video" aria-hidden="true" src="assets/video/intro-360.mp4" muted playsinline autoplay preload="auto"></video>
-  <button type="button" class="intro-skip">Saltar intro</button>
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro-layer intro-layer--navy"></div>
+  <div class="intro-layer intro-layer--cyan"></div>
+  <div class="intro-layer intro-layer--video">
+    <video class="intro-video" src="assets/video/intro-360.mp4" muted playsinline autoplay preload="auto"></video>
+  </div>
 </div>
 
 <!-- ====== 1. HERO ====== -->

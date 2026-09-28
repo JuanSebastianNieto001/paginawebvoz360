@@ -12,8 +12,9 @@
 
   /* ============================================================
      Intro: el video se reproduce cada vez que se entra o recarga.
-     Si el navegador bloquea el autoplay o el video falla, la
-     intro se cierra sola para no dejar la página tapada.
+     Al terminar, tres capas suben en cascada (barrido de cortina)
+     y destapan la web. Si el navegador bloquea el autoplay o el
+     video falla, la intro se cierra sola para no tapar la página.
      ============================================================ */
   (function intro() {
     var el = document.getElementById('intro');
@@ -25,14 +26,13 @@
       if (closed) return;
       closed = true;
       el.classList.add('is-done');
-      document.documentElement.classList.remove('intro-active');
-      setTimeout(function () { el.remove(); }, 900);
+      // El hero empieza a animarse mientras sube la última capa
+      setTimeout(function () { document.documentElement.classList.remove('intro-active'); }, 650);
+      setTimeout(function () { el.remove(); }, 1400);
     }
 
     video.addEventListener('ended', close);
     video.addEventListener('error', close);
-    el.querySelector('.intro-skip').addEventListener('click', close);
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
 
     if (video.ended) return close();
     var played = video.play();
