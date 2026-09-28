@@ -579,13 +579,17 @@
       });
     });
 
-    // Burbuja "¿Hablamos?" unos segundos después de terminar la intro
-    setTimeout(function () {
-      if (!bot.classList.contains('is-open')) {
+    // Burbuja "¿Hablamos?": aparece, se queda un ratico, se va y vuelve
+    // a salir 4 segundos después. Se pausa mientras el chat está abierto.
+    var HINT_VISIBLE = 2600, HINT_GAP = 4000;
+    (function hintLoop() {
+      var wait = document.documentElement.classList.contains('intro-active') ? 1000 : HINT_GAP;
+      setTimeout(function () {
+        if (bot.classList.contains('is-open') || document.documentElement.classList.contains('intro-active')) return hintLoop();
         bot.classList.add('show-hint');
-        setTimeout(function () { bot.classList.remove('show-hint'); }, 6000);
-      }
-    }, 7000);
+        setTimeout(function () { bot.classList.remove('show-hint'); hintLoop(); }, HINT_VISIBLE);
+      }, wait);
+    })();
   }
 
   /* ============================================================

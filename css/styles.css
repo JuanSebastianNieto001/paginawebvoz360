@@ -883,9 +883,11 @@ html.intro-active { overflow: hidden; }
 @keyframes bot-ring { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.7); opacity: 0; } }
 
 /* Burbuja de invitación */
-.bot-hint { position: absolute; right: 80px; bottom: 16px; padding: 10px 14px; border-radius: 16px 16px 4px 16px; background: #FFFFFF; color: var(--navy); font-size: 13px; white-space: nowrap; box-shadow: 0 12px 30px rgba(7,30,58,.18); opacity: 0; translate: 10px 0; pointer-events: none; transition: opacity .4s ease, translate .5s var(--ease); }
+.bot-hint { position: absolute; right: 80px; bottom: 16px; padding: 10px 14px; border-radius: 16px 16px 4px 16px; background: #FFFFFF; color: var(--navy); font-size: 13px; white-space: nowrap; box-shadow: 0 12px 30px rgba(7,30,58,.18); opacity: 0; translate: 16px 0; scale: .85; transform-origin: right bottom; pointer-events: none; transition: opacity .35s ease, translate .45s var(--ease), scale .45s var(--ease); }
 .bot-hint b { color: var(--accent); }
-.bot.show-hint .bot-hint { opacity: 1; translate: 0 0; }
+/* Entra con un pequeño rebote; sale deslizándose hacia el botón */
+.bot.show-hint .bot-hint { opacity: 1; translate: 0 0; scale: 1; animation: bot-hint-pop .55s cubic-bezier(.2, 1.4, .4, 1); }
+@keyframes bot-hint-pop { 0% { scale: .6; translate: 16px 4px; } 60% { scale: 1.06; } 100% { scale: 1; translate: 0 0; } }
 
 /* Estado abierto: el botón pasa a ser una X */
 /* Nombre pequeño encima del botón */
@@ -951,7 +953,7 @@ html.intro-active { overflow: hidden; }
   .bot-body { padding: 16px 14px 28px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .bot-launcher img, .bot-ring, .bot-typing span, .bot-face, .bot-eyes { animation: none; }
+  .bot-launcher img, .bot-ring, .bot-typing span, .bot-face, .bot-eyes, .bot.show-hint .bot-hint { animation: none; }
   .bot-body > .bot-msg, .bot-body > .bot-options, .bot-flow > * { opacity: 1; animation: none; translate: none; transition: none; }
 }
 
