@@ -8,6 +8,9 @@
      ------------------------------------------------------------ */
   var FORM_ENDPOINT = '';   // Contáctanos
   var JOBS_ENDPOINT = '';   // Trabaja con nosotros (postulaciones)
+  // WhatsApp del bot: número con indicativo, solo dígitos (ej. '573001234567'). Vacío = aún no disponible
+  var WHATSAPP_NUMBER = '';
+  var WHATSAPP_TEXT = 'Hola VOZ360, quiero más información.';
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -479,6 +482,7 @@
     }
     function resetFlows() {
       if (typeof resetFaqChat === 'function') resetFaqChat();
+      var waNote = bot.querySelector('.bot-wa-note'); if (waNote) waNote.remove();
       botOpts.forEach(function (b) {
         b.classList.remove('is-active');
         b.setAttribute('aria-expanded', 'false');
@@ -493,6 +497,22 @@
       var go = e.target.closest && e.target.closest('[data-go]');
       if (go) showFlow(go.getAttribute('data-go'));
     });
+
+    // WhatsApp: abre el chat con el número configurado; si aún no hay número, el bot lo avisa
+    var waLink = bot.querySelector('[data-whatsapp]');
+    if (waLink) {
+      if (WHATSAPP_NUMBER) waLink.href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(WHATSAPP_TEXT);
+      waLink.addEventListener('click', function (e) {
+        if (WHATSAPP_NUMBER) return;
+        e.preventDefault();
+        if (bot.querySelector('.bot-wa-note')) return;
+        var note = document.createElement('div');
+        note.className = 'bot-msg bot-wa-note is-shown';
+        note.innerHTML = 'Muy pronto podrás escribirnos por <b>WhatsApp</b>. Mientras tanto, encuéntranos en <a href="https://instagram.com/voz360_contact_center" target="_blank" rel="noopener">Instagram</a> 💬';
+        waLink.closest('.bot-msg--info').after(note);
+        botBody.scrollTo({ top: botBody.scrollHeight, behavior: reduceMotion ? 'auto' : 'smooth' });
+      });
+    }
 
     // Preguntas frecuentes como chat: la pregunta elegida se envía, el bot "escribe" y responde
     var faqChat = document.querySelector('#flow-faq .bot-chat');

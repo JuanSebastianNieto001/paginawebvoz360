@@ -1018,6 +1018,14 @@ html.intro-active { overflow: hidden; }
 .bot-msg--info div { display: flex; flex-direction: column; gap: 2px; }
 .bot-msg--info span, .bot-msg--info a { font-size: 12.5px; }
 .bot-msg--info span strong { color: var(--navy); }
+.bot-msg--info .bot-social { display: flex; flex-direction: row; gap: 10px; margin-top: 6px; }
+.bot-soc { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; color: #FFFFFF; transition: transform .2s var(--ease), box-shadow .2s; }
+.bot-soc svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.bot-soc svg .fill { fill: currentColor; stroke: none; }
+.bot-soc--ig { background: var(--accent); }
+.bot-soc--wa { background: #25D366; }
+.bot-soc--wa svg { width: 23px; height: 23px; }
+.bot-soc:hover, .bot-soc:focus-visible { transform: translateY(-3px) scale(1.06); box-shadow: 0 8px 18px rgba(7,30,58,.22); }
 
 .bot-form { padding: 16px; border-radius: 18px; gap: 10px; box-shadow: 0 10px 26px rgba(7,30,58,.07); }
 .bot-form .form-grid { gap: 10px; }
