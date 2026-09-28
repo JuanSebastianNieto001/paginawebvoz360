@@ -425,6 +425,89 @@
   });
 
   /* ============================================================
+     Bot Voz360: botón flotante que abre el panel de contacto.
+     Todos los enlaces a #contacto abren el bot en lugar de saltar.
+     ============================================================ */
+  var bot = document.getElementById('bot');
+  if (bot) {
+    var botPanel = bot.querySelector('.bot-panel');
+    var botLauncher = bot.querySelector('.bot-launcher');
+    var botSteps = bot.querySelectorAll('.bot-body > .bot-msg, .bot-body > .bot-form');
+    var botTimers = [];
+    var botReturnFocus = null;
+
+    function clearBotTimers() { botTimers.forEach(clearTimeout); botTimers = []; }
+
+    // Voz360 "escribe" y los mensajes aparecen uno tras otro
+    function playBotIntro() {
+      clearBotTimers();
+      botSteps.forEach(function (el) { el.classList.remove('is-shown'); });
+      if (reduceMotion) { botSteps.forEach(function (el) { el.classList.add('is-shown'); }); return; }
+      var t = 0;
+      botSteps.forEach(function (el, i) {
+        var isMsg = el.classList.contains('bot-msg') && i < 2;
+        if (isMsg) {
+          botTimers.push(setTimeout(function () { bot.classList.add('is-typing'); }, t));
+          t += 650;
+        }
+        botTimers.push(setTimeout(function () { bot.classList.remove('is-typing'); el.classList.add('is-shown'); }, t));
+        t += isMsg ? 250 : 180;
+      });
+    }
+
+    function openBot() {
+      if (bot.classList.contains('is-open')) return;
+      botReturnFocus = document.activeElement;
+      bot.classList.remove('show-hint');
+      bot.classList.add('is-open');
+      botPanel.setAttribute('aria-hidden', 'false');
+      botLauncher.setAttribute('aria-expanded', 'true');
+      botLauncher.setAttribute('aria-label', 'Cerrar chat con Voz360');
+      if (window.matchMedia('(max-width: 640px)').matches) document.documentElement.style.overflow = 'hidden';
+      playBotIntro();
+      setTimeout(function () { bot.querySelector('.bot-close').focus({ preventScroll: true }); }, 60);
+    }
+
+    function closeBot() {
+      if (!bot.classList.contains('is-open')) return;
+      clearBotTimers();
+      bot.classList.remove('is-open', 'is-typing');
+      botPanel.setAttribute('aria-hidden', 'true');
+      botLauncher.setAttribute('aria-expanded', 'false');
+      botLauncher.setAttribute('aria-label', 'Abrir chat con Voz360');
+      document.documentElement.style.overflow = '';
+      if (botReturnFocus && botReturnFocus.focus) botReturnFocus.focus({ preventScroll: true });
+    }
+
+    botLauncher.addEventListener('click', function () {
+      bot.classList.contains('is-open') ? closeBot() : openBot();
+    });
+    bot.querySelector('.bot-close').addEventListener('click', closeBot);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeBot(); });
+
+    // Clic fuera del panel lo cierra (en escritorio)
+    document.addEventListener('pointerdown', function (e) {
+      if (bot.classList.contains('is-open') && !bot.contains(e.target) && !e.target.closest('a[href="#contacto"]')) closeBot();
+    });
+
+    // Los botones "Hablemos", "Solicitar propuesta", etc. abren el bot
+    document.querySelectorAll('a[href="#contacto"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        openBot();
+      });
+    });
+
+    // Burbuja "¿Hablamos?" unos segundos después de terminar la intro
+    setTimeout(function () {
+      if (!bot.classList.contains('is-open')) {
+        bot.classList.add('show-hint');
+        setTimeout(function () { bot.classList.remove('show-hint'); }, 6000);
+      }
+    }, 7000);
+  }
+
+  /* ============================================================
      Formulario de contacto
      ============================================================ */
   var form = document.getElementById('contact-form');

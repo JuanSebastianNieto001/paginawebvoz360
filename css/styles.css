@@ -600,20 +600,6 @@ html.intro-active { overflow: hidden; }
 .btn-white { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: #FFFFFF; color: var(--navy); font-size: 15px; font-weight: 700; padding: 18px 30px; border-radius: 999px; }
 .btn-white:hover { color: var(--navy); }
 
-/* ==========================================================
-   14. CONTACTO
-   ========================================================== */
-.contacto { padding: 70px 0 60px; background: var(--soft); }
-.contacto-grid { display: grid; grid-template-columns: minmax(0, 1fr) 520px; gap: 80px; }
-.contacto-info { display: flex; flex-direction: column; gap: 20px; }
-.contacto-info .h2 { font-weight: 800; font-size: 52px; line-height: 1.02; letter-spacing: -.055em; }
-.contacto-info > p { max-width: 440px; font-size: 16px; line-height: 1.65; color: var(--muted); }
-.contacto-cards { display: flex; flex-direction: column; gap: 12px; margin-top: 6px; max-width: 440px; }
-.ccard { padding: 18px 20px; border-radius: 16px; border: 1px solid var(--line); background: #FFFFFF; }
-.ccard strong { display: block; font-size: 14px; margin-bottom: 3px; }
-.ccard span, .ccard a { font-size: 13px; }
-.ccard span { color: var(--muted); }
-.ccard span strong { display: inline; color: var(--navy); }
 
 .form { padding: 30px 30px 26px; border-radius: 24px; border: 1px solid var(--line); background: #FFFFFF; box-shadow: 0 20px 44px rgba(7,30,58,.07); display: flex; flex-direction: column; gap: 14px; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -654,7 +640,6 @@ html.intro-active { overflow: hidden; }
   .nav { gap: 22px; }
   .servicios-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 24px; }
-  .contacto-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; }
   .footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
 }
 
@@ -663,7 +648,7 @@ html.intro-active { overflow: hidden; }
   .nav { display: none; }
   .menu-btn { display: flex; }
   .hero h1 { font-size: clamp(40px, min(7vw, 9vh), 56px); }
-  .faq-grid, .contacto-grid { grid-template-columns: 1fr; gap: 40px; }
+  .faq-grid { grid-template-columns: 1fr; gap: 40px; }
   .servicios-head { flex-direction: column; gap: 10px; }
   .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; }
   .tech-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -837,11 +822,6 @@ html.intro-active { overflow: hidden; }
   .btn-white svg { display: none; }
 
   /* Contacto */
-  .contacto { padding: 44px 0; }
-  .contacto-grid { gap: 20px; }
-  .contacto-info { gap: 14px; }
-  .contacto-info .h2 { font-size: 32px; }
-  .contacto-info > p { font-size: 14px; }
   .form { padding: 22px 20px; border-radius: 22px; gap: 12px; box-shadow: 0 16px 36px rgba(7,30,58,.07); }
   .form-grid { grid-template-columns: 1fr; gap: 12px; }
   .field label { font-size: 9px; }
@@ -859,4 +839,78 @@ html.intro-active { overflow: hidden; }
   .footer-col a { font-size: 12px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; gap: 4px; padding-top: 14px; }
   .footer-bottom span { font-size: 10px; }
+}
+
+/* ==========================================================
+   BOT VOZ360 — botón flotante y panel de contacto
+   ========================================================== */
+.bot { position: fixed; right: 24px; bottom: 24px; z-index: 950; }
+.intro-active .bot { opacity: 0; pointer-events: none; }
+
+/* Botón con el logo */
+.bot-launcher { position: relative; z-index: 2; width: 66px; height: 66px; padding: 0; border: 0; border-radius: 50%; background: #FFFFFF; cursor: pointer; box-shadow: 0 14px 34px rgba(7,30,58,.32), 0 0 0 3px rgba(255,255,255,.9); transition: transform .35s var(--ease), box-shadow .35s ease; }
+.bot-launcher img { display: block; width: 100%; height: 100%; border-radius: 50%; animation: bot-spin 18s linear infinite; }
+.bot-launcher:hover { box-shadow: 0 18px 40px rgba(10,121,232,.45), 0 0 0 3px #FFFFFF; }
+@keyframes bot-spin { to { transform: rotate(360deg); } }
+.bot-ring { position: absolute; z-index: 1; right: 0; bottom: 0; width: 66px; height: 66px; border-radius: 50%; border: 2px solid var(--accent); animation: bot-ring 2.4s ease-out infinite; pointer-events: none; }
+@keyframes bot-ring { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.7); opacity: 0; } }
+
+/* Burbuja de invitación */
+.bot-hint { position: absolute; right: 80px; bottom: 16px; padding: 10px 14px; border-radius: 16px 16px 4px 16px; background: #FFFFFF; color: var(--navy); font-size: 13px; white-space: nowrap; box-shadow: 0 12px 30px rgba(7,30,58,.18); opacity: 0; translate: 10px 0; pointer-events: none; transition: opacity .4s ease, translate .5s var(--ease); }
+.bot-hint b { color: var(--accent); }
+.bot.show-hint .bot-hint { opacity: 1; translate: 0 0; }
+
+/* Estado abierto: el botón pasa a ser una X */
+.bot.is-open .bot-ring, .bot.is-open .bot-hint { display: none; }
+.bot.is-open .bot-launcher { transform: scale(.86) rotate(-8deg); }
+
+/* Panel tipo chat */
+.bot-panel { position: absolute; right: 0; bottom: 84px; width: min(420px, calc(100vw - 32px)); max-height: min(700px, calc(100vh - 120px)); display: flex; flex-direction: column; overflow: hidden; border-radius: 24px; background: #F4F8FC; box-shadow: 0 30px 70px rgba(7,30,58,.35); border: 1px solid rgba(155,231,249,.35);
+  opacity: 0; visibility: hidden; transform: translateY(18px) scale(.94); transform-origin: bottom right; transition: opacity .35s ease, transform .45s cubic-bezier(.2,1.1,.3,1), visibility .35s; }
+.bot.is-open .bot-panel { opacity: 1; visibility: visible; transform: none; }
+
+.bot-head { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--navy); color: #FFFFFF; }
+.bot-avatar { width: 44px; height: 44px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255,255,255,.85); }
+.bot-id { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.bot-id strong { font-family: var(--display); font-size: 18px; letter-spacing: -.02em; }
+.bot-id span { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted-dark); }
+.bot-online { width: 7px; height: 7px; border-radius: 50%; background: #16A36B; box-shadow: 0 0 0 3px rgba(22,163,107,.25); }
+.bot-close { width: 38px; height: 38px; border: 0; border-radius: 50%; background: rgba(255,255,255,.08); color: #FFFFFF; cursor: pointer; display: grid; place-items: center; transition: background .25s ease; }
+.bot-close:hover { background: rgba(255,255,255,.2); }
+
+.bot-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 18px 16px 20px; display: flex; flex-direction: column; gap: 10px; }
+.bot-msg { align-self: flex-start; max-width: 88%; padding: 11px 14px; border-radius: 4px 16px 16px 16px; background: #FFFFFF; border: 1px solid var(--line); font-size: 13.5px; line-height: 1.55; color: var(--ink-2); box-shadow: 0 6px 16px rgba(7,30,58,.05); }
+.bot-msg b { color: var(--navy); }
+.bot-msg--info { display: flex; flex-direction: column; gap: 8px; max-width: 100%; }
+.bot-msg--info div { display: flex; flex-direction: column; gap: 2px; }
+.bot-msg--info span, .bot-msg--info a { font-size: 12.5px; }
+.bot-msg--info span strong { color: var(--navy); }
+
+.bot-form { padding: 16px; border-radius: 18px; gap: 10px; box-shadow: 0 10px 26px rgba(7,30,58,.07); }
+.bot-form .form-grid { gap: 10px; }
+.bot-form .field input { height: 42px; }
+.bot-form .field textarea { min-height: 84px; }
+.bot-form .form-submit { height: 48px; }
+
+/* Indicador "escribiendo…" y aparición en secuencia de los mensajes */
+.bot-typing { align-self: flex-start; display: none; gap: 4px; padding: 12px 14px; border-radius: 4px 16px 16px 16px; background: #FFFFFF; border: 1px solid var(--line); }
+.bot-typing span { width: 7px; height: 7px; border-radius: 50%; background: #9DB3CC; animation: bot-dot 1s ease-in-out infinite; }
+.bot-typing span:nth-child(2) { animation-delay: .15s; }
+.bot-typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes bot-dot { 0%, 100% { transform: translateY(0); opacity: .5; } 50% { transform: translateY(-4px); opacity: 1; } }
+.bot.is-typing .bot-typing { display: flex; }
+.bot-body > .bot-msg, .bot-body > .bot-form { opacity: 0; translate: 0 12px; transition: opacity .4s ease, translate .5s var(--ease); }
+.bot-body > .is-shown { opacity: 1; translate: 0 0; }
+
+@media (max-width: 640px) {
+  .bot { right: 16px; bottom: 16px; }
+  .bot-launcher, .bot-ring { width: 58px; height: 58px; }
+  .bot-hint { right: 70px; bottom: 12px; }
+  .bot-panel { position: fixed; inset: 0; width: auto; max-height: none; border-radius: 0; transform-origin: bottom center; }
+  .bot.is-open .bot-launcher { opacity: 0; pointer-events: none; }
+  .bot-body { padding: 16px 14px 28px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bot-launcher img, .bot-ring, .bot-typing span { animation: none; }
+  .bot-body > .bot-msg, .bot-body > .bot-form { opacity: 1; translate: none; transition: none; }
 }
