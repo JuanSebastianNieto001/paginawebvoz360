@@ -63,6 +63,76 @@
   }
 
   /* ============================================================
+     Transición de nubes entre la portada y Quiénes somos.
+     Con el scroll las nubes suben, cubren la pantalla y se abren.
+     ============================================================ */
+  if (!reduceMotion) {
+    document.querySelectorAll('.cloud-transition').forEach(function (root) {
+      var cl = function (v, a, b) { a = a === undefined ? 0 : a; b = b === undefined ? 1 : b; return Math.min(b, Math.max(a, v)); };
+      var ease = function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+      var wrap = root.querySelector('.ct-clouds');
+      var fog = root.querySelector('.ct-fog');
+      var haze = root.querySelector('.ct-haze');
+
+      // Semilla fija: las nubes siempre quedan en la misma posición
+      var seed = 7;
+      var rnd = function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+      var puffs = [], rows = 7, cols = 9;
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          var depth = 0.6 + rnd() * 0.9, size = 26 + rnd() * 26;
+          var x = (c / (cols - 1)) * 112 - 6 + (rnd() - .5) * 8;
+          var y = (r / (rows - 1)) * 118 - 10 + (rnd() - .5) * 8;
+          [true, false].forEach(function (sh) {
+            var el = document.createElement('div');
+            el.className = 'ct-puff' + (sh ? ' sh' : '');
+            var s = sh ? size * 1.1 : size;
+            el.style.setProperty('--s', s);
+            wrap.appendChild(el);
+            puffs.push({ el: el, x: x, y: y + (sh ? 4 : 0), s: s, depth: depth, ph: rnd() * 6.28, sh: sh });
+          });
+        }
+      }
+
+      var target = 0, cur = 0, visible = true;
+      var progress = function () {
+        var b = root.getBoundingClientRect();
+        return cl(-b.top / (b.height - window.innerHeight));
+      };
+      window.addEventListener('scroll', function () { target = progress(); }, { passive: true });
+      window.addEventListener('resize', function () { target = progress(); });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }, { rootMargin: '20% 0px' }).observe(root);
+      }
+      target = cur = progress();
+
+      function frame(t) {
+        requestAnimationFrame(frame);
+        if (!visible) return;
+        cur += (target - cur) * 0.12;
+        var p = cur, time = t / 1000, vw = window.innerWidth / 100, vh = window.innerHeight / 100;
+        var u = Math.max(vw, vh * .55);             // misma unidad que --ct-u en CSS
+        var rise = ease(cl(p / 0.42));              // las nubes suben y cubren
+        var part = ease(cl((p - 0.55) / 0.42));     // las nubes se abren
+        for (var i = 0; i < puffs.length; i++) {
+          var q = puffs[i];
+          var drift = Math.sin(time * .25 + q.ph) * 1.6, dir = q.x < 50 ? -1 : 1;
+          var shift = (94 + q.depth * 16) * (1 - rise);
+          var spread = part * (55 + q.depth * 45) * dir * (.4 + Math.abs(q.x - 50) / 50);
+          var lift = -part * q.depth * 18, sc = 1 + part * q.depth * 1.4;
+          var px = (q.x + drift + spread) * vw - (q.s * u) / 2;
+          var py = (q.y + shift + lift) * vh - (q.s * .36 * u);
+          q.el.style.transform = 'translate3d(' + px + 'px,' + py + 'px,0) scale(' + sc + ')';
+          q.el.style.opacity = (1 - part) * (q.sh ? .9 : 1);
+        }
+        fog.style.opacity = (rise * (1 - part) * 0.55).toFixed(3);
+        haze.style.opacity = (rise * (1 - part)).toFixed(3);   // desenfoque "de sueño" del fondo
+      }
+      requestAnimationFrame(frame);
+    });
+  }
+
+  /* ============================================================
      Quiénes somos: ecualizador de la llamada y cronómetro en vivo
      ============================================================ */
   var qsWave = document.getElementById('qs-wave');

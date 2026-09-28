@@ -211,6 +211,29 @@ html.intro-active { overflow: hidden; }
 .intro-active .hero [data-reveal] { opacity: 0 !important; translate: 0 44px !important; filter: blur(8px) !important; }
 
 /* ==========================================================
+   TRANSICIÓN DE NUBES (portada → Quiénes somos)
+   Las nubes suben con el scroll, cubren la pantalla y se abren.
+   ========================================================== */
+:root {
+  --ct-duracion: 260vh;          /* más alto = transición más lenta */
+  --ct-nube: #ffffff;
+  --ct-sombra: 120, 160, 225;    /* tono azulado de la sombra (RGB) */
+  --ct-niebla: #ffffff;
+  --ct-u: max(1vw, .55vh);       /* unidad de tamaño: en pantallas verticales las nubes crecen con el alto */
+}
+.cloud-transition { position: relative; z-index: 50; height: var(--ct-duracion); margin: -100vh 0; pointer-events: none; }
+/* Rellena el tramo extra de scroll entre la portada y la siguiente sección con su mismo fondo */
+.cloud-transition::before { content: ""; position: absolute; z-index: -1; left: 0; right: 0; top: 100vh; height: calc(var(--ct-duracion) - 200vh); background: #F4F8FC; }
+.cloud-transition .ct-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.cloud-transition .ct-haze { position: absolute; inset: 0; opacity: 0; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.cloud-transition .ct-clouds { position: absolute; inset: 0; filter: blur(14px); }
+.cloud-transition .ct-fog { position: absolute; inset: 0; background: var(--ct-niebla); opacity: 0; }
+.cloud-transition .ct-puff { position: absolute; left: 0; top: 0; width: calc(var(--s) * var(--ct-u)); height: calc(var(--s) * .72 * var(--ct-u)); border-radius: 50%; will-change: transform, opacity;
+  background: radial-gradient(circle at 44% 34%, var(--ct-nube) 0%, rgba(255,255,255,.97) 26%, rgba(238,244,253,.8) 44%, rgba(210,226,247,.35) 58%, rgba(210,226,247,0) 70%); }
+.cloud-transition .ct-puff.sh { background: radial-gradient(circle, rgba(var(--ct-sombra), .42) 0%, rgba(var(--ct-sombra), .2) 40%, rgba(var(--ct-sombra), 0) 70%); }
+@media (prefers-reduced-motion: reduce) { .cloud-transition { display: none; } }
+
+/* ==========================================================
    1. HERO
    ========================================================== */
 /* La portada ocupa exactamente el alto de la pantalla (svh evita saltos por la barra del navegador en móvil) */
@@ -223,7 +246,7 @@ html.intro-active { overflow: hidden; }
 /* Header fijo: se oculta al bajar y reaparece al acercar el mouse arriba */
 .site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 900; border-bottom: 1px solid rgba(255,255,255,.18); transition: transform .45s var(--ease), background-color .35s ease, border-color .35s ease, box-shadow .35s ease; }
 .site-header.is-solid { background: rgba(7,30,58,.94); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom-color: rgba(155,231,249,.14); box-shadow: 0 10px 30px rgba(4,23,44,.25); }
-.site-header.is-hidden { transform: translateY(-100%); }
+.site-header.is-hidden { transform: translateY(-100%); box-shadow: none; }
 .header-inner { position: relative; height: 76px; display: flex; align-items: center; justify-content: space-between; }
 .brand { display: flex; align-items: baseline; gap: 10px; color: #FFFFFF; }
 .brand:hover { color: #FFFFFF; }
