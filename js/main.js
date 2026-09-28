@@ -360,8 +360,8 @@
 
     // Tamaños según distancia a la activa (relativos al alto disponible)
     function gSizes() {
-      var vw = window.innerWidth;
-      var h = Math.max(260, gOuter.clientHeight);
+      var vw = gOuter.clientWidth;
+      var h = Math.max(180, gOuter.clientHeight);
       var mobile = vw <= 768;
       return [
         { w: mobile ? vw * 0.78 : Math.min(vw * 0.38, 560), h: h, o: 1 },
@@ -387,7 +387,7 @@
       var widths = gItems.map(function (_, i) { return s[Math.min(3, Math.abs(i - gCurrent))].w; });
       var left = 0;
       for (var i = 0; i < gCurrent; i++) left += widths[i] + G_GAP;
-      gTrack.style.transform = 'translateX(' + (window.innerWidth / 2 - (left + widths[gCurrent] / 2)) + 'px)';
+      gTrack.style.transform = 'translateX(' + (gOuter.clientWidth / 2 - (left + widths[gCurrent] / 2)) + 'px)';
       gItems.forEach(function (item, k) {
         var cfg = s[Math.min(3, Math.abs(k - gCurrent))];
         item.style.width = cfg.w + 'px';
