@@ -610,7 +610,7 @@ html.intro-active { overflow: hidden; }
 /* ==========================================================
    7. INSTAGRAM (basada en seccion-redes-voz360.html)
    ========================================================== */
-.vzi{--navy:#071E3A;--navy2:#0E2C52;--blue:#0A79E8;--sky:#9BE7F9;--ink:#071E3A;--mut:#6A6A6A;position:relative;overflow:hidden;background:var(--navy);color:#fff;font-family:var(--body);padding:clamp(48px,9vh,96px) 24px;min-height:100vh;min-height:100svh;display:flex;align-items:center}
+.vzi{--navy:#071E3A;--navy2:#0E2C52;--blue:#0A79E8;--sky:#9BE7F9;--ink:#071E3A;--mut:#6A6A6A;position:relative;overflow:hidden;background:var(--navy);color:#fff;font-family:var(--body);padding:clamp(48px,9vh,96px) 24px;min-height:100vh;min-height:100svh;scroll-snap-align:start;display:flex;align-items:center}
 .vzi *{box-sizing:border-box}
 .vzi a{text-decoration:none;color:inherit}
 .vzi-glow{position:absolute;border-radius:50%;pointer-events:none}
