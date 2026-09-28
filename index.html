@@ -611,28 +611,21 @@
         </button>
       </div>
 
-      <!-- Flujo: Preguntas frecuentes -->
+      <!-- Flujo: Preguntas frecuentes (conversación) -->
       <div class="bot-flow" id="flow-faq" hidden>
         <div class="bot-msg bot-msg--user">Preguntas frecuentes</div>
-        <div class="bot-msg">Estas son las dudas más comunes. Toca una pregunta para ver la respuesta:</div>
-        <div class="bot-faq">
-          <div class="faq-item is-open">
-            <button type="button" class="faq-q" aria-expanded="true" aria-controls="faq-1"><span>¿Qué servicios ofrece VOZ360?</span><span class="faq-sign" aria-hidden="true">–</span></button>
-            <div class="faq-a" id="faq-1"><div><p>Contact center omnicanal: atención al cliente, mesa de ayuda, gestión comercial, back office, gestión documental y campañas a la medida.</p></div></div>
-          </div>
-          <div class="faq-item">
-            <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-2"><span>¿Qué canales de atención manejan?</span><span class="faq-sign" aria-hidden="true">+</span></button>
-            <div class="faq-a" id="faq-2"><div><p>Teléfono, correo, chat, WhatsApp, redes sociales y videoatención, integrados en una misma experiencia.</p></div></div>
-          </div>
-          <div class="faq-item">
-            <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-3"><span>¿Cómo solicito una propuesta comercial?</span><span class="faq-sign" aria-hidden="true">+</span></button>
-            <div class="faq-a" id="faq-3"><div><p>Déjanos tus datos en <button type="button" class="bot-go" data-go="contacto">Contáctanos</button> y nuestro equipo comercial te contactará.</p></div></div>
-          </div>
-          <div class="faq-item">
-            <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-4"><span>¿Cómo envío mi hoja de vida?</span><span class="faq-sign" aria-hidden="true">+</span></button>
-            <div class="faq-a" id="faq-4"><div><p>Escríbenos a <a href="mailto:seleccion@voz360.co">seleccion@voz360.co</a> o postúlate aquí mismo en <button type="button" class="bot-go" data-go="trabaja">Trabaja con nosotros</button>.</p></div></div>
-          </div>
+        <div class="bot-msg">¡Claro! 😊 Elige una pregunta y te respondo.</div>
+        <div class="bot-chat" aria-live="polite"></div>
+        <div class="bot-chips" role="group" aria-label="Preguntas frecuentes">
+          <button type="button" class="bot-chip" data-q="0">¿Qué servicios ofrece VOZ360?</button>
+          <button type="button" class="bot-chip" data-q="1">¿Qué canales de atención manejan?</button>
+          <button type="button" class="bot-chip" data-q="2">¿Cómo solicito una propuesta comercial?</button>
+          <button type="button" class="bot-chip" data-q="3">¿Cómo envío mi hoja de vida?</button>
         </div>
+        <template id="faq-a-0">Somos un contact center omnicanal: atención al cliente, mesa de ayuda, gestión comercial, back office, gestión documental y campañas a la medida.</template>
+        <template id="faq-a-1">Teléfono, correo, chat, WhatsApp, redes sociales y videoatención, integrados en una misma experiencia.</template>
+        <template id="faq-a-2">Déjanos tus datos en <button type="button" class="bot-go" data-go="contacto">Contáctanos</button> y nuestro equipo comercial te contactará.</template>
+        <template id="faq-a-3">Escríbenos a <a href="mailto:seleccion@voz360.co">seleccion@voz360.co</a> o postúlate aquí mismo en <button type="button" class="bot-go" data-go="trabaja">Trabaja con nosotros</button>.</template>
       </div>
 
       <!-- Flujo: Contáctanos -->

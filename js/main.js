@@ -444,27 +444,6 @@
   }
 
   /* ============================================================
-     Preguntas frecuentes (acordeón)
-     ============================================================ */
-  var faqItems = document.querySelectorAll('.faq-item');
-  faqItems.forEach(function (item) {
-    var btn = item.querySelector('.faq-q');
-    btn.addEventListener('click', function () {
-      var willOpen = !item.classList.contains('is-open');
-      faqItems.forEach(function (other) {
-        other.classList.remove('is-open');
-        other.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
-        other.querySelector('.faq-sign').textContent = '+';
-      });
-      if (willOpen) {
-        item.classList.add('is-open');
-        btn.setAttribute('aria-expanded', 'true');
-        item.querySelector('.faq-sign').textContent = '–';
-      }
-    });
-  });
-
-  /* ============================================================
      Bot Voz360: botón flotante con tres opciones, "Contáctanos",
      "Trabaja con nosotros" y "Preguntas frecuentes".
      Los enlaces a #contacto, #trabaja y #faq abren el bot en esa opción.
@@ -494,11 +473,12 @@
       if (!flow) return;
       setTimeout(function () {
         botBody.scrollTo({ top: flow.offsetTop - 12, behavior: reduceMotion ? 'auto' : 'smooth' });
-        var first = flow.querySelector('input, select, textarea, .faq-q');
+        var first = flow.querySelector('input, select, textarea, .bot-chip');
         if (first && window.matchMedia('(pointer: fine)').matches) first.focus({ preventScroll: true });
       }, 80);
     }
     function resetFlows() {
+      if (typeof resetFaqChat === 'function') resetFaqChat();
       botOpts.forEach(function (b) {
         b.classList.remove('is-active');
         b.setAttribute('aria-expanded', 'false');
@@ -509,9 +489,53 @@
       b.addEventListener('click', function () { showFlow(b.getAttribute('data-flow')); });
     });
     // Desde una respuesta de las preguntas frecuentes se salta a otra opción
-    bot.querySelectorAll('[data-go]').forEach(function (b) {
-      b.addEventListener('click', function () { showFlow(b.getAttribute('data-go')); });
+    bot.addEventListener('click', function (e) {
+      var go = e.target.closest && e.target.closest('[data-go]');
+      if (go) showFlow(go.getAttribute('data-go'));
     });
+
+    // Preguntas frecuentes como chat: la pregunta elegida se envía, el bot "escribe" y responde
+    var faqChat = document.querySelector('#flow-faq .bot-chat');
+    var faqChips = document.querySelector('#flow-faq .bot-chips');
+    function botScrollEnd() { botBody.scrollTo({ top: botBody.scrollHeight, behavior: reduceMotion ? 'auto' : 'smooth' }); }
+    if (faqChat && faqChips) {
+      faqChips.addEventListener('click', function (e) {
+        var chip = e.target.closest('.bot-chip');
+        if (!chip) return;
+        var i = chip.getAttribute('data-q');
+        var user = document.createElement('div');
+        user.className = 'bot-msg bot-msg--user';
+        user.textContent = chip.textContent;
+        faqChat.appendChild(user);
+        chip.classList.add('is-asked');
+        faqChips.hidden = true;
+        var typing = document.createElement('div');
+        typing.className = 'bot-msg bot-msg--typing';
+        typing.setAttribute('aria-label', 'Bot Voz360 está escribiendo');
+        typing.innerHTML = '<span></span><span></span><span></span>';
+        botTimers.push(setTimeout(function () { faqChat.appendChild(typing); botScrollEnd(); }, reduceMotion ? 0 : 350));
+        botTimers.push(setTimeout(function () {
+          typing.remove();
+          var answer = document.createElement('div');
+          answer.className = 'bot-msg';
+          answer.innerHTML = document.getElementById('faq-a-' + i).innerHTML;
+          faqChat.appendChild(answer);
+          var more = document.createElement('div');
+          more.className = 'bot-msg';
+          more.textContent = '¿Tienes otra pregunta? Elige una 👇';
+          faqChat.appendChild(more);
+          faqChips.hidden = false;
+          botScrollEnd();
+        }, reduceMotion ? 0 : 1400));
+        botScrollEnd();
+      });
+    }
+    function resetFaqChat() {
+      if (!faqChat) return;
+      faqChat.innerHTML = '';
+      faqChips.hidden = false;
+      faqChips.querySelectorAll('.bot-chip').forEach(function (c) { c.classList.remove('is-asked'); });
+    }
 
     // Bot Voz360 "escribe" y los mensajes aparecen uno tras otro
     function playBotIntro(done) {
