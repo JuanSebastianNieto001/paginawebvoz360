@@ -115,7 +115,7 @@
         cur += (target - cur) * 0.12;
         var p = cur, time = t / 1000, vw = window.innerWidth / 100, vh = window.innerHeight / 100;
         var u = Math.max(vw, vh * .55);             // misma unidad que --ct-u en CSS
-        // Línea de tiempo: suben con la portada (0–0.38) · VOZ360 entra (0.40–0.58) · pausa · sale y se abren (0.66–1)
+        // Línea de tiempo: suben con la portada (0–0.38) · VOZ360 entra (0.26–0.44) · pausa · sale y se abren (0.66–1)
         // El frente de las nubes sigue al borde inferior de la portada: no tapan el
         // título mientras se ve y tampoco dejan huecos cuando la portada sube
         var travelVh = (root.offsetHeight - window.innerHeight) / vh;
@@ -142,7 +142,7 @@
 
         // Palabra VOZ360: las letras entran una a una y luego crecen y se desvanecen
         if (word) {
-          var wIn = cl((p - 0.40) / 0.18);
+          var wIn = cl((p - 0.26) / 0.18);
           var wOut = ease(cl((p - 0.64) / 0.16));
           word.style.opacity = (wIn > 0 ? 1 : 0) * (1 - wOut);
           word.style.transform = 'scale(' + (1 + wOut * 0.5).toFixed(3) + ')';
