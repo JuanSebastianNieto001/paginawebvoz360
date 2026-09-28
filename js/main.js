@@ -344,7 +344,7 @@
     var gVisible = false;
     var gHover = false;
     var G_GAP = 16;
-    var G_AUTOPLAY = 6000;
+    var G_AUTOPLAY = 2000;   // cambia de foto cada 2 segundos
     var pad2 = function (n) { return String(n).padStart(2, '0'); };
 
     var gDots = gItems.map(function (item, i) {
@@ -507,7 +507,7 @@
       bot.classList.add('is-open');
       botPanel.setAttribute('aria-hidden', 'false');
       botLauncher.setAttribute('aria-expanded', 'true');
-      botLauncher.setAttribute('aria-label', 'Cerrar chat con Voz360');
+      botLauncher.setAttribute('aria-label', 'Cerrar chat con Bot Voz360');
       if (window.matchMedia('(max-width: 640px)').matches) document.documentElement.style.overflow = 'hidden';
       playBotIntro();
       setTimeout(function () { bot.querySelector('.bot-close').focus({ preventScroll: true }); }, 60);
@@ -519,7 +519,7 @@
       bot.classList.remove('is-open', 'is-typing');
       botPanel.setAttribute('aria-hidden', 'true');
       botLauncher.setAttribute('aria-expanded', 'false');
-      botLauncher.setAttribute('aria-label', 'Abrir chat con Voz360');
+      botLauncher.setAttribute('aria-label', 'Abrir chat con Bot Voz360');
       document.documentElement.style.overflow = '';
       if (botReturnFocus && botReturnFocus.focus) botReturnFocus.focus({ preventScroll: true });
     }

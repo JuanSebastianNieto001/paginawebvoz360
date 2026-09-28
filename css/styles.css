@@ -888,7 +888,18 @@ html.intro-active { overflow: hidden; }
 .bot.show-hint .bot-hint { opacity: 1; translate: 0 0; }
 
 /* Estado abierto: el botón pasa a ser una X */
-.bot.is-open .bot-ring, .bot.is-open .bot-hint { display: none; }
+/* Nombre pequeño encima del botón */
+.bot-name { position: absolute; z-index: 3; bottom: calc(100% + 8px); right: 33px; translate: 50% 0; padding: 4px 10px; border-radius: 999px; background: var(--navy); color: #FFFFFF; font-family: var(--body); font-size: 10.5px; font-weight: 700; letter-spacing: .04em; white-space: nowrap; box-shadow: 0 6px 16px rgba(7,30,58,.25); pointer-events: none; }
+.bot-name::after { content: ''; position: absolute; left: 50%; top: 100%; translate: -50% 0; border: 5px solid transparent; border-top-color: var(--navy); }
+
+/* Carita feliz: ojos que parpadean y pequeño saludo */
+.bot-face { position: absolute; z-index: 3; left: -6px; top: -6px; width: 28px; height: 28px; filter: drop-shadow(0 3px 6px rgba(7,30,58,.3)); animation: bot-wave 4s ease-in-out infinite; transform-origin: 70% 90%; }
+.bot-eyes { transform-origin: 16px 13px; animation: bot-blink 4.5s ease-in-out infinite; }
+@keyframes bot-blink { 0%, 44%, 50%, 100% { transform: scaleY(1); } 47% { transform: scaleY(.1); } }
+@keyframes bot-wave { 0%, 70%, 100% { rotate: 0deg; } 76% { rotate: -14deg; } 84% { rotate: 10deg; } 92% { rotate: -6deg; } }
+.bot-launcher:hover .bot-face { scale: 1.12; }
+
+.bot.is-open .bot-ring, .bot.is-open .bot-hint, .bot.is-open .bot-name { display: none; }
 .bot.is-open .bot-launcher { transform: scale(.86) rotate(-8deg); }
 
 /* Panel tipo chat */
@@ -932,12 +943,14 @@ html.intro-active { overflow: hidden; }
 @media (max-width: 640px) {
   .bot { right: 16px; bottom: 16px; }
   .bot-launcher, .bot-ring { width: 58px; height: 58px; }
+  .bot-name { right: 29px; }
+  .bot-face { width: 24px; height: 24px; }
   .bot-hint { right: 70px; bottom: 12px; }
   .bot-panel { position: fixed; inset: 0; width: auto; max-height: none; border-radius: 0; transform-origin: bottom center; }
   .bot.is-open .bot-launcher { opacity: 0; pointer-events: none; }
   .bot-body { padding: 16px 14px 28px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .bot-launcher img, .bot-ring, .bot-typing span { animation: none; }
+  .bot-launcher img, .bot-ring, .bot-typing span, .bot-face, .bot-eyes { animation: none; }
   .bot-body > .bot-msg, .bot-body > .bot-form { opacity: 1; translate: none; transition: none; }
 }
