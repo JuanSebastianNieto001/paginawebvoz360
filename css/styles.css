@@ -831,9 +831,10 @@ html.intro-active { overflow: hidden; }
 @keyframes vzf-rise{0%{transform:translateY(0) rotate(0);opacity:0}8%{opacity:1}85%{opacity:1}100%{transform:translateY(-115vh) rotate(260deg);opacity:0}}
 
 /* Misión y Visión (imágenes PNG) */
-.vzf-mvimg{position:absolute;top:9%;width:min(560px,44vw);height:auto;opacity:0;will-change:transform,opacity;filter:drop-shadow(0 0 0 transparent)}
-#vzf-mvm{left:3%;top:17%}
-#vzf-mvv{right:3%}
+.vzf-mvimg{position:absolute;top:9%;width:min(500px,38vw);height:auto;opacity:0;will-change:transform,opacity;filter:drop-shadow(0 0 0 transparent)}
+/* Misión arriba a la izquierda y Visión debajo, a la derecha */
+#vzf-mvm{left:3%;top:5%}
+#vzf-mvv{right:3%;top:calc(5% + min(500px,38vw) * .5 + 4px)}
 /* logo junto al muñequito en la cima */
 .vzf-sb{opacity:0;transform-box:fill-box;transform-origin:100% 50%;transform:scale(.3)}
 .vzf-win .vzf-sb{animation:vzf-sbpop .8s cubic-bezier(.3,1.5,.5,1) .5s forwards}
@@ -862,7 +863,7 @@ html.intro-active { overflow: hidden; }
 @media (max-width:760px){
   .vzf{height:380vh}
   .vzf-mvimg{width:94vw;top:6%}
-  #vzf-mvm,#vzf-mvv{left:3vw;right:auto}
+  #vzf-mvm,#vzf-mvv{left:3vw;right:auto;top:6%}
   .vzf-money .c{width:24px;height:24px;font-size:12px}
   .vzf-money .b{width:36px;height:20px;font-size:11px}
 }
