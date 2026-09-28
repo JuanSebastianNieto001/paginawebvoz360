@@ -219,8 +219,6 @@ html.intro-active { overflow: hidden; }
 .hero-shade-1 { position: absolute; inset: 0; background: linear-gradient(100deg, rgba(7,30,58,.96) 0%, rgba(7,30,58,.9) 32%, rgba(7,30,58,.62) 56%, rgba(7,30,58,.24) 82%, rgba(7,30,58,.12) 100%); }
 .hero-shade-2 { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,30,58,.6) 0%, rgba(7,30,58,0) 18%, rgba(7,30,58,0) 62%, rgba(7,30,58,.45) 100%); }
 .hero-aurora { position: absolute; top: -200px; right: -140px; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(155,231,249,.3), rgba(155,231,249,0) 62%); }
-.hero-ring { position: absolute; top: 130px; right: 110px; width: 520px; height: 520px; border-radius: 50%; border: 1px solid rgba(155,231,249,.3); border-top-color: var(--cyan); }
-.hero-ring-2 { position: absolute; top: 210px; right: 190px; width: 360px; height: 360px; border-radius: 50%; border: 1px dashed rgba(255,255,255,.22); }
 
 /* Header fijo: se oculta al bajar y reaparece al acercar el mouse arriba */
 .site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 900; border-bottom: 1px solid rgba(255,255,255,.18); transition: transform .45s var(--ease), background-color .35s ease, border-color .35s ease, box-shadow .35s ease; }
@@ -523,8 +521,6 @@ html.intro-active { overflow: hidden; }
   .nav { display: none; }
   .menu-btn { display: flex; }
   .hero h1 { font-size: clamp(40px, min(7vw, 9vh), 56px); }
-  .hero-ring { right: -80px; }
-  .hero-ring-2 { right: 0; }
   .nosotros-grid, .faq-grid, .contacto-grid { grid-template-columns: 1fr; gap: 40px; }
   .servicios-head { flex-direction: column; gap: 10px; }
   .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; }
@@ -559,9 +555,8 @@ html.intro-active { overflow: hidden; }
   .hero { min-height: 520px; }
   .hero-img { object-position: 56% 20%; }
   .hero-shade-1 { background: linear-gradient(180deg, rgba(7,30,58,.86) 0%, rgba(7,30,58,.3) 22%, rgba(7,30,58,.62) 46%, rgba(7,30,58,.95) 72%, rgba(7,30,58,1) 100%); }
-  .hero-shade-2, .hero-ring-2 { display: none; }
+  .hero-shade-2 { display: none; }
   .hero-aurora { top: -130px; right: -150px; width: 420px; height: 420px; background: radial-gradient(circle, rgba(155,231,249,.32), rgba(155,231,249,0) 62%); }
-  .hero-ring { top: 90px; right: -110px; width: 300px; height: 300px; }
   .header-inner { height: 64px; }
   .brand-logo { font-size: 21px; }
   .brand-tag { display: none; }
