@@ -15,6 +15,13 @@
   <link rel="preload" href="assets/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preload" href="assets/video/intro-360.mp4" as="video" type="video/mp4">
+  <script>
+    // Al entrar o recargar, la página siempre empieza desde el inicio
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+    window.scrollTo(0, 0);
+    window.addEventListener("pageshow", function () { window.scrollTo({ top: 0, left: 0, behavior: "instant" }); });
+  </script>
   <script>document.documentElement.classList.add('js', 'intro-active');setTimeout(function(){var i=document.getElementById('intro');if(i)i.classList.add('is-done');document.documentElement.classList.remove('intro-active');},8000);</script>
 </head>
 <body>
