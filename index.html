@@ -146,56 +146,45 @@
   </div>
 </section>
 
-<!-- ====== 3. CARRUSEL ====== -->
-<section class="galeria" aria-roledescription="carrusel" aria-label="VOZ360 por dentro">
-  <div class="wrap">
-    <div class="galeria-head">
-      <div>
-        <span class="eyebrow" data-reveal>VOZ360 por dentro</span>
-        <h2 class="h2" data-reveal style="--delay:100ms">Detrás de cada interacción <span class="accent">hay un equipo.</span></h2>
-      </div>
-      <div class="arrows" data-reveal="right" style="--delay:200ms">
-        <button type="button" class="arrow" data-slide="prev" aria-label="Foto anterior">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M11 4l-5 5 5 5" stroke="#071E3A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button type="button" class="arrow" data-slide="next" aria-label="Foto siguiente">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M7 4l5 5-5 5" stroke="#071E3A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </div>
-    </div>
+<!-- ====== 3. GALERÍA — carrusel centrado (basado en Componente_Carrusel) ====== -->
+<section class="gallery" id="galeria" aria-roledescription="carrusel" aria-label="VOZ360 por dentro">
+  <div class="gallery-bg" aria-hidden="true"><span class="gallery-bg-a"></span><span class="gallery-bg-b"></span></div>
 
-    <div class="slider" data-reveal="zoom" style="--delay:150ms">
-      <div class="slider-track">
-        <figure class="slide" style="margin:0"><img src="assets/img/hero-equipo.jpg" alt="Equipo de VOZ360 en el contact center" loading="lazy"><figcaption class="slide-caption">Equipo de VOZ360 en el contact center</figcaption></figure>
-        <figure class="slide" style="margin:0"><img src="assets/img/equipo-1.jpg" alt="Talento humano en operación" loading="lazy"><figcaption class="slide-caption">Talento humano en operación</figcaption></figure>
-        <figure class="slide" style="margin:0"><img src="assets/img/equipo-2.jpg" alt="Personas que conectan" loading="lazy"><figcaption class="slide-caption">Personas que conectan</figcaption></figure>
-        <figure class="slide" style="margin:0"><img src="assets/img/equipo-4.jpg" alt="Experiencia en cada interacción" loading="lazy"><figcaption class="slide-caption">Experiencia en cada interacción</figcaption></figure>
-        <figure class="slide" style="margin:0"><img src="assets/img/equipo-3.jpg" alt="Nuestro equipo en su puesto de trabajo" loading="lazy"><figcaption class="slide-caption">Nuestro equipo en su puesto de trabajo</figcaption></figure>
-        <figure class="slide" style="margin:0"><img src="assets/img/equipo-5.jpg" alt="Colaboradora de VOZ360 en operación" loading="lazy"><figcaption class="slide-caption">Colaboradora de VOZ360 en operación</figcaption></figure>
-      </div>
-      <div class="slider-progress"><div></div></div>
-    </div>
+  <div class="wrap gallery-header">
+    <span class="eyebrow" data-reveal>VOZ360 por dentro</span>
+    <h2 class="h2" data-reveal style="--delay:100ms">Detrás de cada interacción <span class="cyan">hay un equipo.</span></h2>
+  </div>
 
-    <div class="thumbs" data-reveal style="--delay:250ms">
-      <button type="button" class="thumb" aria-label="Equipo de VOZ360 en el contact center"><img src="assets/img/hero-equipo.jpg" alt="" loading="lazy"></button>
-      <button type="button" class="thumb" aria-label="Talento humano en operación"><img src="assets/img/equipo-1.jpg" alt="" loading="lazy"></button>
-      <button type="button" class="thumb" aria-label="Personas que conectan"><img src="assets/img/equipo-2.jpg" alt="" loading="lazy"></button>
-      <button type="button" class="thumb" aria-label="Experiencia en cada interacción"><img src="assets/img/equipo-4.jpg" alt="" loading="lazy"></button>
-      <button type="button" class="thumb" aria-label="Nuestro equipo en su puesto de trabajo"><img src="assets/img/equipo-3.jpg" alt="" loading="lazy"></button>
-      <button type="button" class="thumb" aria-label="Colaboradora de VOZ360 en operación"><img src="assets/img/equipo-5.jpg" alt="" loading="lazy"></button>
+  <div class="gallery-track-outer" data-reveal="zoom" style="--delay:150ms">
+    <div class="gallery-track">
+      <figure class="gallery-item"><img src="assets/img/galeria/foto-02.jpg" alt="Todo el equipo de VOZ360 reunido" loading="lazy"><figcaption class="gallery-caption">Todo el equipo VOZ360</figcaption></figure>
+      <figure class="gallery-item"><img src="assets/img/galeria/equipo-04.jpg" alt="Asesoras de VOZ360 atendiendo en sus puestos" loading="lazy"><figcaption class="gallery-caption">Asesoras en plena operación</figcaption></figure>
+      <figure class="gallery-item"><img src="assets/img/galeria/equipo-09.jpg" alt="Asesores trabajando en la sala de operación" loading="lazy"><figcaption class="gallery-caption">Energía en cada turno</figcaption></figure>
+      <figure class="gallery-item"><img src="assets/img/galeria/equipo-01.jpg" alt="Sala de operación de VOZ360" loading="lazy"><figcaption class="gallery-caption">Nuestra sala de operación</figcaption></figure>
+      <figure class="gallery-item"><img src="assets/img/galeria/equipo-10.jpg" alt="Asesora en un puesto decorado con banderines" loading="lazy"><figcaption class="gallery-caption">Un ambiente que se disfruta</figcaption></figure>
+      <figure class="gallery-item"><img src="assets/img/galeria/equipo-02.jpg" alt="Asesoras con diadema atendiendo llamadas" loading="lazy"><figcaption class="gallery-caption">Talento en cada llamada</figcaption></figure>
+      <figure class="gallery-item"><img src="assets/img/galeria/equipo-12.jpg" alt="Asesora gestionando un caso en su computador" loading="lazy"><figcaption class="gallery-caption">Atención personalizada</figcaption></figure>
+      <figure class="gallery-item"><img src="assets/img/galeria/foto-01.jpg" alt="Equipo de VOZ360 en una celebración" loading="lazy"><figcaption class="gallery-caption">Celebramos juntos</figcaption></figure>
+      <figure class="gallery-item"><img src="assets/img/galeria/equipo-05.jpg" alt="Equipo trabajando junto a los ventanales" loading="lazy"><figcaption class="gallery-caption">Espacios pensados para el equipo</figcaption></figure>
+      <figure class="gallery-item"><img src="assets/img/galeria/equipo-14.jpg" alt="Asesor concentrado frente a su pantalla" loading="lazy"><figcaption class="gallery-caption">Concentración en cada caso</figcaption></figure>
+      <figure class="gallery-item"><img src="assets/img/galeria/equipo-11.jpg" alt="Asesora atendiendo con diadema" loading="lazy"><figcaption class="gallery-caption">Atentos, ágiles y colaboradores</figcaption></figure>
+      <figure class="gallery-item"><img src="assets/img/galeria/equipo-08.jpg" alt="Asesor atendiendo una llamada" loading="lazy"><figcaption class="gallery-caption">Soporte en tiempo real</figcaption></figure>
+      <figure class="gallery-item"><img src="assets/img/galeria/equipo-07.jpg" alt="Asesores en la sala de operación" loading="lazy"><figcaption class="gallery-caption">Así se vive VOZ360</figcaption></figure>
     </div>
+  </div>
 
-    <div class="slider-nav-m">
-      <div class="dots"></div>
-      <div class="arrows">
-        <button type="button" class="arrow" data-slide="prev" aria-label="Foto anterior">
-          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M11 4l-5 5 5 5" stroke="#071E3A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button type="button" class="arrow" data-slide="next" aria-label="Foto siguiente">
-          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M7 4l5 5-5 5" stroke="#071E3A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </div>
+  <div class="wrap gallery-footer">
+    <div class="gallery-controls">
+      <button type="button" class="gallery-prev" aria-label="Foto anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <span class="gallery-counter" aria-live="polite">01 / 13</span>
+      <button type="button" class="gallery-next" aria-label="Foto siguiente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <span class="gallery-drag-hint">Arrastra · Desliza</span>
     </div>
+    <div class="gallery-dots"></div>
   </div>
 </section>
 

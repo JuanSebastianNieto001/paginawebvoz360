@@ -277,8 +277,8 @@
     if (reduceMotion || !finePointer) return;
 
     // Botones de fondo claro: usan la variante oscura del brillo
-    var LIGHT = '.btn-white, .arrow, .scard-link';
-    var els = document.querySelectorAll('.vz-btn, .arrow, .scard-link');
+    var LIGHT = '.btn-white, .scard-link';
+    var els = document.querySelectorAll('.vz-btn, .scard-link, .gallery-prev, .gallery-next');
 
     els.forEach(function (el) {
       if (el.dataset.fxBound) return;
@@ -325,82 +325,127 @@
     }
   })();
 
-  /* ============================================================
-     Carrusel
+/* ============================================================
+     Galería: carrusel centrado (basado en Componente_Carrusel).
+     Versión sin GSAP: las transiciones las hace CSS. La tarjeta
+     activa queda grande al centro y las laterales se achican.
      ============================================================ */
-  var gallery = document.querySelector('.galeria');
+  var gallery = document.getElementById('galeria');
   if (gallery) {
-    var track = gallery.querySelector('.slider-track');
-    var slides = gallery.querySelectorAll('.slide');
-    var thumbs = gallery.querySelectorAll('.thumb');
-    var progress = gallery.querySelector('.slider-progress div');
-    var dotsWrap = gallery.querySelector('.dots');
-    var total = slides.length;
-    var current = 0;
-    var timer = null;
-    var visible = false;
+    var gTrack = gallery.querySelector('.gallery-track');
+    var gOuter = gallery.querySelector('.gallery-track-outer');
+    var gItems = Array.prototype.slice.call(gallery.querySelectorAll('.gallery-item'));
+    var gCounter = gallery.querySelector('.gallery-counter');
+    var gDotsWrap = gallery.querySelector('.gallery-dots');
+    var gBgLayers = gallery.querySelectorAll('.gallery-bg span');
+    var gBgIndex = 0;
+    var gCurrent = 0;
+    var gTimer = null;
+    var gVisible = false;
+    var gHover = false;
+    var G_GAP = 16;
+    var G_AUTOPLAY = 6000;
+    var pad2 = function (n) { return String(n).padStart(2, '0'); };
 
-    var dots = Array.prototype.map.call(slides, function (slide, i) {
+    var gDots = gItems.map(function (item, i) {
       var b = document.createElement('button');
       b.type = 'button';
-      b.className = 'dot';
-      b.setAttribute('aria-label', slide.querySelector('img').alt);
+      b.className = 'gallery-dot';
+      b.setAttribute('aria-label', 'Ir a la foto ' + (i + 1) + ': ' + item.querySelector('figcaption').textContent);
       b.appendChild(document.createElement('span'));
-      b.addEventListener('click', function () { go(i, true); });
-      dotsWrap.appendChild(b);
+      b.addEventListener('click', function () { gGo(i, true); });
+      gDotsWrap.appendChild(b);
       return b;
     });
 
-    function go(i, user) {
-      current = (i + total) % total;
-      track.style.transform = 'translateX(' + (-100 * current) + '%)';
-      progress.style.width = Math.round(((current + 1) / total) * 100) + '%';
-      thumbs.forEach(function (t, k) {
-        t.classList.toggle('is-active', k === current);
-        t.setAttribute('aria-current', k === current ? 'true' : 'false');
+    // Tamaños según distancia a la activa (relativos al alto disponible)
+    function gSizes() {
+      var vw = window.innerWidth;
+      var h = Math.max(260, gOuter.clientHeight);
+      var mobile = vw <= 768;
+      return [
+        { w: mobile ? vw * 0.78 : Math.min(vw * 0.38, 560), h: h, o: 1 },
+        { w: mobile ? vw * 0.16 : Math.min(vw * 0.18, 260), h: h * 0.74, o: 0.55 },
+        { w: mobile ? vw * 0.10 : Math.min(vw * 0.12, 180), h: h * 0.56, o: 0.28 },
+        { w: mobile ? vw * 0.05 : Math.min(vw * 0.08, 120), h: h * 0.4, o: 0.12 }
+      ];
+    }
+
+    function gSetBg(i) {
+      var img = gItems[i].querySelector('img');
+      var next = gBgLayers[1 - gBgIndex];
+      next.style.backgroundImage = 'url("' + (img.currentSrc || img.src) + '")';
+      next.classList.add('is-on');
+      gBgLayers[gBgIndex].classList.remove('is-on');
+      gBgIndex = 1 - gBgIndex;
+    }
+
+    function gGo(index, user, instant) {
+      gCurrent = (index + gItems.length) % gItems.length;
+      var s = gSizes();
+      if (instant) gallery.classList.add('no-anim');
+      var widths = gItems.map(function (_, i) { return s[Math.min(3, Math.abs(i - gCurrent))].w; });
+      var left = 0;
+      for (var i = 0; i < gCurrent; i++) left += widths[i] + G_GAP;
+      gTrack.style.transform = 'translateX(' + (window.innerWidth / 2 - (left + widths[gCurrent] / 2)) + 'px)';
+      gItems.forEach(function (item, k) {
+        var cfg = s[Math.min(3, Math.abs(k - gCurrent))];
+        item.style.width = cfg.w + 'px';
+        item.style.height = cfg.h + 'px';
+        item.style.opacity = cfg.o;
+        item.classList.toggle('is-active', k === gCurrent);
+        item.setAttribute('aria-hidden', k === gCurrent ? 'false' : 'true');
       });
-      dots.forEach(function (d, k) { d.classList.toggle('is-active', k === current); });
-      slides.forEach(function (s, k) { s.setAttribute('aria-hidden', k === current ? 'false' : 'true'); });
-      if (user) restart();
+      gDots.forEach(function (d, k) { d.classList.toggle('is-active', k === gCurrent); });
+      gCounter.textContent = pad2(gCurrent + 1) + ' / ' + pad2(gItems.length);
+      gSetBg(gCurrent);
+      if (instant) { void gTrack.offsetWidth; gallery.classList.remove('no-anim'); }
+      if (user) gRestart();
     }
 
-    function start() {
-      if (reduceMotion || timer || !visible) return;
-      timer = setInterval(function () { go(current + 1); }, 4200);
+    function gStart() {
+      if (reduceMotion || gTimer || !gVisible || gHover) return;
+      gTimer = setInterval(function () { gGo(gCurrent + 1); }, G_AUTOPLAY);
     }
-    function stop() { clearInterval(timer); timer = null; }
-    function restart() { stop(); start(); }
+    function gStop() { clearInterval(gTimer); gTimer = null; }
+    function gRestart() { gStop(); gStart(); }
 
-    thumbs.forEach(function (t, i) { t.addEventListener('click', function () { go(i, true); }); });
-    gallery.querySelectorAll('[data-slide="prev"]').forEach(function (b) { b.addEventListener('click', function () { go(current - 1, true); }); });
-    gallery.querySelectorAll('[data-slide="next"]').forEach(function (b) { b.addEventListener('click', function () { go(current + 1, true); }); });
-
-    // Deslizar con el dedo
-    var startX = null;
-    track.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
-    track.addEventListener('touchend', function (e) {
-      if (startX === null) return;
-      var dx = e.changedTouches[0].clientX - startX;
-      if (Math.abs(dx) > 40) go(current + (dx < 0 ? 1 : -1), true);
-      startX = null;
+    gallery.querySelector('.gallery-prev').addEventListener('click', function () { gGo(gCurrent - 1, true); });
+    gallery.querySelector('.gallery-next').addEventListener('click', function () { gGo(gCurrent + 1, true); });
+    gItems.forEach(function (item, i) {
+      item.addEventListener('click', function () { if (!gDragged && i !== gCurrent) gGo(i, true); });
     });
 
-    var slider = gallery.querySelector('.slider');
-    slider.addEventListener('mouseenter', stop);
-    slider.addEventListener('mouseleave', start);
+    // Arrastrar con el mouse o deslizar con el dedo
+    var gStartX = null, gDragged = false;
+    gOuter.addEventListener('pointerdown', function (e) { gStartX = e.clientX; gDragged = false; });
+    window.addEventListener('pointerup', function (e) {
+      if (gStartX === null) return;
+      var dx = e.clientX - gStartX;
+      gStartX = null;
+      if (Math.abs(dx) > 40) { gDragged = true; gGo(gCurrent + (dx < 0 ? 1 : -1), true); setTimeout(function () { gDragged = false; }, 0); }
+    });
 
-    // Solo avanza mientras el carrusel está en pantalla
+    // Teclado: flechas, solo mientras la galería está en pantalla
+    document.addEventListener('keydown', function (e) {
+      if (!gVisible || (e.target.closest && e.target.closest('input, textarea, .bot-panel'))) return;
+      if (e.key === 'ArrowLeft') gGo(gCurrent - 1, true);
+      if (e.key === 'ArrowRight') gGo(gCurrent + 1, true);
+    });
+
+    gallery.addEventListener('mouseenter', function () { gHover = true; gStop(); });
+    gallery.addEventListener('mouseleave', function () { gHover = false; gStart(); });
+
+    // Solo avanza sola mientras está en pantalla
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) {
-        visible = entries[0].isIntersecting;
-        visible ? start() : stop();
-      }).observe(gallery);
-    } else {
-      visible = true;
-      start();
-    }
+        gVisible = entries[0].isIntersecting;
+        gVisible ? gStart() : gStop();
+      }, { threshold: 0.35 }).observe(gallery);
+    } else { gVisible = true; }
 
-    go(0);
+    window.addEventListener('resize', function () { requestAnimationFrame(function () { gGo(gCurrent, false, true); }); });
+    requestAnimationFrame(function () { gGo(0, false, true); gStart(); });
   }
 
   /* ============================================================
