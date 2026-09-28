@@ -773,6 +773,18 @@
     document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
   })();
 
+  /* Instagram: los reels en video se reproducen solo mientras están en pantalla */
+  var igVideos = document.querySelectorAll('#instagram video');
+  if (igVideos.length && 'IntersectionObserver' in window) {
+    var igObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && !reduceMotion) { var p = e.target.play(); if (p && p.catch) p.catch(function () {}); }
+        else e.target.pause();
+      });
+    }, { threshold: 0.25 });
+    igVideos.forEach(function (v) { igObs.observe(v); });
+  }
+
   /* Año del footer */
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();

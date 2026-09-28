@@ -620,8 +620,32 @@ html.intro-active { overflow: hidden; }
 .vzi-eyebrow{font-size:13px;font-weight:700;letter-spacing:3px;color:var(--sky)}
 .vzi-title{margin:14px 0 0;font-family:var(--display);font-size:48px;line-height:1.06;letter-spacing:-1.4px;font-weight:700}
 .vzi-title span{color:#9BE7F9}
-.vzi-grid{display:grid;grid-template-columns:384px minmax(0,1fr);gap:40px;align-items:center}
-.vzi-left .vzi-card{margin-top:28px}
+.vzi-grid{display:grid;grid-template-columns:504px minmax(0,1fr);gap:36px;align-items:center}
+.vzi-left .vzi-title{padding-left:0}
+/* Tarjeta con el teléfono inclinado asomando por la izquierda */
+.vzi-stage{position:relative;margin-top:28px;padding-left:120px}
+.vzi-stage .vzi-card{position:relative;z-index:2}
+.vzi-tilt{--bz:7px;position:absolute;left:0;top:50%;z-index:1;width:min(200px,calc((100svh - 200px) * 9 / 19));aspect-ratio:9/19;padding:var(--bz);border-radius:34px;background:linear-gradient(150deg,#1D4677 0%,#0B2344 55%,#071E3A 100%);border:1px solid rgba(155,231,249,.3);box-shadow:0 30px 60px rgba(0,0,0,.45);transform:translateY(-46%) rotate(-12deg);transform-origin:center}
+.vzi-tilt .vzi-island{top:calc(var(--bz) + 8px);height:14px}
+.vzi-tilt-screen{position:relative;width:100%;height:100%;border-radius:27px;overflow:hidden;background:#fff}
+.vzi-tilt-screen .vzi-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* Feed de muestra que se desplaza (hasta que se ponga el video) */
+.vzi-feed{animation:vzi-feed 22s linear infinite}
+@keyframes vzi-feed{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+.vzi-feed-block{padding:34px 8px 6px;color:var(--ink)}
+.vzi-fh{display:flex;align-items:center;gap:7px}
+.vzi-fa{flex-shrink:0;width:34px;height:34px;border-radius:50%;padding:2px;background:var(--blue)}
+.vzi-fa img{width:100%;height:100%;border-radius:50%;display:block;background:#fff}
+.vzi-fn{display:flex;flex-direction:column;min-width:0}
+.vzi-fn b{font-size:8.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vzi-fn small{font-family:var(--alt);font-size:6.5px;color:var(--mut)}
+.vzi-fs{display:flex;justify-content:space-between;margin:9px 2px 7px;font-size:6.5px;color:var(--mut)}
+.vzi-fs span{display:flex;flex-direction:column;align-items:center}
+.vzi-fs b{font-size:9px;color:var(--ink)}
+.vzi-fbtn{margin-bottom:8px;padding:5px 0;border-radius:7px;background:var(--blue);color:#fff;font-size:8px;font-weight:600;text-align:center}
+.vzi-fg{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:0 -8px}
+.vzi-fg img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+.vzi-video{background:#071E3A}
 
 /* Tarjeta de perfil */
 .vzi-card{background:#fff;color:var(--ink);border-radius:24px;padding:28px;box-shadow:0 30px 70px rgba(0,0,0,.3)}
@@ -688,7 +712,7 @@ html.intro-active { overflow: hidden; }
 /* Pantallas bajas: todo compacto para que la sección quepa en una sola pantalla */
 @media (min-width:981px) and (max-height:820px){
   .vzi-title{font-size:40px}
-  .vzi-left .vzi-card{margin-top:20px}
+  .vzi-stage{margin-top:20px}
   .vzi-card{padding:22px 24px}
   .vzi-ava{width:60px;height:60px}
   .vzi-bio{margin-top:12px;font-size:13px;line-height:1.5}
@@ -697,9 +721,11 @@ html.intro-active { overflow: hidden; }
   .vzi-cta{margin-top:16px;min-height:44px}
   .vzi-reel:nth-child(2){margin-top:-30px}
 }
-@media (max-width:1180px) and (min-width:981px){.vzi-grid{grid-template-columns:340px minmax(0,1fr);gap:28px}.vzi-reels{--gap:14px}}
+@media (max-width:1180px) and (min-width:981px){.vzi-grid{grid-template-columns:440px minmax(0,1fr);gap:24px}.vzi-stage{padding-left:90px}.vzi-card{padding:22px}.vzi-tilt{width:min(170px,calc((100svh - 200px) * 9 / 19))}.vzi-reels{--gap:14px}}
 @media (max-width:980px){
   .vzi-grid{grid-template-columns:1fr;gap:28px}
+  .vzi-stage{padding-left:0}
+  .vzi-tilt{display:none}
   .vzi-card{max-width:520px}
   .vzi-reel{width:min(260px,calc((100% - var(--gap) * 2) / 3))}
   .vzi-reel:nth-child(2){margin-top:0}
@@ -707,7 +733,7 @@ html.intro-active { overflow: hidden; }
 @media (max-width:640px){
   .vzi{padding:64px 16px 28px}
   .vzi-title{font-size:32px;letter-spacing:-1px}
-  .vzi-left .vzi-card{margin-top:16px}
+  .vzi-stage{margin-top:16px}
   .vzi-grid{gap:18px}
   .vzi-card{padding:18px}
   .vzi-ava{width:56px;height:56px}
@@ -730,7 +756,7 @@ html.intro-active { overflow: hidden; }
 }
 @media (max-width:640px) and (max-height:860px){.vzi-bio{display:none}}
 @media (max-width:640px) and (max-height:780px){.vzi-stats{display:none}.vzi-reel{width:42%}}
-@media (prefers-reduced-motion:reduce){.vzi-s{animation:none}}
+@media (prefers-reduced-motion:reduce){.vzi-s,.vzi-feed{animation:none}}
 
 /* ==========================================================
    11. MISIÓN / VISIÓN
