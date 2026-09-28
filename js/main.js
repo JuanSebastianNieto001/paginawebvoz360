@@ -144,6 +144,64 @@
   }
 
   /* ============================================================
+     Efectos de botones: magnético + luz que sigue el cursor +
+     onda y pulso al presionar. Solo con puntero fino y sin
+     prefers-reduced-motion. No toca el HTML: añade clases.
+     ============================================================ */
+  (function initButtonEffects() {
+    var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (reduceMotion || !finePointer) return;
+
+    // Botones de fondo claro: usan la variante oscura del brillo
+    var LIGHT = '.btn-white, .arrow, .scard-link';
+    var els = document.querySelectorAll('.vz-btn, .arrow, .scard-link');
+
+    els.forEach(function (el) {
+      if (el.dataset.fxBound) return;
+      el.dataset.fxBound = '1';
+      el.classList.add('magnetic', 'btn-glow');
+      if (el.matches(LIGHT) && !el.closest('.scard--dark')) el.classList.add('btn-glow-dark');
+      var pressed = false;
+
+      function applyTransform(dx, dy) {
+        el.style.transform = 'translate(' + (dx * 0.14) + 'px, ' + (dy * 0.22) + 'px) scale(' + (pressed ? 0.96 : 1) + ')';
+      }
+
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        applyTransform(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2));
+        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+
+      el.addEventListener('pointerdown', function (e) {
+        pressed = true;
+        var r = el.getBoundingClientRect();
+        applyTransform(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2));
+        spawnRipple(el, e, r);
+        el.classList.remove('btn-pulse');
+        void el.offsetWidth;
+        el.classList.add('btn-pulse');
+      });
+
+      function release() { pressed = false; el.style.transform = ''; }
+      el.addEventListener('pointerup', release);
+      el.addEventListener('pointerleave', release);
+    });
+
+    function spawnRipple(el, e, rect) {
+      var size = Math.max(rect.width, rect.height) * 2.2;
+      var ripple = document.createElement('span');
+      ripple.className = 'btn-ripple';
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+      el.appendChild(ripple);
+      ripple.addEventListener('animationend', function () { ripple.remove(); });
+    }
+  })();
+
+  /* ============================================================
      Carrusel
      ============================================================ */
   var gallery = document.querySelector('.galeria');
