@@ -47,7 +47,8 @@
      Al entrar en pantalla se añade .is-in; al salir se quita,
      así la animación vuelve a reproducirse en el siguiente paso.
      ============================================================ */
-  var revealEls = document.querySelectorAll('[data-reveal]');
+  // [data-animate]: secciones que animan a sus hijos desde CSS con .is-in
+  var revealEls = document.querySelectorAll('[data-reveal], [data-animate]');
 
   if (reduceMotion || !('IntersectionObserver' in window)) {
     revealEls.forEach(function (el) { el.classList.add('is-in'); });
@@ -59,6 +60,27 @@
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
     revealEls.forEach(function (el) { revealObserver.observe(el); });
+  }
+
+  /* ============================================================
+     Quiénes somos: ecualizador de la llamada y cronómetro en vivo
+     ============================================================ */
+  var qsWave = document.getElementById('qs-wave');
+  if (qsWave) {
+    for (var b = 0; b < 28; b++) {
+      var bar = document.createElement('i');
+      bar.style.animationDelay = (-Math.random() * 1.1).toFixed(2) + 's';
+      bar.style.animationDuration = (0.7 + Math.random() * 0.8).toFixed(2) + 's';
+      qsWave.appendChild(bar);
+    }
+  }
+  var qsTimer = document.getElementById('qs-timer');
+  if (qsTimer) {
+    var qsSeconds = 134;
+    setInterval(function () {
+      qsSeconds++;
+      qsTimer.textContent = String(Math.floor(qsSeconds / 60)).padStart(2, '0') + ':' + String(qsSeconds % 60).padStart(2, '0');
+    }, 1000);
   }
 
   /* ============================================================
