@@ -73,6 +73,9 @@
       var wrap = root.querySelector('.ct-clouds');
       var fog = root.querySelector('.ct-fog');
       var haze = root.querySelector('.ct-haze');
+      var word = root.querySelector('.ct-word');
+      var letters = word ? word.querySelectorAll('.ct-logo span') : [];
+      var tag = word ? word.querySelector('.ct-tag') : null;
 
       // Semilla fija: las nubes siempre quedan en la misma posición
       var seed = 7;
@@ -112,12 +115,21 @@
         cur += (target - cur) * 0.12;
         var p = cur, time = t / 1000, vw = window.innerWidth / 100, vh = window.innerHeight / 100;
         var u = Math.max(vw, vh * .55);             // misma unidad que --ct-u en CSS
-        var rise = ease(cl(p / 0.42));              // las nubes suben y cubren
-        var part = ease(cl((p - 0.55) / 0.42));     // las nubes se abren
+        // Línea de tiempo: suben con la portada (0–0.38) · VOZ360 entra (0.40–0.58) · pausa · sale y se abren (0.66–1)
+        // El frente de las nubes sigue al borde inferior de la portada: no tapan el
+        // título mientras se ve y tampoco dejan huecos cuando la portada sube
+        var travelVh = (root.offsetHeight - window.innerHeight) / vh;
+        var heroBottom = 100 - target * travelVh;           // borde inferior de la portada (vh), sin suavizado para no quedarse atrás
+        // El frente se monta un poco sobre el borde, sin llegar al texto (en móvil el texto va abajo)
+        var overlap = window.innerWidth <= 640 ? 3 : 10;
+        var base = Math.max(0, heroBottom - overlap);
+        var rise = 1 - Math.min(1, base / 102);
+        var part = ease(cl((p - 0.66) / 0.34));     // las nubes se abren
         for (var i = 0; i < puffs.length; i++) {
           var q = puffs[i];
           var drift = Math.sin(time * .25 + q.ph) * 1.6, dir = q.x < 50 ? -1 : 1;
-          var shift = (94 + q.depth * 16) * (1 - rise);
+          // + compensación del tamaño de cada nube (su parte visible sobresale hacia arriba) mientras suben
+          var shift = base + (12 + (q.s * 0.36 * u) / vh + q.depth * 8) * (1 - rise);
           var spread = part * (55 + q.depth * 45) * dir * (.4 + Math.abs(q.x - 50) / 50);
           var lift = -part * q.depth * 18, sc = 1 + part * q.depth * 1.4;
           var px = (q.x + drift + spread) * vw - (q.s * u) / 2;
@@ -127,6 +139,26 @@
         }
         fog.style.opacity = (rise * (1 - part) * 0.55).toFixed(3);
         haze.style.opacity = (rise * (1 - part)).toFixed(3);   // desenfoque "de sueño" del fondo
+
+        // Palabra VOZ360: las letras entran una a una y luego crecen y se desvanecen
+        if (word) {
+          var wIn = cl((p - 0.40) / 0.18);
+          var wOut = ease(cl((p - 0.64) / 0.16));
+          word.style.opacity = (wIn > 0 ? 1 : 0) * (1 - wOut);
+          word.style.transform = 'scale(' + (1 + wOut * 0.5).toFixed(3) + ')';
+          for (var k = 0; k < letters.length; k++) {
+            var li = ease(cl(wIn * 1.8 - k * 0.16));
+            letters[k].style.opacity = li.toFixed(3);
+            letters[k].style.transform = 'translateY(' + ((1 - li) * 60).toFixed(1) + 'px) rotate(' + ((1 - li) * 8).toFixed(1) + 'deg)';
+            letters[k].style.filter = 'blur(' + ((1 - li) * 12).toFixed(1) + 'px)';
+          }
+          if (tag) {
+            var ti = ease(cl((wIn - 0.55) / 0.45));
+            tag.style.opacity = ti.toFixed(3);
+            tag.style.transform = 'translateY(' + ((1 - ti) * 14).toFixed(1) + 'px)';
+            tag.style.letterSpacing = (0.42 + (1 - ti) * 0.3).toFixed(3) + 'em';
+          }
+        }
       }
       requestAnimationFrame(frame);
     });

@@ -215,7 +215,7 @@ html.intro-active { overflow: hidden; }
    Las nubes suben con el scroll, cubren la pantalla y se abren.
    ========================================================== */
 :root {
-  --ct-duracion: 260vh;          /* más alto = transición más lenta */
+  --ct-duracion: 360vh;          /* más alto = transición más lenta */
   --ct-nube: #ffffff;
   --ct-sombra: 120, 160, 225;    /* tono azulado de la sombra (RGB) */
   --ct-niebla: #ffffff;
@@ -231,6 +231,13 @@ html.intro-active { overflow: hidden; }
 .cloud-transition .ct-puff { position: absolute; left: 0; top: 0; width: calc(var(--s) * var(--ct-u)); height: calc(var(--s) * .72 * var(--ct-u)); border-radius: 50%; will-change: transform, opacity;
   background: radial-gradient(circle at 44% 34%, var(--ct-nube) 0%, rgba(255,255,255,.97) 26%, rgba(238,244,253,.8) 44%, rgba(210,226,247,.35) 58%, rgba(210,226,247,0) 70%); }
 .cloud-transition .ct-puff.sh { background: radial-gradient(circle, rgba(var(--ct-sombra), .42) 0%, rgba(var(--ct-sombra), .2) 40%, rgba(var(--ct-sombra), 0) 70%); }
+/* Palabra VOZ360 que aparece cuando las nubes cubren la pantalla */
+.cloud-transition .ct-word { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; opacity: 0; will-change: transform, opacity; }
+.cloud-transition .ct-logo { display: flex; font-family: var(--display); font-weight: 800; font-size: clamp(64px, 15vw, 220px); line-height: .9; letter-spacing: -.06em; color: var(--navy); }
+.cloud-transition .ct-logo span { display: inline-block; will-change: transform, opacity, filter; }
+.cloud-transition .ct-logo .ct-accent { color: var(--accent); }
+.cloud-transition .ct-tag { font-family: var(--body); font-weight: 700; font-size: clamp(10px, 1.1vw, 15px); letter-spacing: .42em; text-transform: uppercase; color: var(--blue-dark); padding-left: .42em; }
+@media (max-width: 640px) { .cloud-transition .ct-logo { font-size: 22vw; } .cloud-transition .ct-tag { font-size: 10px; letter-spacing: .32em; } }
 @media (prefers-reduced-motion: reduce) { .cloud-transition { display: none; } }
 
 /* ==========================================================
