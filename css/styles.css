@@ -244,6 +244,9 @@ html.intro-active { overflow: hidden; }
 .cloud-transition .ct-word.is-in .ct-tag, .cloud-transition .ct-word.is-out .ct-tag { opacity: 1; transform: none; }
 /* Al salir: crece y se desvanece mientras las nubes se abren */
 .cloud-transition .ct-word.is-out { opacity: 0; transform: scale(1.45); transition: opacity .6s ease, transform .9s var(--ease), visibility 0s linear .9s; }
+/* De vuelta desde abajo: reaparece completa y rápido (sin repetir la entrada letra a letra) */
+.cloud-transition .ct-word.is-in.is-back { transition: opacity .3s ease, transform .35s var(--ease), visibility 0s; }
+.cloud-transition .ct-word.is-back .ct-logo span, .cloud-transition .ct-word.is-back .ct-tag { transition-delay: 0s; }
 .cloud-transition .ct-tag { font-family: var(--body); font-weight: 700; font-size: clamp(10px, 1.1vw, 15px); letter-spacing: .42em; text-transform: uppercase; color: var(--blue-dark); padding-left: .42em; }
 @media (max-width: 640px) { .cloud-transition .ct-logo { font-size: 22vw; } .cloud-transition .ct-tag { font-size: 10px; letter-spacing: .32em; } }
 @media (prefers-reduced-motion: reduce) { .cloud-transition { display: none; } }

@@ -96,7 +96,7 @@
         }
       }
 
-      var target = 0, cur = 0, visible = true;
+      var target = 0, cur = 0, visible = true, wordState = 0;
       var progress = function () {
         var b = root.getBoundingClientRect();
         return cl(-b.top / (b.height - window.innerHeight));
@@ -143,11 +143,19 @@
 
         // Palabra VOZ360: se activa al cruzar un punto del recorrido y la animación
         // (letras una a una) la completa CSS sola; así nunca queda a medio formar
+        // Con margen (histéresis) para que no parpadee si el scroll se queda justo en el límite.
+        // Al volver desde abajo (salida → visible) regresa rápido y completa, sin esperar la entrada.
         if (word) {
-          var wordOut = p >= 0.64;
-          var wordIn = p >= 0.30 && !wordOut;
-          if (word.classList.contains('is-in') !== wordIn) word.classList.toggle('is-in', wordIn);
-          if (word.classList.contains('is-out') !== wordOut) word.classList.toggle('is-out', wordOut);
+          var ws = wordState;
+          if (p < (ws === 0 ? 0.30 : 0.285)) ws = 0;
+          else if (p >= (ws === 2 ? 0.625 : 0.645)) ws = 2;
+          else ws = 1;
+          if (ws !== wordState) {
+            word.classList.toggle('is-back', wordState === 2 && ws === 1);
+            word.classList.toggle('is-in', ws === 1);
+            word.classList.toggle('is-out', ws === 2);
+            wordState = ws;
+          }
         }
       }
       requestAnimationFrame(frame);
