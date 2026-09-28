@@ -31,7 +31,7 @@
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scrollbar-gutter: stable; }
+html { scroll-behavior: smooth; scrollbar-gutter: stable; scroll-snap-type: y proximity; }
 body { margin: 0; background: #FFFFFF; color: var(--navy); font-family: var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 img { max-width: 100%; }
 /* Evita que las animaciones laterales ensanchen la página en móvil */
@@ -232,10 +232,18 @@ html.intro-active { overflow: hidden; }
   background: radial-gradient(circle at 44% 34%, var(--ct-nube) 0%, rgba(255,255,255,.97) 26%, rgba(238,244,253,.8) 44%, rgba(210,226,247,.35) 58%, rgba(210,226,247,0) 70%); }
 .cloud-transition .ct-puff.sh { background: radial-gradient(circle, rgba(var(--ct-sombra), .42) 0%, rgba(var(--ct-sombra), .2) 40%, rgba(var(--ct-sombra), 0) 70%); }
 /* Palabra VOZ360 que aparece cuando las nubes cubren la pantalla */
-.cloud-transition .ct-word { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; opacity: 0; will-change: transform, opacity; }
+.cloud-transition .ct-word { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; opacity: 0; visibility: hidden; will-change: transform, opacity; transition: opacity .45s ease, transform .7s var(--ease), visibility 0s linear .7s; }
 .cloud-transition .ct-logo { display: flex; font-family: var(--display); font-weight: 800; font-size: clamp(64px, 15vw, 220px); line-height: .9; letter-spacing: -.06em; color: var(--navy); }
 .cloud-transition .ct-logo span { display: inline-block; will-change: transform, opacity, filter; }
 .cloud-transition .ct-logo .ct-accent { color: var(--accent); }
+.cloud-transition .ct-logo span { opacity: 0; transform: translateY(60px) rotate(8deg); filter: blur(12px); transition: opacity .5s ease, transform .75s cubic-bezier(.2, 1.1, .3, 1), filter .6s ease; transition-delay: calc(var(--i) * 70ms); }
+.cloud-transition .ct-tag { opacity: 0; transform: translateY(14px); transition: opacity .5s ease .45s, transform .6s var(--ease) .45s, letter-spacing .8s var(--ease) .45s; }
+.cloud-transition .ct-word.is-in, .cloud-transition .ct-word.is-out { visibility: visible; transition: opacity .45s ease, transform .7s var(--ease), visibility 0s; }
+.cloud-transition .ct-word.is-in { opacity: 1; transform: none; }
+.cloud-transition .ct-word.is-in .ct-logo span, .cloud-transition .ct-word.is-out .ct-logo span { opacity: 1; transform: none; filter: none; }
+.cloud-transition .ct-word.is-in .ct-tag, .cloud-transition .ct-word.is-out .ct-tag { opacity: 1; transform: none; }
+/* Al salir: crece y se desvanece mientras las nubes se abren */
+.cloud-transition .ct-word.is-out { opacity: 0; transform: scale(1.45); transition: opacity .6s ease, transform .9s var(--ease), visibility 0s linear .9s; }
 .cloud-transition .ct-tag { font-family: var(--body); font-weight: 700; font-size: clamp(10px, 1.1vw, 15px); letter-spacing: .42em; text-transform: uppercase; color: var(--blue-dark); padding-left: .42em; }
 @media (max-width: 640px) { .cloud-transition .ct-logo { font-size: 22vw; } .cloud-transition .ct-tag { font-size: 10px; letter-spacing: .32em; } }
 @media (prefers-reduced-motion: reduce) { .cloud-transition { display: none; } }
@@ -412,7 +420,7 @@ html.intro-active { overflow: hidden; }
    La tarjeta activa va grande al centro; las laterales se achican
    y atenúan según la distancia. Fondo desenfocado con la foto activa.
    ========================================================== */
-.gallery { position: relative; height: 100vh; height: 100svh; min-height: 620px; overflow: hidden; background: var(--navy); color: #FFFFFF; display: flex; flex-direction: column; user-select: none; --g-ease: cubic-bezier(.22, 1, .36, 1); }
+.gallery { scroll-snap-align: start; scroll-snap-stop: normal; position: relative; height: 100vh; height: 100svh; min-height: 480px; overflow: hidden; background: var(--navy); color: #FFFFFF; display: flex; flex-direction: column; user-select: none; --g-ease: cubic-bezier(.22, 1, .36, 1); }
 .gallery-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 .gallery-bg span { position: absolute; inset: -40px; background-size: cover; background-position: center; filter: blur(22px) saturate(1.1); opacity: 0; transition: opacity .8s ease; }
 .gallery-bg span.is-on { opacity: .42; }
@@ -453,7 +461,7 @@ html.intro-active { overflow: hidden; }
   .gallery-dot { width: 18px; height: 18px; }
 }
 @media (max-width: 640px) {
-  .gallery { min-height: 520px; }
+  .gallery { min-height: 480px; }
   .gallery-footer { padding-bottom: 22px; }
   .gallery-prev, .gallery-next { width: 42px; height: 42px; }
   .gallery-header .h2 { font-size: 28px; }

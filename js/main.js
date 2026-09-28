@@ -75,8 +75,6 @@
       var fog = root.querySelector('.ct-fog');
       var haze = root.querySelector('.ct-haze');
       var word = root.querySelector('.ct-word');
-      var letters = word ? word.querySelectorAll('.ct-logo span') : [];
-      var tag = word ? word.querySelector('.ct-tag') : null;
 
       // Semilla fija: las nubes siempre quedan en la misma posición
       var seed = 7;
@@ -103,17 +101,19 @@
         var b = root.getBoundingClientRect();
         return cl(-b.top / (b.height - window.innerHeight));
       };
-      window.addEventListener('scroll', function () { target = progress(); }, { passive: true });
+      window.addEventListener('scroll', function () { target = progress(); if (visible) frame(performance.now(), true); }, { passive: true });
       window.addEventListener('resize', function () { target = progress(); });
       if ('IntersectionObserver' in window) {
         new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }, { rootMargin: '20% 0px' }).observe(root);
       }
       target = cur = progress();
 
-      function frame(t) {
-        requestAnimationFrame(frame);
+      function frame(t, once) {
+        if (!once) requestAnimationFrame(frame);
         if (!visible) return;
-        cur += (target - cur) * 0.12;
+        // Sin suavizado: nubes, niebla y VOZ360 usan el mismo progreso real del scroll,
+        // así la palabra nunca queda desfasada al subir o bajar rápido
+        cur = target;
         var p = cur, time = t / 1000, vw = window.innerWidth / 100, vh = window.innerHeight / 100;
         var u = Math.max(vw, vh * .55);             // misma unidad que --ct-u en CSS
         // Línea de tiempo: suben con la portada (0–0.38) · VOZ360 entra (0.26–0.44) · pausa · sale y se abren (0.66–1)
@@ -141,24 +141,13 @@
         fog.style.opacity = (rise * (1 - part) * 0.55).toFixed(3);
         haze.style.opacity = (rise * (1 - part)).toFixed(3);   // desenfoque "de sueño" del fondo
 
-        // Palabra VOZ360: las letras entran una a una y luego crecen y se desvanecen
+        // Palabra VOZ360: se activa al cruzar un punto del recorrido y la animación
+        // (letras una a una) la completa CSS sola; así nunca queda a medio formar
         if (word) {
-          var wIn = cl((p - 0.26) / 0.18);
-          var wOut = ease(cl((p - 0.64) / 0.16));
-          word.style.opacity = (wIn > 0 ? 1 : 0) * (1 - wOut);
-          word.style.transform = 'scale(' + (1 + wOut * 0.5).toFixed(3) + ')';
-          for (var k = 0; k < letters.length; k++) {
-            var li = ease(cl(wIn * 1.8 - k * 0.16));
-            letters[k].style.opacity = li.toFixed(3);
-            letters[k].style.transform = 'translateY(' + ((1 - li) * 60).toFixed(1) + 'px) rotate(' + ((1 - li) * 8).toFixed(1) + 'deg)';
-            letters[k].style.filter = 'blur(' + ((1 - li) * 12).toFixed(1) + 'px)';
-          }
-          if (tag) {
-            var ti = ease(cl((wIn - 0.55) / 0.45));
-            tag.style.opacity = ti.toFixed(3);
-            tag.style.transform = 'translateY(' + ((1 - ti) * 14).toFixed(1) + 'px)';
-            tag.style.letterSpacing = (0.42 + (1 - ti) * 0.3).toFixed(3) + 'em';
-          }
+          var wordOut = p >= 0.64;
+          var wordIn = p >= 0.30 && !wordOut;
+          if (word.classList.contains('is-in') !== wordIn) word.classList.toggle('is-in', wordIn);
+          if (word.classList.contains('is-out') !== wordOut) word.classList.toggle('is-out', wordOut);
         }
       }
       requestAnimationFrame(frame);
@@ -343,7 +332,6 @@
     var gCurrent = 0;
     var gTimer = null;
     var gVisible = false;
-    var gHover = false;
     var G_GAP = 16;
     var G_AUTOPLAY = 2000;   // cambia de foto cada 2 segundos
     var pad2 = function (n) { return String(n).padStart(2, '0'); };
@@ -405,7 +393,7 @@
     }
 
     function gStart() {
-      if (reduceMotion || gTimer || !gVisible || gHover) return;
+      if (reduceMotion || gTimer || !gVisible) return;
       gTimer = setInterval(function () { gGo(gCurrent + 1); }, G_AUTOPLAY);
     }
     function gStop() { clearInterval(gTimer); gTimer = null; }
@@ -434,8 +422,6 @@
       if (e.key === 'ArrowRight') gGo(gCurrent + 1, true);
     });
 
-    gallery.addEventListener('mouseenter', function () { gHover = true; gStop(); });
-    gallery.addEventListener('mouseleave', function () { gHover = false; gStart(); });
 
     // Solo avanza sola mientras está en pantalla
     if ('IntersectionObserver' in window) {
