@@ -11,6 +11,38 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ============================================================
+     Intro: el video se reproduce cada vez que se entra o recarga.
+     Si el navegador bloquea el autoplay o el video falla, la
+     intro se cierra sola para no dejar la página tapada.
+     ============================================================ */
+  (function intro() {
+    var el = document.getElementById('intro');
+    if (!el) return;
+    var video = el.querySelector('video');
+    var closed = false;
+
+    function close() {
+      if (closed) return;
+      closed = true;
+      el.classList.add('is-done');
+      document.documentElement.classList.remove('intro-active');
+      setTimeout(function () { el.remove(); }, 900);
+    }
+
+    video.addEventListener('ended', close);
+    video.addEventListener('error', close);
+    el.querySelector('.intro-skip').addEventListener('click', close);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+
+    if (video.ended) return close();
+    var played = video.play();
+    if (played && played.catch) played.catch(close);
+
+    // Tope de seguridad: el video dura ~2 s
+    setTimeout(close, 6000);
+  })();
+
+  /* ============================================================
      Animaciones al hacer scroll (se repiten cada vez)
      Al entrar en pantalla se añade .is-in; al salir se quita,
      así la animación vuelve a reproducirse en el siguiente paso.
