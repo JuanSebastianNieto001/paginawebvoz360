@@ -928,7 +928,7 @@
       if(Math.abs(diff)>.0001){requestAnimationFrame(loop);}else{running=false;lastTs=0;hiker.classList.remove('vzf-walking');}
     }
     // Pausa el scroll en la cima para que la celebración se vea completa
-    var PAUSA=4500, celebrated=false, locked=false, lastT=0;
+    var PAUSA=0, celebrated=false, locked=false, lastT=0;   // sin pausa: el scroll nunca se bloquea en la cima
     function block(e){if(locked){e.preventDefault();}}
     function blockKeys(e){if(locked&&[32,33,34,35,36,38,40].indexOf(e.keyCode)>-1){e.preventDefault();}}
     window.addEventListener('wheel',block,{passive:false});
@@ -937,7 +937,7 @@
     function summitY(){var vh=window.innerHeight;return root.offsetTop+(root.offsetHeight-vh)*.9;}
     function kick(){
       read();
-      if(!celebrated && target>=.84 && lastT<.84 && !reduce){
+      if(PAUSA>0 && !celebrated && target>=.84 && lastT<.84 && !reduce){
         celebrated=true; locked=true; window.scrollTo({top:summitY(),behavior:'instant'}); read();
         setTimeout(function(){locked=false;},PAUSA);
       }

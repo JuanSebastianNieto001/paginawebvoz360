@@ -813,7 +813,7 @@ html.intro-active { overflow: hidden; }
 @keyframes vzf-jump{from{transform:translateY(0)}to{transform:translateY(-5px)}}
 
 /* recorrido del scroll: más alto = animación más lenta */
-.vzf{height:480vh}
+.vzf{height:420vh}
 .vzf-bg{margin-bottom:0}
 
 /* dinero subiendo */
@@ -825,7 +825,7 @@ html.intro-active { overflow: hidden; }
 
 /* Misión y Visión (imágenes PNG) */
 .vzf-mvimg{position:absolute;top:9%;width:min(560px,44vw);height:auto;opacity:0;will-change:transform,opacity;filter:drop-shadow(0 0 0 transparent)}
-#vzf-mvm{left:3%}
+#vzf-mvm{left:3%;top:17%}
 #vzf-mvv{right:3%}
 /* logo junto al muñequito en la cima */
 .vzf-sb{opacity:0;transform-box:fill-box;transform-origin:100% 50%;transform:scale(.3)}
@@ -853,7 +853,7 @@ html.intro-active { overflow: hidden; }
 @keyframes vzf-shine{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 
 @media (max-width:760px){
-  .vzf{height:420vh}
+  .vzf{height:380vh}
   .vzf-mvimg{width:94vw;top:6%}
   #vzf-mvm,#vzf-mvv{left:3vw;right:auto}
   .vzf-money .c{width:24px;height:24px;font-size:12px}
