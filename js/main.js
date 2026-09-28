@@ -698,11 +698,12 @@
     var modal=document.getElementById('tec-modal'), bubble=document.getElementById('tec-bubble'), lastBtn=null, closing=false;
   
     function fit(){
-      if (window.innerWidth<=900){stage.style.transform='';scaler.style.height='';return;}
-      var k=Math.min(1,scaler.clientWidth/1440);
+      if (window.innerWidth<=900){stage.style.transform='';stage.style.marginLeft=stage.style.marginTop='';return;}
+      // La escena (1440×1000) se escala para caber completa en la pantalla
+      var w=scaler.clientWidth, h=scaler.clientHeight, k=Math.min(w/1440,h/1000);
       stage.style.transform='scale('+k+')';
-      stage.style.marginLeft=Math.max(0,(scaler.clientWidth-1440*k)/2)+'px';
-      scaler.style.height=(1000*k)+'px';
+      stage.style.marginLeft=Math.max(0,(w-1440*k)/2)+'px';
+      stage.style.marginTop=Math.max(0,(h-1000*k)/2)+'px';
     }
     window.addEventListener('resize',fit); fit();
   
