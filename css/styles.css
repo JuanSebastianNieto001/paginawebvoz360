@@ -757,19 +757,90 @@ html.intro-active { overflow: hidden; }
 @media (prefers-reduced-motion:reduce){.vzi-s,.vzi-feed{animation:none}}
 
 /* ==========================================================
-   11. MISIÓN / VISIÓN
+   11. FINAL — montaña animada con Misión y Visión (basada en finalweb)
    ========================================================== */
-.mision { padding: 60px 0; background: var(--soft); }
-.mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.mv { min-height: 260px; padding: 30px 32px; border-radius: 22px; display: flex; flex-direction: column; gap: 12px; }
-.mv--light { border: 1px solid var(--line); background: #FFFFFF; }
-.mv--accent { position: relative; overflow: hidden; background: var(--accent); color: #FFFFFF; }
-.mv--accent > * { position: relative; z-index: 2; }
-.mv--accent .mv-ring { position: absolute; z-index: 1; right: -110px; bottom: -140px; width: 320px; height: 320px; border-radius: 50%; border: 1px dashed rgba(255,255,255,.35); }
-.mv--accent .eyebrow { color: #C9EDFF; }
-.mv h3 { font-family: var(--display); font-weight: 700; font-size: 28px; line-height: 1.1; letter-spacing: -.02em; }
-.mv p { font-size: 14px; line-height: 1.65; color: var(--muted); }
-.mv--accent p { color: #E3F4FF; }
+.vzf{--navy:#071E3A;--blue:#0A79E8;--sky:#9BE7F9;--mut:#4d6177;position:relative;font-family:var(--body);color:var(--navy);background:#071E3A;isolation:isolate}
+.vzf *{box-sizing:border-box}
+.vzf a{color:inherit;text-decoration:none}
+
+/* Escena fija mientras se recorre el bloque */
+.vzf-bg{position:sticky;top:0;height:100vh;margin-bottom:-100vh;overflow:hidden;z-index:0;pointer-events:none}
+.vzf-bg svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.vzf-tw{animation:vzf-tw 3s ease-in-out infinite}
+.vzf-tw:nth-child(3n){animation-delay:-1s;animation-duration:2.4s}
+.vzf-tw:nth-child(3n+1){animation-delay:-2s;animation-duration:3.6s}
+@keyframes vzf-tw{0%,100%{opacity:1}50%{opacity:.25}}
+.vzf-drift{animation:vzf-drift 60s linear infinite alternate}
+.vzf-drift2{animation:vzf-drift 90s linear infinite alternate-reverse}
+@keyframes vzf-drift{from{transform:translateX(-40px)}to{transform:translateX(40px)}}
+.vzf-wing{transform-box:fill-box;transform-origin:center;animation:vzf-flap .5s ease-in-out infinite alternate}
+@keyframes vzf-flap{from{transform:scaleY(1)}to{transform:scaleY(-.6)}}
+.vzf-shoot{animation:vzf-shoot 5s ease-in infinite}
+@keyframes vzf-shoot{0%,78%{transform:translate(0,0);opacity:0}80%{opacity:1}92%{transform:translate(-420px,210px);opacity:0}100%{opacity:0}}
+.vzf-flagcloth{transform-box:fill-box;transform-origin:left center;animation:vzf-wave 1.2s ease-in-out infinite alternate}
+@keyframes vzf-wave{from{transform:skewY(-6deg) scaleX(1)}to{transform:skewY(5deg) scaleX(.92)}}
+.vzf-legs line,.vzf-arms line{transform-box:fill-box;transform-origin:top center}
+.vzf-walking .vzf-l1,.vzf-walking .vzf-a2{animation:vzf-step .42s ease-in-out infinite alternate}
+.vzf-walking .vzf-l2,.vzf-walking .vzf-a1{animation:vzf-step .42s ease-in-out infinite alternate-reverse}
+.vzf-walking .vzf-body{animation:vzf-bob .21s ease-in-out infinite alternate}
+@keyframes vzf-step{from{transform:rotate(-26deg)}to{transform:rotate(26deg)}}
+@keyframes vzf-bob{from{transform:translateY(0)}to{transform:translateY(-1.6px)}}
+.vzf-cheer .vzf-a1{transform:rotate(160deg)}
+.vzf-cheer .vzf-a2{transform:rotate(-160deg)}
+.vzf-cheer .vzf-body{animation:vzf-jump .5s ease-in-out infinite alternate}
+@keyframes vzf-jump{from{transform:translateY(0)}to{transform:translateY(-5px)}}
+
+/* recorrido del scroll: más alto = animación más lenta */
+.vzf{height:480vh}
+.vzf-bg{margin-bottom:0}
+
+/* dinero subiendo */
+.vzf-money{position:absolute;inset:0;opacity:0;overflow:hidden}
+.vzf-money span{position:absolute;bottom:-60px;display:flex;align-items:center;justify-content:center;font-weight:700;animation:vzf-rise 10s linear infinite;will-change:transform}
+.vzf-money .c{width:30px;height:30px;border-radius:50%;background:#f6c343;border:3px solid #e0a52a;color:#8a5a00;font-size:15px;box-shadow:0 6px 14px rgba(0,0,0,.18)}
+.vzf-money .b{width:44px;height:24px;border-radius:4px;background:#3ad0b0;border:2px solid #23a08a;color:#ffffff;font-size:13px;box-shadow:0 6px 14px rgba(0,0,0,.18)}
+@keyframes vzf-rise{0%{transform:translateY(0) rotate(0);opacity:0}8%{opacity:1}85%{opacity:1}100%{transform:translateY(-115vh) rotate(260deg);opacity:0}}
+
+/* Misión y Visión (imágenes PNG) */
+.vzf-mvimg{position:absolute;top:9%;width:min(560px,44vw);height:auto;opacity:0;will-change:transform,opacity;filter:drop-shadow(0 0 0 transparent)}
+#vzf-mvm{left:3%}
+#vzf-mvv{right:3%}
+/* logo junto al muñequito en la cima */
+.vzf-sb{opacity:0;transform-box:fill-box;transform-origin:100% 50%;transform:scale(.3)}
+.vzf-win .vzf-sb{animation:vzf-sbpop .8s cubic-bezier(.3,1.5,.5,1) .5s forwards}
+@keyframes vzf-sbpop{0%{opacity:0;transform:scale(.3)}100%{opacity:1;transform:scale(1)}}
+.vzf-sb rect{filter:drop-shadow(0 10px 20px rgba(0,0,0,.35))}
+
+/* logro en la cima */
+.vzf-achv{position:absolute;inset:0;pointer-events:none}
+.vzf-bg .vzf-fw{position:absolute;inset:0;width:100%;height:100%}
+.vzf-achv .fw{opacity:0}
+.vzf-glowc{opacity:0;transition:opacity 1s}
+.vzf-win .vzf-glowc{opacity:.28}
+.vzf-ring{opacity:0;transform-box:fill-box;transform-origin:center}
+.vzf-confetti{position:absolute;inset:0;overflow:hidden}
+.vzf-confetti i{position:absolute;top:-20px;height:14px;border-radius:2px;opacity:0}
+.vzf-win .fw{animation:vzf-fw 1.3s ease-out forwards}
+.vzf-win .fw2{animation-delay:.3s}.vzf-win .fw3{animation-delay:.6s}.vzf-win .fw4{animation-delay:.9s}.vzf-win .fw5{animation-delay:1.2s}
+.vzf-win .vzf-ring{animation:vzf-ring 1.6s ease-out 2}
+.vzf-win .vzf-ring.r2{animation-delay:.5s}
+.vzf-win .vzf-confetti i{animation-name:vzf-conf;animation-timing-function:cubic-bezier(.3,.6,.5,1);animation-fill-mode:forwards}
+@keyframes vzf-fw{0%{opacity:0;transform:scale(.2)}20%{opacity:1}100%{opacity:0;transform:scale(1.5)}}
+@keyframes vzf-ring{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(4)}}
+@keyframes vzf-conf{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:0;transform:translateY(95vh) translateX(40px) rotate(720deg)}}
+@keyframes vzf-shine{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
+@media (max-width:760px){
+  .vzf{height:420vh}
+  .vzf-mvimg{width:94vw;top:6%}
+  #vzf-mvm,#vzf-mvv{left:3vw;right:auto}
+  .vzf-money .c{width:24px;height:24px;font-size:12px}
+  .vzf-money .b{width:36px;height:20px;font-size:11px}
+}
+@media (prefers-reduced-motion:reduce){
+  .vzf-tw,.vzf-drift,.vzf-drift2,.vzf-wing,.vzf-shoot,.vzf-flagcloth,.vzf-walking *,.vzf-cheer *{animation:none!important}
+  .vzf-money span,.vzf-win *{animation:none!important}.vzf-win .vzf-sb{opacity:1;transform:none}.vzf-money span{display:none}
+}
 
 /* ==========================================================
    12. FAQ
@@ -790,32 +861,6 @@ html.intro-active { overflow: hidden; }
 .bot-chip.is-asked { border-color: var(--line); color: var(--muted); }
 .bot-chip.is-asked:hover { background: var(--soft); color: var(--ink-2); }
 .bot-go { padding: 0; border: 0; background: none; font: inherit; font-weight: 600; color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
-
-
-/* ==========================================================
-   13. CTA
-   ========================================================== */
-.cta { position: relative; overflow: hidden; padding: 56px 0; min-height: 260px; display: flex; align-items: center; background: var(--accent); color: #FFFFFF; }
-.cta-sweep { position: absolute; top: 0; bottom: 0; width: 220px; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.22), rgba(255,255,255,0)); }
-.cta .wrap { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 50px; }
-.cta-txt { max-width: 740px; }
-.cta h2 { margin-bottom: 10px; font-family: var(--display); font-weight: 800; font-size: 42px; line-height: 1.04; letter-spacing: -.03em; }
-.cta p { font-size: 19px; }
-.btn-white { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: #FFFFFF; color: var(--navy); font-size: 15px; font-weight: 700; padding: 18px 30px; border-radius: 999px; }
-.btn-white:hover { color: var(--navy); }
-
-.form { padding: 30px 30px 26px; border-radius: 24px; border: 1px solid var(--line); background: #FFFFFF; box-shadow: 0 20px 44px rgba(7,30,58,.07); display: flex; flex-direction: column; gap: 14px; }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.field { display: flex; flex-direction: column; gap: 6px; }
-.field label { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-.field input, .field textarea { width: 100%; height: 46px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--line); background: #FBFDFF; color: var(--navy); font-family: var(--body); font-size: 13px; transition: border-color .25s ease, box-shadow .25s ease; }
-.field textarea { height: auto; min-height: 104px; padding: 14px; resize: vertical; }
-.field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(10,121,232,.15); }
-.form-submit { height: 52px; border: 0; border-radius: 999px; background: var(--accent); color: #FFFFFF; font-family: var(--body); font-size: 14px; font-weight: 700; cursor: pointer; }
-.form-submit:disabled { opacity: .6; cursor: wait; }
-.form-status { min-height: 1em; font-size: 12px; line-height: 1.5; color: var(--muted); }
-.form-status.is-ok { color: #0B7A45; }
-.form-status.is-error { color: #B42318; }
 
 /* ==========================================================
    15. FOOTER
@@ -851,7 +896,6 @@ html.intro-active { overflow: hidden; }
   .menu-btn { display: flex; }
   .hero h1 { font-size: clamp(40px, min(7vw, 9vh), 56px); }
   .servicios-head { flex-direction: column; gap: 10px; }
-  .cta .wrap { flex-direction: column; align-items: flex-start; gap: 24px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-brand { grid-column: 1 / -1; }
 }
@@ -923,23 +967,7 @@ html.intro-active { overflow: hidden; }
 
   /* Tecnología */
 
-  /* Misión / Visión */
-  .mision { padding: 44px 0; }
-  .mv-grid { grid-template-columns: 1fr; gap: 12px; }
-  .mv { min-height: 0; padding: 24px 22px; border-radius: 20px; gap: 10px; }
-  .mv h3 { font-size: 22px; }
-  .mv p { font-size: 13px; }
-
   /* FAQ */
-
-  /* CTA */
-  .cta { min-height: 240px; padding: 40px 0; }
-  .cta-sweep { width: 150px; }
-  .cta .wrap { gap: 16px; }
-  .cta h2 { margin-bottom: 0; font-size: 28px; }
-  .cta p { display: none; }
-  .btn-white { width: 100%; height: 50px; padding: 0; font-size: 14px; }
-  .btn-white svg { display: none; }
 
   /* Contacto */
   .form { padding: 22px 20px; border-radius: 22px; gap: 12px; box-shadow: 0 16px 36px rgba(7,30,58,.07); }
@@ -1010,6 +1038,11 @@ html.intro-active { overflow: hidden; }
 .bot-online { width: 7px; height: 7px; border-radius: 50%; background: #16A36B; box-shadow: 0 0 0 3px rgba(22,163,107,.25); }
 .bot-close { width: 38px; height: 38px; border: 0; border-radius: 50%; background: rgba(255,255,255,.08); color: #FFFFFF; cursor: pointer; display: grid; place-items: center; transition: background .25s ease; }
 .bot-close:hover { background: rgba(255,255,255,.2); }
+.bot-back { flex-shrink: 0; width: 34px; height: 34px; margin-right: -4px; border: 0; border-radius: 50%; background: rgba(255,255,255,.08); color: #FFFFFF; cursor: pointer; display: grid; place-items: center; transition: background .2s, transform .2s; }
+.bot-back[hidden] { display: none; }
+.bot-back:hover { background: rgba(255,255,255,.2); transform: translateX(-2px); }
+/* Dentro de una opción, el menú de arriba se oculta como en un chat */
+.bot.in-flow .bot-body > .bot-msg, .bot.in-flow .bot-body > .bot-options, .bot.in-flow .bot-body > .bot-typing { display: none; }
 
 .bot-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 18px 16px 20px; display: flex; flex-direction: column; gap: 10px; }
 .bot-msg { align-self: flex-start; max-width: 88%; padding: 11px 14px; border-radius: 4px 16px 16px 16px; background: #FFFFFF; border: 1px solid var(--line); font-size: 13.5px; line-height: 1.55; color: var(--ink-2); box-shadow: 0 6px 16px rgba(7,30,58,.05); }

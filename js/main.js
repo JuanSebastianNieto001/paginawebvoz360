@@ -461,6 +461,7 @@
     var botOpts = bot.querySelectorAll('.bot-opt');
     var botTimers = [];
     var botReturnFocus = null;
+    var botBack = bot.querySelector('.bot-back');
 
     function clearBotTimers() { botTimers.forEach(clearTimeout); botTimers = []; }
 
@@ -474,13 +475,27 @@
       });
       var flow = document.getElementById('flow-' + name);
       if (!flow) return;
+      bot.classList.add('in-flow');
+      botBack.hidden = false;
+      botBody.scrollTop = 0;
       setTimeout(function () {
-        botBody.scrollTo({ top: flow.offsetTop - 12, behavior: reduceMotion ? 'auto' : 'smooth' });
+        botBody.scrollTo({ top: 0 });
         var first = flow.querySelector('input, select, textarea, .bot-chip');
         if (first && window.matchMedia('(pointer: fine)').matches) first.focus({ preventScroll: true });
       }, 80);
     }
+    // Flecha: vuelve al menú de opciones
+    function backToMenu() {
+      resetFlows();
+      botSteps.forEach(function (el) { el.classList.add('is-shown'); });
+      botBody.scrollTop = 0;
+      var active = bot.querySelector('.bot-opt');
+      if (active) active.focus({ preventScroll: true });
+    }
+    botBack.addEventListener('click', backToMenu);
     function resetFlows() {
+      bot.classList.remove('in-flow');
+      botBack.hidden = true;
       if (typeof resetFaqChat === 'function') resetFaqChat();
       var waNote = bot.querySelector('.bot-wa-note'); if (waNote) waNote.remove();
       botOpts.forEach(function (b) {
@@ -586,7 +601,8 @@
       if (window.matchMedia('(max-width: 640px)').matches) document.documentElement.style.overflow = 'hidden';
       resetFlows();
       botBody.scrollTop = 0;
-      playBotIntro(flow ? function () { showFlow(flow); } : null);
+      if (flow) { botSteps.forEach(function (el) { el.classList.add('is-shown'); }); showFlow(flow); }
+      else playBotIntro(null);
       setTimeout(function () { bot.querySelector('.bot-close').focus({ preventScroll: true }); }, 60);
     };
 
@@ -833,6 +849,107 @@
     }, { threshold: 0.25 });
     igVideos.forEach(function (v) { igObs.observe(v); });
   }
+
+  /* ============================================================
+     Final de página: montaña animada con Misión y Visión
+     (basada en finalweb/final-montana-voz360.html)
+     ============================================================ */
+  (function finalMontana(){
+    var root=document.getElementById('vzf'); if(!root) return;
+    var $=function(id){return document.getElementById(id);};
+    var trail=$('vzf-trail'),done=$('vzf-done'),hiker=$('vzf-hiker'),flip=$('vzf-flip'),lamp=$('vzf-lamp'),flag=$('vzf-flag'),cloth=$('vzf-cloth'),burst=$('vzf-burst');
+    var mtn=$('vzf-mtn'),l1=$('vzf-l1'),l2=$('vzf-l2'),l3=$('vzf-l3'),f1=$('vzf-fog1'),f2=$('vzf-fog2'),f3=$('vzf-fog3');
+    var sun=$('vzf-sun'),moon=$('vzf-moon'),stars=$('vzf-stars'),clouds=$('vzf-clouds'),birds=$('vzf-birds'),birds2=$('vzf-birds2');
+    var s1=$('vzf-s1'),s2=$('vzf-s2'),s3=$('vzf-s3');
+    var L=trail.getTotalLength();
+    var money=$('vzf-money'), mvM=$('vzf-mvm'), mvV=$('vzf-mvv');
+    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
+    // Paleta del cielo: mañana clara → mediodía azul VOZ → atardecer → noche marino
+    var SKY=[
+      [[191,230,251],[217,240,252],[243,251,255]],
+      [[74,160,232],[140,205,245],[210,240,252]],
+      [[28,76,150],[74,140,210],[255,214,190]],
+      [[6,20,40],[11,37,64],[26,70,120]]
+    ];
+    function clamp(x){return Math.max(0,Math.min(1,x));}
+    function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;}
+    function lerpC(a,b,t){return 'rgb('+a.map(function(v,i){return Math.round(v+(b[i]-v)*t);}).join(',')+')';}
+    function sky(p){var seg=Math.min(2,Math.floor(p*3)),t=p*3-seg;return [0,1,2].map(function(k){return lerpC(SKY[seg][k],SKY[seg+1][k],t);});}
+  
+    var target=0,cur=0,running=false,wasCheer=false,wasWin=false;
+    function read(){var r=root.getBoundingClientRect(),vh=window.innerHeight;target=clamp(-r.top/(r.height-vh));}
+    function draw(p){
+      var c=sky(p); s1.setAttribute('stop-color',c[0]); s2.setAttribute('stop-color',c[1]); s3.setAttribute('stop-color',c[2]);
+      var night=clamp((p-.62)/.25);
+      stars.setAttribute('opacity',night);
+      sun.setAttribute('transform','translate('+(-p*260)+' '+(ease(clamp(p/.8))*520)+')'); sun.setAttribute('opacity',1-clamp((p-.55)/.25));
+      moon.setAttribute('opacity',night); moon.setAttribute('transform','translate(0 '+((1-night)*120)+')');
+      clouds.setAttribute('transform','translate('+(-p*220)+' '+(p*30)+')'); clouds.setAttribute('opacity',1-night*.6);
+      var bo=1-clamp((p-.55)/.1);
+      birds.setAttribute('transform','translate('+(-200+clamp(p/.62)*1850).toFixed(1)+' '+(250-p*110).toFixed(1)+')'); birds.setAttribute('opacity',bo);
+      birds2.setAttribute('transform','translate('+(1600-clamp((p-.08)/.5)*1850).toFixed(1)+' '+(360-p*80).toFixed(1)+') scale(-1 1)'); birds2.setAttribute('opacity',bo*.85);
+      var e=ease(p);
+      l1.setAttribute('transform','translate(0 '+((1-e)*140)+')');
+      l2.setAttribute('transform','translate(0 '+((1-e)*230)+')');
+      l3.setAttribute('transform','translate(0 '+((1-e)*320)+')');
+      var lift=0;
+      mtn.setAttribute('transform','translate(0 '+((1-e)*520-lift)+')');
+      f1.setAttribute('transform','translate(0 '+((1-e)*140)+')'); f2.setAttribute('transform','translate(0 '+((1-e)*230)+')');
+      [f1,f2,f3].forEach(function(f,i){f.setAttribute('opacity',(i==2?.5:.8)*(1-night*.7));});
+      // muñequito
+      var k=clamp((p-.06)/.76), d=k*L, pt=trail.getPointAtLength(d), nx=trail.getPointAtLength(Math.min(L,d+3)), pv=trail.getPointAtLength(Math.max(0,d-3));
+      var dx=nx.x-pv.x, dy=nx.y-pv.y, dir=dx<0?-1:1, ang=Math.atan2(dy,Math.abs(dx))*180/Math.PI*.35;
+      hiker.setAttribute('transform','translate('+pt.x.toFixed(1)+' '+pt.y.toFixed(1)+') scale(1.6)');
+      flip.setAttribute('transform','scale('+dir+' 1) rotate('+(k>=1?0:ang).toFixed(1)+')');
+      lamp.setAttribute('opacity',night*.9);
+      var n=Math.max(2,Math.round(k*140)),dd='';for(var i=0;i<=n;i++){var q=trail.getPointAtLength(d*i/n);dd+=(i?'L':'M')+q.x.toFixed(1)+' '+q.y.toFixed(1);} done.setAttribute('d',dd);
+      var fl=clamp((p-.82)/.06);
+      flag.setAttribute('opacity',k>=1?1:0); cloth.setAttribute('transform','translate(0 '+((1-fl)*46)+')');
+      burst.setAttribute('opacity',fl>=1?1:0);
+      // dinero: aparece al comenzar a subir
+      money.style.opacity=clamp((p-.04)/.12);
+      // Misión (izquierda) y Visión (derecha) entran deslizándose
+      var mobv=window.innerWidth<=760, W=window.innerWidth;
+      var mi=ease(clamp((p-.18)/.08)), vi=ease(clamp((p-.40)/.08)), out=clamp((p-.72)/.05);
+      var mo=mobv?Math.max(out,clamp((p-.38)/.04)):out;
+      mvM.style.opacity=(mi*(1-mo)).toFixed(3); mvM.style.transform='translate('+(-(1-mi)*W*.5).toFixed(1)+'px,'+(-mo*30).toFixed(1)+'px)';
+      mvV.style.opacity=(vi*(1-out)).toFixed(3); mvV.style.transform='translate('+((1-vi)*W*.5).toFixed(1)+'px,'+(-out*30).toFixed(1)+'px)';
+      var win=fl>=1; if(win!==wasWin){root.classList.toggle('vzf-win',win);wasWin=win;}
+      var cheer=k>=1&&fl>=1; if(cheer!==wasCheer){hiker.classList.toggle('vzf-cheer',cheer);wasCheer=cheer;}
+    }
+    var lastTs=0;
+    function loop(ts){
+      var dt=lastTs?Math.min(100,ts-lastTs):16.7; lastTs=ts;
+      var diff=target-cur, f=1-Math.pow(1-(locked?.16:.09),dt/16.7); cur+= reduce?diff:diff*f;
+      var moving=Math.abs(diff)>.0006 && cur<.82;
+      hiker.classList.toggle('vzf-walking',moving && !wasCheer);
+      draw(cur);
+      if(Math.abs(diff)>.0001){requestAnimationFrame(loop);}else{running=false;lastTs=0;hiker.classList.remove('vzf-walking');}
+    }
+    // Pausa el scroll en la cima para que la celebración se vea completa
+    var PAUSA=4500, celebrated=false, locked=false, lastT=0;
+    function block(e){if(locked){e.preventDefault();}}
+    function blockKeys(e){if(locked&&[32,33,34,35,36,38,40].indexOf(e.keyCode)>-1){e.preventDefault();}}
+    window.addEventListener('wheel',block,{passive:false});
+    window.addEventListener('touchmove',block,{passive:false});
+    window.addEventListener('keydown',blockKeys);
+    function summitY(){var vh=window.innerHeight;return root.offsetTop+(root.offsetHeight-vh)*.9;}
+    function kick(){
+      read();
+      if(!celebrated && target>=.84 && lastT<.84 && !reduce){
+        celebrated=true; locked=true; window.scrollTo({top:summitY(),behavior:'instant'}); read();
+        setTimeout(function(){locked=false;},PAUSA);
+      }
+      if(target<.6) celebrated=false;
+      if(locked && Math.abs(window.scrollY-summitY())>2){window.scrollTo({top:summitY(),behavior:'instant'}); read();}
+      lastT=target;
+      if(!running){running=true;requestAnimationFrame(loop);}
+    }
+    window.addEventListener('scroll',kick,{passive:true}); window.addEventListener('resize',kick);
+    read(); cur=target; lastT=target; if(target>=.84) celebrated=true; draw(cur);
+  
+  })();
 
   /* Año del footer */
   var year = document.getElementById('year');

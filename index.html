@@ -499,34 +499,165 @@
   </div>
 </section>
 
-<!-- ====== 11. MISIÓN / VISIÓN ====== -->
-<section class="mision">
-  <div class="wrap mv-grid">
-    <div class="mv mv--light vz-card" data-reveal="left">
-      <span class="eyebrow">Misión</span>
-      <h3>Soluciones que impulsan el éxito de nuestros clientes.</h3>
-      <p>Contacto omnicanal de alta calidad, con protección de la información y un entorno de trabajo seguro.</p>
-    </div>
-    <div class="mv mv--accent" data-reveal="right" style="--delay:150ms">
-      <div class="mv-ring vz-ring"></div>
-      <span class="eyebrow">Visión</span>
-      <h3>Ser un contact center líder en experiencia en <span class="cyan">2030.</span></h3>
-      <p>Innovación tecnológica, excelencia operacional y compromiso con la seguridad y el bienestar.</p>
-    </div>
-  </div>
-</section>
+<!-- ====== 11. FINAL — montaña animada con Misión y Visión (basada en finalweb) ====== -->
+<section class="vzf" id="vzf" aria-label="Misión y visión de VOZ360">
 
-<!-- ====== 13. CTA ====== -->
-<section class="cta">
-  <div class="cta-sweep vz-sweep"></div>
-  <div class="wrap">
-    <div class="cta-txt">
-      <h2 data-reveal="blur">¿Hablamos de la experiencia que quieres construir?</h2>
-      <p data-reveal style="--delay:120ms">Cuéntanos tu reto y encontramos juntos la solución.</p>
+  <div class="vzf-bg" aria-hidden="true">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+      <defs>
+        <linearGradient id="vzf-skyg" x1="0" y1="0" x2="0" y2="1">
+          <stop id="vzf-s1" offset="0" stop-color="#bfe6fb"/>
+          <stop id="vzf-s2" offset=".55" stop-color="#d9f0fc"/>
+          <stop id="vzf-s3" offset="1" stop-color="#f3fbff"/>
+        </linearGradient>
+        <radialGradient id="vzf-sung"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#fff8e6" stop-opacity=".9"/><stop offset="1" stop-color="#fff8e6" stop-opacity="0"/></radialGradient>
+        <radialGradient id="vzf-moong"><stop offset="0" stop-color="#e8f6fd" stop-opacity=".55"/><stop offset="1" stop-color="#e8f6fd" stop-opacity="0"/></radialGradient>
+        <linearGradient id="vzf-lit" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a66a8"/><stop offset="1" stop-color="#143f70"/></linearGradient>
+        <linearGradient id="vzf-shade" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d2d52"/><stop offset="1" stop-color="#081c34"/></linearGradient>
+        <linearGradient id="vzf-fogg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity="0"/><stop offset=".5" stop-color="#ffffff" stop-opacity=".55"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></linearGradient>
+        <radialGradient id="vzf-lampg" cx="0" cy=".5" r="1"><stop offset="0" stop-color="#fff6c8" stop-opacity=".85"/><stop offset="1" stop-color="#fff6c8" stop-opacity="0"/></radialGradient>
+        <filter id="vzf-blur" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+        <filter id="vzf-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+
+      <rect width="1440" height="900" fill="url(#vzf-skyg)"/>
+
+      <!-- estrellas -->
+      <g id="vzf-stars" opacity="0" fill="#ffffff">
+        <circle class="vzf-tw" cx="120" cy="80" r="2"/><circle class="vzf-tw" cx="260" cy="160" r="1.4"/><circle class="vzf-tw" cx="420" cy="60" r="2.2"/><circle class="vzf-tw" cx="600" cy="130" r="1.3"/>
+        <circle class="vzf-tw" cx="760" cy="50" r="1.8"/><circle class="vzf-tw" cx="930" cy="140" r="2"/><circle class="vzf-tw" cx="1080" cy="70" r="1.5"/><circle class="vzf-tw" cx="1230" cy="150" r="2.2"/>
+        <circle class="vzf-tw" cx="1360" cy="60" r="1.6"/><circle class="vzf-tw" cx="340" cy="250" r="1.3"/><circle class="vzf-tw" cx="1000" cy="240" r="1.4"/><circle class="vzf-tw" cx="1320" cy="260" r="1.8"/>
+        <circle class="vzf-tw" cx="180" cy="300" r="1.2"/><circle class="vzf-tw" cx="700" cy="220" r="1.2"/><circle class="vzf-tw" cx="520" cy="310" r="1.1"/><circle class="vzf-tw" cx="1150" cy="330" r="1.2"/>
+        <circle class="vzf-tw" cx="60" cy="200" r="1.4"/><circle class="vzf-tw" cx="820" cy="100" r="1.1"/><circle class="vzf-tw" cx="1410" cy="190" r="1.3"/><circle class="vzf-tw" cx="470" cy="170" r="1"/>
+        <line class="vzf-shoot" x1="1200" y1="80" x2="1260" y2="50" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      </g>
+
+      <!-- sol y luna -->
+      <g id="vzf-sun"><circle cx="1110" cy="210" r="160" fill="url(#vzf-sung)"/><circle cx="1110" cy="210" r="58" fill="#ffffff"/></g>
+      <g id="vzf-moon" opacity="0"><circle cx="300" cy="170" r="110" fill="url(#vzf-moong)"/><path d="M300 132 a38 38 0 1 0 38 44 a32 32 0 1 1 -38 -44z" fill="#eaf6fd"/></g>
+
+      <!-- nubes -->
+      <g id="vzf-clouds" fill="#ffffff">
+        <g class="vzf-drift" opacity=".8" filter="url(#vzf-blur)"><ellipse cx="220" cy="210" rx="170" ry="34"/><ellipse cx="280" cy="188" rx="90" ry="40"/></g>
+        <g class="vzf-drift2" opacity=".65" filter="url(#vzf-blur)"><ellipse cx="880" cy="120" rx="190" ry="30"/><ellipse cx="820" cy="100" rx="90" ry="34"/></g>
+        <g class="vzf-drift" opacity=".55" filter="url(#vzf-blur)"><ellipse cx="1320" cy="340" rx="150" ry="26"/><ellipse cx="1360" cy="322" rx="70" ry="26"/></g>
+      </g>
+
+      <!-- aves -->
+      <g id="vzf-birds" fill="#071E3A"><g transform="translate(0 0) scale(1.5)"><path class="vzf-wing" d="M0 0 q10 -13 20 -3 q10 -10 20 3 q-10 -5 -20 4 q-10 -9 -20 -4z" style="animation-delay:0s"/></g><g transform="translate(52 -26) scale(1.2)"><path class="vzf-wing" d="M0 0 q10 -13 20 -3 q10 -10 20 3 q-10 -5 -20 4 q-10 -9 -20 -4z" style="animation-delay:-0.15s"/></g><g transform="translate(96 6) scale(1.3)"><path class="vzf-wing" d="M0 0 q10 -13 20 -3 q10 -10 20 3 q-10 -5 -20 4 q-10 -9 -20 -4z" style="animation-delay:-0.3s"/></g><g transform="translate(-44 -30) scale(1.1)"><path class="vzf-wing" d="M0 0 q10 -13 20 -3 q10 -10 20 3 q-10 -5 -20 4 q-10 -9 -20 -4z" style="animation-delay:-0.22s"/></g><g transform="translate(140 -18) scale(1)"><path class="vzf-wing" d="M0 0 q10 -13 20 -3 q10 -10 20 3 q-10 -5 -20 4 q-10 -9 -20 -4z" style="animation-delay:-0.4s"/></g><g transform="translate(-90 4) scale(1)"><path class="vzf-wing" d="M0 0 q10 -13 20 -3 q10 -10 20 3 q-10 -5 -20 4 q-10 -9 -20 -4z" style="animation-delay:-0.1s"/></g></g>
+      <g id="vzf-birds2" fill="#10305a" opacity=".85"><g transform="translate(0 0) scale(1.1)"><path class="vzf-wing" d="M0 0 q10 -13 20 -3 q10 -10 20 3 q-10 -5 -20 4 q-10 -9 -20 -4z" style="animation-delay:-0.05s"/></g><g transform="translate(40 -18) scale(0.9)"><path class="vzf-wing" d="M0 0 q10 -13 20 -3 q10 -10 20 3 q-10 -5 -20 4 q-10 -9 -20 -4z" style="animation-delay:-0.25s"/></g><g transform="translate(-36 -14) scale(0.9)"><path class="vzf-wing" d="M0 0 q10 -13 20 -3 q10 -10 20 3 q-10 -5 -20 4 q-10 -9 -20 -4z" style="animation-delay:-0.35s"/></g><g transform="translate(76 4) scale(0.8)"><path class="vzf-wing" d="M0 0 q10 -13 20 -3 q10 -10 20 3 q-10 -5 -20 4 q-10 -9 -20 -4z" style="animation-delay:-0.18s"/></g></g>
+
+      <!-- capa 1: cordillera lejana -->
+      <g id="vzf-l1">
+        <path d="M0 640 L120 560 L200 590 L330 470 L420 520 L520 450 L640 540 L760 480 L880 560 L1000 430 L1110 510 L1230 460 L1340 530 L1440 490 L1440 900 L0 900Z" fill="#b3daf5"/>
+        <path d="M330 470 L360 520 L420 520 Z M520 450 L560 530 L640 540 Z M1000 430 L1040 520 L1110 510 Z M1230 460 L1270 520 L1340 530Z" fill="#9ccbee"/>
+        <path d="M330 470 L312 488 L324 486 L334 496 L344 484 L352 490 Z M1000 430 L980 452 L994 448 L1004 460 L1014 446 L1024 452 Z M520 450 L505 468 L518 466 L528 474 L538 462 Z" fill="#ffffff"/>
+      </g>
+      <rect id="vzf-fog1" x="-50" y="560" width="1540" height="140" fill="url(#vzf-fogg)"/>
+
+      <!-- capa 2 -->
+      <g id="vzf-l2">
+        <path d="M0 720 L150 620 L260 660 L380 580 L520 650 L640 600 L780 680 L940 570 L1060 640 L1200 590 L1440 700 L1440 900 L0 900Z" fill="#6ba7df"/>
+        <path d="M150 620 L200 700 L260 660Z M380 580 L430 690 L520 650Z M640 600 L690 700 L780 680Z M940 570 L990 690 L1060 640Z M1200 590 L1260 700 L1440 700Z" fill="#5690cc"/>
+      </g>
+      <rect id="vzf-fog2" x="-50" y="660" width="1540" height="120" fill="url(#vzf-fogg)" opacity=".8"/>
+
+      <!-- capa 3: colinas cercanas -->
+      <g id="vzf-l3">
+        <path d="M0 800 L160 730 L300 770 L430 710 L620 900 L0 900Z" fill="#2c64a6"/>
+        <path d="M1440 770 L1320 710 L1200 750 L1050 900 L1440 900Z" fill="#2c64a6"/>
+        <path d="M160 730 L230 820 L300 770Z M1320 710 L1260 800 L1200 750Z" fill="#245a98"/>
+      </g>
+
+      <!-- montaña principal -->
+      <g id="vzf-mtn">
+        <path d="M180 900 L300 820 L420 760 L520 700 L600 640 L680 560 L740 520 L790 420 L820 380 L850 300 L880 360 L930 420 L990 470 L1060 540 L1150 600 L1260 680 L1360 760 L1440 820 L1440 900Z" fill="url(#vzf-shade)"/>
+        <path d="M850 300 L820 380 L790 420 L740 520 L680 560 L600 640 L520 700 L420 760 L300 820 L180 900 L700 900 L760 700 L800 560 L830 440Z" fill="url(#vzf-lit)"/>
+        <path d="M850 300 L830 440 L800 560 L760 700 L700 900 L860 900 L870 640 L860 460Z" fill="#163f6e"/>
+        <path d="M600 640 L640 700 L620 760 L680 560Z M520 700 L560 760 L540 820 L600 640Z M930 420 L960 520 L990 470Z M1060 540 L1080 640 L1150 600Z" fill="#0f3460" opacity=".8"/>
+        <!-- nieve -->
+        <path d="M850 300 L820 380 L806 404 L826 396 L838 414 L852 392 L868 408 L884 376 L880 360Z" fill="#f2faff"/>
+        <path d="M850 300 L880 360 L884 376 L868 408 L860 380Z" fill="#bfdcf2"/>
+        <!-- pinos -->
+        <g fill="#0a2240">
+          <path d="M240 900 l14 -40 14 40z M270 900 l12 -32 12 32z M300 900 l16 -48 16 48z M340 900 l12 -34 12 34z M372 900 l14 -42 14 42z M410 900 l11 -30 11 30z"/>
+          <path d="M1250 900 l14 -44 14 44z M1284 900 l12 -34 12 34z M1316 900 l16 -50 16 50z M1356 900 l12 -36 12 36z M1390 900 l14 -40 14 40z"/>
+        </g>
+        <!-- sendero -->
+        <path id="vzf-trail" d="M300 895 C 420 880 560 860 600 830 C 640 800 470 790 470 760 C 470 730 620 730 660 700 C 700 670 600 670 640 640 C 680 610 740 610 740 570 C 740 530 740 500 770 480 C 790 465 800 440 805 425 C 812 395 836 340 850 302" fill="none" stroke="#9BE7F9" stroke-width="3" stroke-dasharray="1 10" stroke-linecap="round" opacity=".55"/>
+        <path id="vzf-done" d="" fill="none" stroke="#9BE7F9" stroke-width="3.5" stroke-linecap="round" filter="url(#vzf-glow)"/>
+        <!-- bandera -->
+        <g id="vzf-flag" opacity="0">
+          <line x1="850" y1="302" x2="850" y2="226" stroke="#eaf6fd" stroke-width="3" stroke-linecap="round"/>
+          <g id="vzf-cloth" transform="translate(0 46)"><g class="vzf-flagcloth"><rect x="852" y="228" width="60" height="36" rx="3" fill="#0A79E8"/><text x="882" y="252" text-anchor="middle" font-family="Sora, Arial, sans-serif" font-size="17" font-weight="700" fill="#ffffff">360</text></g></g>
+        </g>
+        <g id="vzf-burst" opacity="0" stroke-linecap="round" stroke-width="3">
+          <line x1="818" y1="262" x2="800" y2="246" stroke="#9BE7F9"/><line x1="850" y1="212" x2="850" y2="190" stroke="#ffffff"/><line x1="930" y1="236" x2="948" y2="222" stroke="#9BE7F9"/>
+          <circle cx="800" cy="220" r="3" fill="#ff8aa3" stroke="none"/><circle cx="905" cy="200" r="3" fill="#ffe08a" stroke="none"/><circle cx="960" cy="260" r="2.5" fill="#3ad0b0" stroke="none"/><circle cx="780" cy="280" r="2.5" fill="#ffe08a" stroke="none"/>
+        </g>
+        <!-- Mensaje de logro junto al muñequito (logo VOZ360) -->
+        <g id="vzf-sbadge" class="vzf-sb">
+          <rect x="548" y="200" width="252" height="92" rx="22" fill="#ffffff"/>
+          <path d="M800 232 l22 14 -22 12z" fill="#ffffff"/>
+          <image href="assets/img/final/voz360-logo.png" x="586" y="214" width="176" height="64"/>
+        </g>
+        <!-- muñequito -->
+        <g id="vzf-hiker">
+          <g id="vzf-flip">
+            <path id="vzf-lamp" d="M7 -50 L92 -78 L92 -22 Z" fill="url(#vzf-lampg)" opacity="0"/>
+            <g class="vzf-arms"><line class="vzf-a1" x1="-2" y1="-32" x2="-2" y2="-18" stroke="#1468c2" stroke-width="4" stroke-linecap="round"/></g>
+            <g class="vzf-legs">
+              <line class="vzf-l1" x1="-3" y1="-16" x2="-3" y2="0" stroke="#071E3A" stroke-width="4.5" stroke-linecap="round"/>
+              <line class="vzf-l2" x1="3" y1="-16" x2="3" y2="0" stroke="#10305a" stroke-width="4.5" stroke-linecap="round"/>
+            </g>
+            <g class="vzf-body">
+              <rect x="-11" y="-36" width="11" height="18" rx="4" fill="#0654a8"/>
+              <rect x="-10" y="-40" width="7" height="5" rx="2" fill="#3ad0b0"/>
+              <rect x="-6" y="-37" width="14" height="22" rx="6" fill="#1a7fe6"/>
+              <circle cx="1" cy="-44" r="7.5" fill="#d9a07a"/>
+              <path d="M-7.5 -44 a8 8 0 0 1 16 -1 q-7 -4 -16 1z" fill="#2a1d2c"/>
+              <path d="M-7.8 -44.5 a8.8 8.8 0 0 1 17 -1.5" fill="none" stroke="#071E3A" stroke-width="2.4" stroke-linecap="round"/>
+              <rect x="-4.5" y="-48" width="6" height="8" rx="2.5" fill="#0A79E8" stroke="#071E3A" stroke-width="1"/>
+              <path d="M0 -41 q3 6 9.5 4" fill="none" stroke="#071E3A" stroke-width="1.7" stroke-linecap="round"/>
+              <circle cx="10" cy="-37" r="2" fill="#071E3A"/>
+              <circle cx="7.5" cy="-50" r="1.6" fill="#fff6c8"/>
+            </g>
+            <g class="vzf-arms"><line class="vzf-a2" x1="4" y1="-32" x2="4" y2="-18" stroke="#1a7fe6" stroke-width="4" stroke-linecap="round"/></g>
+            <line x1="12" y1="-26" x2="16" y2="0" stroke="#eaf6fd" stroke-width="2" stroke-linecap="round"/>
+          </g>
+        </g>
+      </g>
+      <rect id="vzf-fog3" x="-50" y="820" width="1540" height="120" fill="url(#vzf-fogg)" opacity=".5"/>
+    </svg>
+    <!-- Dinero subiendo (ventas) -->
+    <div class="vzf-money" id="vzf-money">
+      <span class="c" style="left:6%;animation-duration:7s;animation-delay:-1s">$</span>
+      <span class="c" style="left:27%;animation-duration:6.5s;animation-delay:-2.5s">$</span>
+      <span class="b" style="left:48%;animation-duration:8.5s;animation-delay:-1.5s">$</span>
+      <span class="c" style="left:63%;animation-duration:9.5s;animation-delay:-8s">$</span>
+      <span class="c" style="left:77%;animation-duration:8.2s;animation-delay:-4.5s">$</span>
+      <span class="c" style="left:96%;animation-duration:8.8s;animation-delay:-7.5s">$</span>
     </div>
-    <a class="btn-white vz-btn" href="#contacto" data-reveal="zoom" style="--delay:220ms">Quiero hablar con VOZ360
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="#071E3A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
+
+
+
+    <!-- Misión y Visión: imágenes que aparecen al hacer scroll -->
+    <img id="vzf-mvm" class="vzf-mvimg" src="assets/img/final/mision-voz360.png" width="1336" height="674" loading="lazy" decoding="async" alt="Misión: Soluciones que impulsan el éxito de nuestros clientes. Contacto omnicanal de alta calidad, con protección de la información y un entorno de trabajo seguro.">
+    <img id="vzf-mvv" class="vzf-mvimg" src="assets/img/final/vision-voz360.png" width="1336" height="674" loading="lazy" decoding="async" alt="Visión: Ser un contact center líder en experiencia en 2030. Innovación tecnológica, excelencia operacional y compromiso con la seguridad y el bienestar.">
+    <!-- Animación de logro al llegar a la cima -->
+    <div class="vzf-achv" aria-hidden="true">
+      <svg class="vzf-fw" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+        <circle class="vzf-glowc" cx="850" cy="300" r="120" fill="url(#vzf-sung)"/>
+        <g class="fw fw1" style="transform-origin:640px 170px"><g stroke="#9BE7F9" stroke-width="4" stroke-linecap="round"><line x1="666" y1="170" x2="696" y2="170"/><line x1="658" y1="188" x2="680" y2="210"/><line x1="640" y1="196" x2="640" y2="226"/><line x1="622" y1="188" x2="600" y2="210"/><line x1="614" y1="170" x2="584" y2="170"/><line x1="622" y1="152" x2="600" y2="130"/><line x1="640" y1="144" x2="640" y2="114"/><line x1="658" y1="152" x2="680" y2="130"/></g><g fill="#9BE7F9"><circle cx="701" cy="196" r="3"/><circle cx="665" cy="231" r="3"/><circle cx="614" cy="231" r="3"/><circle cx="579" cy="195" r="3"/><circle cx="579" cy="144" r="3"/><circle cx="615" cy="109" r="3"/><circle cx="666" cy="109" r="3"/><circle cx="701" cy="145" r="3"/></g></g>
+        <g class="fw fw2" style="transform-origin:1060px 140px"><g stroke="#ffe08a" stroke-width="4" stroke-linecap="round"><line x1="1086" y1="140" x2="1120" y2="140"/><line x1="1078" y1="158" x2="1102" y2="182"/><line x1="1060" y1="166" x2="1060" y2="200"/><line x1="1042" y1="158" x2="1018" y2="182"/><line x1="1034" y1="140" x2="1000" y2="140"/><line x1="1042" y1="122" x2="1018" y2="98"/><line x1="1060" y1="114" x2="1060" y2="80"/><line x1="1078" y1="122" x2="1102" y2="98"/></g><g fill="#ffe08a"><circle cx="1124" cy="167" r="3"/><circle cx="1086" cy="205" r="3"/><circle cx="1033" cy="204" r="3"/><circle cx="995" cy="166" r="3"/><circle cx="996" cy="113" r="3"/><circle cx="1034" cy="75" r="3"/><circle cx="1087" cy="76" r="3"/><circle cx="1125" cy="114" r="3"/></g></g>
+        <g class="fw fw3" style="transform-origin:850px 100px"><g stroke="#ff8aa3" stroke-width="4" stroke-linecap="round"><line x1="872" y1="100" x2="898" y2="100"/><line x1="866" y1="116" x2="884" y2="134"/><line x1="850" y1="122" x2="850" y2="148"/><line x1="834" y1="116" x2="816" y2="134"/><line x1="828" y1="100" x2="802" y2="100"/><line x1="834" y1="84" x2="816" y2="66"/><line x1="850" y1="78" x2="850" y2="52"/><line x1="866" y1="84" x2="884" y2="66"/></g><g fill="#ff8aa3"><circle cx="903" cy="123" r="3"/><circle cx="872" cy="154" r="3"/><circle cx="827" cy="153" r="3"/><circle cx="796" cy="122" r="3"/><circle cx="797" cy="77" r="3"/><circle cx="828" cy="46" r="3"/><circle cx="873" cy="47" r="3"/><circle cx="904" cy="78" r="3"/></g></g>
+        <g class="fw fw4" style="transform-origin:470px 260px"><g stroke="#3ad0b0" stroke-width="4" stroke-linecap="round"><line x1="488" y1="260" x2="510" y2="260"/><line x1="483" y1="273" x2="498" y2="288"/><line x1="470" y1="278" x2="470" y2="300"/><line x1="457" y1="273" x2="442" y2="288"/><line x1="452" y1="260" x2="430" y2="260"/><line x1="457" y1="247" x2="442" y2="232"/><line x1="470" y1="242" x2="470" y2="220"/><line x1="483" y1="247" x2="498" y2="232"/></g><g fill="#3ad0b0"><circle cx="516" cy="279" r="3"/><circle cx="489" cy="306" r="3"/><circle cx="451" cy="306" r="3"/><circle cx="424" cy="279" r="3"/><circle cx="424" cy="241" r="3"/><circle cx="451" cy="214" r="3"/><circle cx="489" cy="214" r="3"/><circle cx="516" cy="241" r="3"/></g></g>
+        <g class="fw fw5" style="transform-origin:1210px 280px"><g stroke="#ffffff" stroke-width="4" stroke-linecap="round"><line x1="1228" y1="280" x2="1252" y2="280"/><line x1="1223" y1="293" x2="1240" y2="310"/><line x1="1210" y1="298" x2="1210" y2="322"/><line x1="1197" y1="293" x2="1180" y2="310"/><line x1="1192" y1="280" x2="1168" y2="280"/><line x1="1197" y1="267" x2="1180" y2="250"/><line x1="1210" y1="262" x2="1210" y2="238"/><line x1="1223" y1="267" x2="1240" y2="250"/></g><g fill="#ffffff"><circle cx="1258" cy="300" r="3"/><circle cx="1230" cy="328" r="3"/><circle cx="1190" cy="328" r="3"/><circle cx="1162" cy="300" r="3"/><circle cx="1162" cy="260" r="3"/><circle cx="1190" cy="232" r="3"/><circle cx="1230" cy="232" r="3"/><circle cx="1258" cy="260" r="3"/></g></g>
+        <circle class="vzf-ring" cx="850" cy="300" r="40" fill="none" stroke="#9BE7F9" stroke-width="4"/>
+        <circle class="vzf-ring r2" cx="850" cy="300" r="40" fill="none" stroke="#ffffff" stroke-width="3"/>
+      </svg>
+      <div class="vzf-confetti"><i style="left:32%;background:#0A79E8;animation-delay:0.53s;animation-duration:2.8s;width:11px"></i><i style="left:62%;background:#9BE7F9;animation-delay:0.56s;animation-duration:2.7s;width:7px"></i><i style="left:62%;background:#ffe08a;animation-delay:0.23s;animation-duration:2.9s;width:11px"></i><i style="left:62%;background:#ff8aa3;animation-delay:0.49s;animation-duration:3.4s;width:9px"></i><i style="left:83%;background:#3ad0b0;animation-delay:0.77s;animation-duration:2.9s;width:7px"></i><i style="left:68%;background:#ffffff;animation-delay:0.35s;animation-duration:2.6s;width:7px"></i><i style="left:22%;background:#0A79E8;animation-delay:0.68s;animation-duration:3.4s;width:9px"></i><i style="left:5%;background:#9BE7F9;animation-delay:0.74s;animation-duration:3.0s;width:11px"></i><i style="left:94%;background:#ffe08a;animation-delay:0.83s;animation-duration:3.1s;width:9px"></i><i style="left:52%;background:#ff8aa3;animation-delay:0.66s;animation-duration:3.4s;width:7px"></i><i style="left:48%;background:#3ad0b0;animation-delay:0.09s;animation-duration:2.8s;width:7px"></i><i style="left:35%;background:#ffffff;animation-delay:0.87s;animation-duration:3.2s;width:11px"></i><i style="left:40%;background:#0A79E8;animation-delay:0.38s;animation-duration:3.8s;width:11px"></i><i style="left:46%;background:#9BE7F9;animation-delay:0.48s;animation-duration:3.2s;width:7px"></i><i style="left:45%;background:#ffe08a;animation-delay:0.61s;animation-duration:3.9s;width:9px"></i><i style="left:79%;background:#ff8aa3;animation-delay:0.60s;animation-duration:2.8s;width:9px"></i><i style="left:71%;background:#3ad0b0;animation-delay:0.81s;animation-duration:3.4s;width:11px"></i><i style="left:85%;background:#ffffff;animation-delay:0.19s;animation-duration:3.8s;width:11px"></i><i style="left:36%;background:#0A79E8;animation-delay:0.26s;animation-duration:2.7s;width:11px"></i><i style="left:63%;background:#9BE7F9;animation-delay:0.08s;animation-duration:3.7s;width:9px"></i><i style="left:21%;background:#ffe08a;animation-delay:0.02s;animation-duration:3.2s;width:9px"></i><i style="left:17%;background:#ff8aa3;animation-delay:0.04s;animation-duration:3.5s;width:7px"></i><i style="left:50%;background:#3ad0b0;animation-delay:0.65s;animation-duration:3.1s;width:9px"></i><i style="left:66%;background:#ffffff;animation-delay:0.21s;animation-duration:2.7s;width:7px"></i><i style="left:11%;background:#0A79E8;animation-delay:0.10s;animation-duration:3.3s;width:7px"></i><i style="left:54%;background:#9BE7F9;animation-delay:0.26s;animation-duration:3.0s;width:11px"></i><i style="left:7%;background:#ffe08a;animation-delay:0.88s;animation-duration:3.1s;width:9px"></i><i style="left:19%;background:#ff8aa3;animation-delay:0.81s;animation-duration:3.1s;width:9px"></i><i style="left:68%;background:#3ad0b0;animation-delay:0.35s;animation-duration:3.8s;width:11px"></i><i style="left:73%;background:#ffffff;animation-delay:0.09s;animation-duration:4.0s;width:11px"></i><i style="left:36%;background:#0A79E8;animation-delay:0.39s;animation-duration:3.6s;width:7px"></i><i style="left:40%;background:#9BE7F9;animation-delay:0.39s;animation-duration:3.0s;width:9px"></i><i style="left:72%;background:#ffe08a;animation-delay:0.31s;animation-duration:3.7s;width:11px"></i><i style="left:42%;background:#ff8aa3;animation-delay:0.02s;animation-duration:3.5s;width:11px"></i></div>
+    </div>
   </div>
 </section>
 
@@ -581,6 +712,9 @@
 <div class="bot" id="bot">
   <div class="bot-panel" id="contacto" role="dialog" aria-modal="false" aria-labelledby="bot-title" aria-hidden="true">
     <header class="bot-head">
+      <button type="button" class="bot-back" aria-label="Volver a las opciones" hidden>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M11 3.5 5.5 9l5.5 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
       <img class="bot-avatar" src="assets/img/logo-voz360.png" alt="" width="44" height="44">
       <div class="bot-id">
         <strong id="bot-title">Bot Voz360</strong>
