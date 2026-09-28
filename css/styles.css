@@ -528,33 +528,81 @@ html.intro-active { overflow: hidden; }
 .scard--dark .scard-link:hover path { stroke: var(--navy); }
 
 /* ==========================================================
-   5. DIFERENCIAL
+   5. TECNOLOGÍA — órbita de tarjetas (basada en seccion-tecnologia-voz360.html)
    ========================================================== */
-.diferencial { position: relative; overflow: hidden; padding: 70px 0; background: var(--navy); color: #FFFFFF; }
-.diferencial-aurora { position: absolute; top: -200px; left: 52%; width: 620px; height: 620px; border-radius: 50%; background: radial-gradient(circle, rgba(155,231,249,.22), transparent 62%); }
-.diferencial .wrap { position: relative; z-index: 2; }
-.diferencial .h2 { margin-bottom: 34px; max-width: 640px; }
-.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; }
-.step { padding-top: 18px; border-top: 2px solid rgba(155,231,249,.3); }
-.step:first-child { border-top-color: var(--cyan); }
-.step-num { font-family: var(--display); font-size: 42px; font-weight: 800; letter-spacing: -.06em; color: rgba(155,231,249,.35); }
-.step h3 { margin: 4px 0 8px; font-family: var(--display); font-size: 24px; letter-spacing: -.04em; }
-.step p { font-size: 13px; line-height: 1.6; color: var(--muted-dark); }
-.coverage { margin-top: 34px; display: inline-flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 16px; border: 1px solid rgba(155,231,249,.25); background: rgba(155,231,249,.07); }
-.coverage-dot { position: relative; display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); }
-.coverage-dot span { position: absolute; inset: 0; border-radius: 50%; background: var(--cyan); }
-.coverage-txt { font-size: 12px; color: #DCEAF5; }
-.coverage-txt strong { color: #FFFFFF; }
+.tec-tec{--tec-accent:#0A79E8;--tec-navy:#071E3A;--tec-muted:#5a6d82;font-family:var(--body);color:var(--tec-navy);background:#fff;overflow:hidden;position:relative}
+.tec-tec *{box-sizing:border-box}
+.tec-scaler{position:relative;width:100%}
+.tec-stage{position:relative;width:1440px;height:1000px;transform-origin:top left}
+.tec-head{position:absolute;left:0;top:40px;z-index:30;width:100%;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;padding:0 16px}
+.tec-eyebrow{font-size:13px;font-weight:700;letter-spacing:3px;color:#0765c4}
+.tec-title{margin:0;font-size:46px;line-height:1.06;letter-spacing:-1.5px;font-weight:700}
+.tec-title span{color:var(--tec-accent)}
+.tec-hint{margin:0;font-size:16px;color:var(--tec-muted)}
+.tec-orbit{position:absolute;left:0;top:0;width:1440px;height:1000px;overflow:visible}
+.tec-ilus{position:absolute;left:220px;top:120px;width:1000px;height:890px}
+.tec-cards{position:absolute;inset:0;pointer-events:none}
+.tec-float{position:absolute;left:0;top:0;will-change:transform;pointer-events:auto}
+.tec-card{width:262px;display:flex;flex-direction:column;gap:4px;padding:16px 18px;background:#fff;border:1px solid #e3ecf6;border-radius:16px;box-shadow:0 14px 34px rgba(11,37,64,.10);text-align:left;font-family:inherit;color:var(--tec-navy);cursor:pointer;transition:box-shadow .25s,border-color .25s,transform .25s}
+.tec-card{background:rgba(255,255,255,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 14px 34px rgba(11,37,64,.14),0 0 0 6px rgba(10,114,220,.06)}
+.tec-card:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 22px 48px rgba(11,37,64,.18);border-color:#9cc7f4}
+.tec-card:focus-visible{outline:3px solid var(--tec-accent);outline-offset:3px}
+.tec-card:active{transform:scale(.96)}
+.tec-num{font-size:12px;font-weight:700;color:var(--tec-accent)}
+.tec-name{font-size:18px;font-weight:600}
+.tec-sub{font-size:13px;color:var(--tec-muted)}
+.tec-cur{animation:tec-blink 1s steps(1) infinite}
+.tec-bar{transform-box:fill-box;transform-origin:bottom;animation:tec-grow 2.4s ease-in-out infinite alternate}
+.tec-dot{transform-box:fill-box;transform-origin:center;animation:tec-dot 1.4s ease-out infinite}
 
-/* ==========================================================
-   6. TECNOLOGÍA
-   ========================================================== */
-.tecnologia { padding: 76px 0 70px; background: #FFFFFF; }
-.tech-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 40px; }
-.tech { padding: 18px 0; border-top: 1px solid var(--line); }
-.tech span { font-size: 10px; font-weight: 700; color: var(--blue-dark); }
-.tech h3 { margin: 8px 0 4px; font-size: 17px; font-weight: 600; }
-.tech p { font-size: 12px; color: var(--muted); }
+/* Modal burbuja */
+.tec-modal{position:fixed;inset:0;z-index:1100;display:none}
+.tec-modal.is-open{display:block}
+.tec-bubble{position:fixed;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;background:rgba(11,37,64,.88);transform:scale(0)}
+.tec-modal.is-open .tec-bubble{animation:tec-bubble .6s cubic-bezier(.3,.7,.2,1) forwards}
+.tec-modal.is-closing .tec-bubble{animation:tec-bubble-out .35s ease-in forwards}
+.tec-backdrop{position:absolute;inset:0;width:100%;height:100%;background:transparent;border:0;cursor:pointer}
+.tec-panel{position:absolute;left:50%;top:50%;width:min(580px,calc(100% - 32px));max-height:calc(100% - 32px);overflow:auto;padding:40px;background:#fff;border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;gap:16px;font-family:var(--body);color:var(--tec-navy);transform:translate(-50%,-50%) scale(.4);opacity:0}
+.tec-modal.is-open .tec-panel{animation:tec-pop .5s cubic-bezier(.3,1.4,.5,1) .22s forwards}
+.tec-modal.is-closing .tec-panel{animation:tec-pop-out .25s ease-in forwards}
+.tec-ptop{display:flex;align-items:center;justify-content:space-between}
+.tec-badge{width:56px;height:56px;border-radius:50%;background:var(--tec-accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700}
+.tec-close{width:44px;height:44px;border-radius:50%;border:1px solid #e3ecf6;background:#f7fafe;color:var(--tec-navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.tec-close:hover{background:#e3effc}
+.tec-body{display:flex;flex-direction:column;gap:14px;opacity:0}
+.tec-modal.is-open .tec-body{animation:tec-rise .4s ease .45s forwards}
+.tec-psub{font-size:13px;font-weight:700;letter-spacing:2px;color:#0765c4}
+.tec-ptitle{margin:0;font-size:32px;font-weight:700;letter-spacing:-.8px;line-height:1.1}
+.tec-ptext{margin:0;font-size:17px;line-height:1.6;color:#45596f}
+.tec-points{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.tec-points li{display:flex;align-items:center;gap:12px;font-size:15px;font-weight:600}
+.tec-points li::before{content:"";flex-shrink:0;width:24px;height:24px;border-radius:50%;background:#e3effc url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%230a72dc' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='5 12 10 17 19 7'/%3E%3C/svg%3E") center/14px no-repeat}
+
+@keyframes tec-blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes tec-grow{0%{transform:scaleY(.35)}100%{transform:scaleY(1)}}
+@keyframes tec-dot{0%{transform:scale(0);opacity:0}40%{opacity:.8}100%{transform:scale(1) translateY(-40px);opacity:0}}
+@keyframes tec-bubble{to{transform:scale(70)}}
+@keyframes tec-bubble-out{from{transform:scale(70)}to{transform:scale(0)}}
+@keyframes tec-pop{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}60%{transform:translate(-50%,-50%) scale(1.04);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+@keyframes tec-pop-out{from{transform:translate(-50%,-50%) scale(1);opacity:1}to{transform:translate(-50%,-50%) scale(.6);opacity:0}}
+@keyframes tec-rise{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+
+/* Celular / tablet: órbita compacta */
+@media (max-width:900px){
+  .tec-stage{width:100%;height:auto;transform:none!important;padding:48px 0 24px}
+  .tec-head{position:static;padding:0 16px}
+  .tec-title{font-size:34px;letter-spacing:-1px}
+  .tec-orbit{position:relative;width:100%;height:780px}
+  .tec-ilus{left:50%;top:50%;width:calc(100% + 40px);max-width:560px;height:auto;aspect-ratio:640/570;transform:translate(-50%,-50%)}
+  .tec-card{width:116px;padding:9px 10px;border-radius:13px;gap:2px}
+  .tec-sub{display:none}
+  .tec-name{font-size:12px;line-height:1.25}
+  .tec-num{font-size:11px}
+  .tec-panel{padding:28px 22px}
+  .tec-ptitle{font-size:26px}
+  .tec-ptext{font-size:15px}
+}
+@media (prefers-reduced-motion:reduce){.tec-cur,.tec-bar,.tec-dot{animation:none}.tec-modal .tec-bubble,.tec-modal .tec-panel,.tec-modal .tec-body{animation-duration:.01s!important;animation-delay:0s!important}}
 
 /* ==========================================================
    7. SECTORES
@@ -700,8 +748,6 @@ html.intro-active { overflow: hidden; }
   .hero h1 { font-size: clamp(40px, min(7vw, 9vh), 56px); }
   .faq-grid { grid-template-columns: 1fr; gap: 40px; }
   .servicios-head { flex-direction: column; gap: 10px; }
-  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; }
-  .tech-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .why-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .indicadores-head, .equipo-head { flex-direction: column; align-items: flex-start; gap: 18px; }
   .cta .wrap { flex-direction: column; align-items: flex-start; gap: 24px; }
@@ -773,24 +819,8 @@ html.intro-active { overflow: hidden; }
   .scard-body > p { margin-bottom: 0; }
 
   /* Diferencial */
-  .diferencial { padding: 44px 0; }
-  .diferencial-aurora { top: -120px; left: auto; right: -140px; width: 400px; height: 400px; }
-  .diferencial .h2 { margin-bottom: 18px; }
-  .steps { gap: 20px 14px; }
-  .step { padding-top: 12px; }
-  .step-num { font-size: 30px; color: rgba(155,231,249,.4); }
-  .step h3 { margin: 2px 0 5px; font-size: 19px; letter-spacing: -.035em; }
-  .step p { font-size: 11px; line-height: 1.55; }
-  .coverage { display: flex !important; margin-top: 18px; }
 
   /* Tecnología */
-  .tecnologia { padding: 44px 0; }
-  .tech-grid { gap: 0 14px; }
-  .tech { padding: 12px 0; }
-  .tech:hover { padding-left: 0; background: none; }
-  .tech span { font-size: 9px; }
-  .tech h3 { margin: 5px 0 0; font-size: 13px; }
-  .tech p { display: none; }
 
   /* Sectores */
   .sectores { padding: 44px 0; }
