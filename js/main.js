@@ -6,7 +6,8 @@
      (p. ej. Formspree: https://formspree.io/f/xxxxxxx).
      Mientras esté vacío, el formulario no envía datos.
      ------------------------------------------------------------ */
-  var FORM_ENDPOINT = '';
+  var FORM_ENDPOINT = '';   // Contáctanos
+  var JOBS_ENDPOINT = '';   // Trabaja con nosotros (postulaciones)
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -470,27 +471,58 @@
   });
 
   /* ============================================================
-     Bot Voz360: botón flotante que abre el panel de contacto.
-     Todos los enlaces a #contacto abren el bot en lugar de saltar.
+     Bot Voz360: botón flotante con dos opciones, "Contáctanos" y
+     "Trabaja con nosotros"; cada una despliega su formulario.
+     Los enlaces a #contacto y #trabaja abren el bot en esa opción.
      ============================================================ */
   var bot = document.getElementById('bot');
+  var openBot = function () {};
   if (bot) {
     var botPanel = bot.querySelector('.bot-panel');
+    var botBody = bot.querySelector('.bot-body');
     var botLauncher = bot.querySelector('.bot-launcher');
-    var botSteps = bot.querySelectorAll('.bot-body > .bot-msg, .bot-body > .bot-form');
+    var botSteps = bot.querySelectorAll('.bot-body > .bot-msg, .bot-body > .bot-options');
+    var botOpts = bot.querySelectorAll('.bot-opt');
     var botTimers = [];
     var botReturnFocus = null;
 
     function clearBotTimers() { botTimers.forEach(clearTimeout); botTimers = []; }
 
-    // Voz360 "escribe" y los mensajes aparecen uno tras otro
-    function playBotIntro() {
+    // Muestra el formulario de la opción elegida y oculta el otro
+    function showFlow(name) {
+      botOpts.forEach(function (b) {
+        var on = b.getAttribute('data-flow') === name;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-expanded', String(on));
+        document.getElementById('flow-' + b.getAttribute('data-flow')).hidden = !on;
+      });
+      var flow = document.getElementById('flow-' + name);
+      if (!flow) return;
+      setTimeout(function () {
+        botBody.scrollTo({ top: flow.offsetTop - 12, behavior: reduceMotion ? 'auto' : 'smooth' });
+        var first = flow.querySelector('input, select, textarea');
+        if (first && window.matchMedia('(pointer: fine)').matches) first.focus({ preventScroll: true });
+      }, 80);
+    }
+    function resetFlows() {
+      botOpts.forEach(function (b) {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-expanded', 'false');
+        document.getElementById('flow-' + b.getAttribute('data-flow')).hidden = true;
+      });
+    }
+    botOpts.forEach(function (b) {
+      b.addEventListener('click', function () { showFlow(b.getAttribute('data-flow')); });
+    });
+
+    // Bot Voz360 "escribe" y los mensajes aparecen uno tras otro
+    function playBotIntro(done) {
       clearBotTimers();
       botSteps.forEach(function (el) { el.classList.remove('is-shown'); });
-      if (reduceMotion) { botSteps.forEach(function (el) { el.classList.add('is-shown'); }); return; }
+      if (reduceMotion) { botSteps.forEach(function (el) { el.classList.add('is-shown'); }); if (done) done(); return; }
       var t = 0;
-      botSteps.forEach(function (el, i) {
-        var isMsg = el.classList.contains('bot-msg') && i < 2;
+      botSteps.forEach(function (el) {
+        var isMsg = el.classList.contains('bot-msg') && !el.classList.contains('bot-msg--info');
         if (isMsg) {
           botTimers.push(setTimeout(function () { bot.classList.add('is-typing'); }, t));
           t += 650;
@@ -498,10 +530,11 @@
         botTimers.push(setTimeout(function () { bot.classList.remove('is-typing'); el.classList.add('is-shown'); }, t));
         t += isMsg ? 250 : 180;
       });
+      if (done) botTimers.push(setTimeout(done, t));
     }
 
-    function openBot() {
-      if (bot.classList.contains('is-open')) return;
+    openBot = function (flow) {
+      if (bot.classList.contains('is-open')) { if (flow) showFlow(flow); return; }
       botReturnFocus = document.activeElement;
       bot.classList.remove('show-hint');
       bot.classList.add('is-open');
@@ -509,9 +542,11 @@
       botLauncher.setAttribute('aria-expanded', 'true');
       botLauncher.setAttribute('aria-label', 'Cerrar chat con Bot Voz360');
       if (window.matchMedia('(max-width: 640px)').matches) document.documentElement.style.overflow = 'hidden';
-      playBotIntro();
+      resetFlows();
+      botBody.scrollTop = 0;
+      playBotIntro(flow ? function () { showFlow(flow); } : null);
       setTimeout(function () { bot.querySelector('.bot-close').focus({ preventScroll: true }); }, 60);
-    }
+    };
 
     function closeBot() {
       if (!bot.classList.contains('is-open')) return;
@@ -531,15 +566,16 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeBot(); });
 
     // Clic fuera del panel lo cierra (en escritorio)
+    var BOT_LINKS = 'a[href="#contacto"], a[href="#trabaja"]';
     document.addEventListener('pointerdown', function (e) {
-      if (bot.classList.contains('is-open') && !bot.contains(e.target) && !e.target.closest('a[href="#contacto"]')) closeBot();
+      if (bot.classList.contains('is-open') && !bot.contains(e.target) && !e.target.closest(BOT_LINKS)) closeBot();
     });
 
-    // Los botones "Hablemos", "Solicitar propuesta", etc. abren el bot
-    document.querySelectorAll('a[href="#contacto"]').forEach(function (a) {
+    // "Hablemos", "Solicitar propuesta"… abren Contáctanos; "Trabaja con nosotros" abre la postulación
+    document.querySelectorAll(BOT_LINKS).forEach(function (a) {
       a.addEventListener('click', function (e) {
         e.preventDefault();
-        openBot();
+        openBot(a.getAttribute('href') === '#trabaja' ? 'trabaja' : 'contacto');
       });
     });
 
@@ -553,12 +589,60 @@
   }
 
   /* ============================================================
-     Formulario de contacto
+     Formulario de postulación: fechas, WhatsApp y validaciones
      ============================================================ */
-  var form = document.getElementById('contact-form');
-  if (form) {
+  var jobForm = document.getElementById('job-form');
+  if (jobForm) {
+    var pad = function (n) { return String(n).padStart(2, '0'); };
+    var today = new Date();
+    var todayIso = today.getFullYear() + '-' + pad(today.getMonth() + 1) + '-' + pad(today.getDate());
+
+    // Calendario nativo; se guarda y se muestra como día/mes/año
+    jobForm.querySelectorAll('input[type="date"]').forEach(function (inp) {
+      inp.max = todayIso;
+      var hidden = document.getElementById(inp.getAttribute('data-date-for'));
+      var hint = jobForm.querySelector('[data-hint-for="' + inp.id + '"]');
+      inp.addEventListener('change', function () {
+        if (!inp.value) { hidden.value = ''; hint.textContent = 'Día / mes / año'; hint.classList.remove('is-set'); return; }
+        var p = inp.value.split('-');                       // aaaa-mm-dd
+        hidden.value = p[2] + '/' + p[1] + '/' + p[0];      // dd/mm/aaaa
+        hint.textContent = 'Seleccionaste: ' + hidden.value;
+        hint.classList.add('is-set');
+        checkDates();
+      });
+    });
+
+    // La expedición del documento no puede ser anterior al nacimiento
+    var nac = document.getElementById('j-nac');
+    var exp = document.getElementById('j-exp');
+    function checkDates() {
+      exp.setCustomValidity(nac.value && exp.value && exp.value <= nac.value ? 'La fecha de expedición debe ser posterior a la de nacimiento.' : '');
+    }
+
+    // "Mi WhatsApp es el mismo número de contacto"
+    var tel = document.getElementById('j-tel');
+    var wa = document.getElementById('j-wa');
+    var same = document.getElementById('j-wa-same');
+    function syncWa() { if (same.checked) wa.value = tel.value; wa.readOnly = same.checked; }
+    same.addEventListener('change', syncWa);
+    tel.addEventListener('input', syncWa);
+
+    // Documento y teléfonos: solo números (y espacios en teléfonos)
+    document.getElementById('j-doc').addEventListener('input', function (e) {
+      var t = document.getElementById('j-tipo').value;
+      if (t !== 'Pasaporte' && t !== 'PPT' && t !== 'PEP') e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    });
+    [tel, wa].forEach(function (i) { i.addEventListener('input', function () { i.value = i.value.replace(/[^0-9+ ]/g, ''); }); });
+  }
+
+  /* ============================================================
+     Envío de formularios (Contáctanos y Trabaja con nosotros)
+     ============================================================ */
+  var ENDPOINTS = { FORM_ENDPOINT: FORM_ENDPOINT, JOBS_ENDPOINT: JOBS_ENDPOINT };
+  document.querySelectorAll('#contact-form, #job-form').forEach(function (form) {
     var status = form.querySelector('.form-status');
     var submit = form.querySelector('.form-submit');
+    var endpoint = ENDPOINTS[form.getAttribute('data-endpoint')] || '';
 
     function setStatus(msg, type) {
       status.textContent = msg;
@@ -567,15 +651,17 @@
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      form.classList.add('was-validated');
 
       if (!form.checkValidity()) {
-        var firstInvalid = form.querySelector(':invalid');
-        setStatus('Revisa los campos obligatorios: nombre, correo y mensaje.', 'error');
+        var firstInvalid = form.querySelector(':invalid:not(fieldset)');
+        var custom = firstInvalid && firstInvalid.validationMessage && firstInvalid.id === 'j-exp' && firstInvalid.value ? firstInvalid.validationMessage : '';
+        setStatus(custom || form.getAttribute('data-required-msg'), 'error');
         if (firstInvalid) firstInvalid.focus();
         return;
       }
 
-      if (!FORM_ENDPOINT) {
+      if (!endpoint) {
         setStatus('El formulario aún no está conectado. Mientras tanto, escríbenos por Instagram: @voz360_contact_center.', 'error');
         return;
       }
@@ -583,21 +669,23 @@
       submit.disabled = true;
       setStatus('Enviando…');
 
-      fetch(FORM_ENDPOINT, {
+      fetch(endpoint, {
         method: 'POST',
         body: new FormData(form),
         headers: { Accept: 'application/json' }
       }).then(function (res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         form.reset();
-        setStatus('¡Gracias! Recibimos tu solicitud y te contactaremos pronto.', 'ok');
+        form.classList.remove('was-validated');
+        form.querySelectorAll('.field-hint').forEach(function (h) { h.textContent = 'Día / mes / año'; h.classList.remove('is-set'); });
+        setStatus(form.getAttribute('data-ok-msg'), 'ok');
       }).catch(function () {
-        setStatus('No pudimos enviar tu solicitud. Inténtalo de nuevo en unos minutos.', 'error');
+        setStatus('No pudimos enviar el formulario. Inténtalo de nuevo en unos minutos.', 'error');
       }).then(function () {
         submit.disabled = false;
       });
     });
-  }
+  });
 
   /* Año del footer */
   var year = document.getElementById('year');

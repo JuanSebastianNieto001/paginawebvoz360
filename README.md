@@ -21,5 +21,5 @@ Abre `index.html` en el navegador, o sirve la carpeta: `npx serve .`
 
 ## Pendientes de contenido
 
-- Formulario: pega la URL de tu servicio de formularios (p. ej. Formspree) en `FORM_ENDPOINT` dentro de `js/main.js`.
+- Formularios del bot: pega la URL de tu servicio de formularios (p. ej. Formspree) en `FORM_ENDPOINT` (Contáctanos) y `JOBS_ENDPOINT` (Trabaja con nosotros) dentro de `js/main.js`.
 - Reemplazar los marcadores `[VALOR SLA]`, `[VALOR CSAT]`, `[VALOR NPS]`, `[CORREO DE SELECCIÓN]`, `[NIT]`, `[DIRECCIÓN]` y `[TELÉFONO]` en `index.html`.
