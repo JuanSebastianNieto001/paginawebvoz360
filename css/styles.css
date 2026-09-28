@@ -774,15 +774,16 @@ html.intro-active { overflow: hidden; }
 /* ==========================================================
    12. FAQ
    ========================================================== */
-.faq { padding: 64px 0 56px; background: #FFFFFF; }
-.faq-grid { display: grid; grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr); gap: 80px; }
-.faq-grid .h2 { font-size: 40px; }
+/* Preguntas frecuentes dentro del Bot Voz360 */
+.bot-faq { align-self: stretch; padding: 4px 14px; border-radius: 16px; background: #FFFFFF; border: 1px solid var(--line); }
 .faq-item { border-bottom: 1px solid var(--line); }
-.faq-q { width: 100%; min-height: 56px; padding: 16px 0; background: none; border: 0; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-family: var(--body); font-size: 15px; font-weight: 600; color: var(--navy); }
+.faq-item:last-child { border-bottom: 0; }
+.faq-q { width: 100%; min-height: 48px; padding: 12px 0; background: none; border: 0; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-family: var(--body); font-size: 15px; font-weight: 600; color: var(--navy); }
 .faq-sign { font-size: 22px; line-height: 1; color: var(--accent); transition: transform .35s ease; }
 .faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s var(--ease); }
 .faq-a > div { overflow: hidden; }
-.faq-a p { padding: 0 60px 18px 0; font-size: 13px; line-height: 1.65; color: var(--muted); }
+.faq-a p { padding: 0 0 14px; font-size: 12.5px; line-height: 1.6; color: var(--muted); }
+.bot-go { padding: 0; border: 0; background: none; font: inherit; font-weight: 600; color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
 .faq-item.is-open .faq-a { grid-template-rows: 1fr; }
 
 /* ==========================================================
@@ -843,7 +844,6 @@ html.intro-active { overflow: hidden; }
   .nav { display: none; }
   .menu-btn { display: flex; }
   .hero h1 { font-size: clamp(40px, min(7vw, 9vh), 56px); }
-  .faq-grid { grid-template-columns: 1fr; gap: 40px; }
   .servicios-head { flex-direction: column; gap: 10px; }
   .cta .wrap { flex-direction: column; align-items: flex-start; gap: 24px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -925,9 +925,6 @@ html.intro-active { overflow: hidden; }
   .mv p { font-size: 13px; }
 
   /* FAQ */
-  .faq { padding: 44px 0; }
-  .faq-grid { gap: 12px; }
-  .faq-grid .h2 { font-size: 28px; }
   .faq-q { min-height: 48px; padding: 14px 0; gap: 14px; font-size: 13px; }
   .faq-sign { font-size: 19px; }
   .faq-a p { padding: 0 0 14px; font-size: 12px; line-height: 1.6; }

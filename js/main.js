@@ -465,9 +465,9 @@
   });
 
   /* ============================================================
-     Bot Voz360: botón flotante con dos opciones, "Contáctanos" y
-     "Trabaja con nosotros"; cada una despliega su formulario.
-     Los enlaces a #contacto y #trabaja abren el bot en esa opción.
+     Bot Voz360: botón flotante con tres opciones, "Contáctanos",
+     "Trabaja con nosotros" y "Preguntas frecuentes".
+     Los enlaces a #contacto, #trabaja y #faq abren el bot en esa opción.
      ============================================================ */
   var bot = document.getElementById('bot');
   var openBot = function () {};
@@ -494,7 +494,7 @@
       if (!flow) return;
       setTimeout(function () {
         botBody.scrollTo({ top: flow.offsetTop - 12, behavior: reduceMotion ? 'auto' : 'smooth' });
-        var first = flow.querySelector('input, select, textarea');
+        var first = flow.querySelector('input, select, textarea, .faq-q');
         if (first && window.matchMedia('(pointer: fine)').matches) first.focus({ preventScroll: true });
       }, 80);
     }
@@ -507,6 +507,10 @@
     }
     botOpts.forEach(function (b) {
       b.addEventListener('click', function () { showFlow(b.getAttribute('data-flow')); });
+    });
+    // Desde una respuesta de las preguntas frecuentes se salta a otra opción
+    bot.querySelectorAll('[data-go]').forEach(function (b) {
+      b.addEventListener('click', function () { showFlow(b.getAttribute('data-go')); });
     });
 
     // Bot Voz360 "escribe" y los mensajes aparecen uno tras otro
@@ -560,7 +564,7 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeBot(); });
 
     // Clic fuera del panel lo cierra (en escritorio)
-    var BOT_LINKS = 'a[href="#contacto"], a[href="#trabaja"]';
+    var BOT_LINKS = 'a[href="#contacto"], a[href="#trabaja"], a[href="#faq"]';
     document.addEventListener('pointerdown', function (e) {
       if (bot.classList.contains('is-open') && !bot.contains(e.target) && !e.target.closest(BOT_LINKS)) closeBot();
     });
@@ -569,7 +573,8 @@
     document.querySelectorAll(BOT_LINKS).forEach(function (a) {
       a.addEventListener('click', function (e) {
         e.preventDefault();
-        openBot(a.getAttribute('href') === '#trabaja' ? 'trabaja' : 'contacto');
+        var href = a.getAttribute('href');
+        openBot(href === '#trabaja' ? 'trabaja' : href === '#faq' ? 'faq' : 'contacto');
       });
     });
 
