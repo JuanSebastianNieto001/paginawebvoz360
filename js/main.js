@@ -84,38 +84,42 @@
       // Semilla fija: las nubes siempre quedan en la misma posición
       var seed = 7;
       var rnd = function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
-      var puffs = [], rows = 7, cols = 9;
+      // Equipos modestos (celular o pocos núcleos): menos nubes, más grandes, mismo efecto
+      var lite = window.innerWidth <= 820 || (navigator.hardwareConcurrency || 8) <= 4;
+      var puffs = [], rows = lite ? 5 : 6, cols = lite ? 6 : 8;
+      var frag = document.createDocumentFragment();
       for (var r = 0; r < rows; r++) {
         for (var c = 0; c < cols; c++) {
-          var depth = 0.6 + rnd() * 0.9, size = 26 + rnd() * 26;
+          var depth = 0.6 + rnd() * 0.9, size = (lite ? 36 : 30) + rnd() * 26;
           var x = (c / (cols - 1)) * 112 - 6 + (rnd() - .5) * 8;
           var y = (r / (rows - 1)) * 118 - 10 + (rnd() - .5) * 8;
-          [true, false].forEach(function (sh) {
-            var el = document.createElement('div');
-            el.className = 'ct-puff' + (sh ? ' sh' : '');
-            var s = sh ? size * 1.1 : size;
-            el.style.setProperty('--s', s);
-            wrap.appendChild(el);
-            puffs.push({ el: el, x: x, y: y + (sh ? 4 : 0), s: s, depth: depth, ph: rnd() * 6.28, sh: sh });
-          });
+          var el = document.createElement('div');
+          el.className = 'ct-puff';
+          el.style.setProperty('--s', size);
+          frag.appendChild(el);
+          puffs.push({ el: el, x: x, y: y, s: size, depth: depth, ph: rnd() * 6.28, op: -1 });
         }
       }
+
+      wrap.appendChild(frag);
 
       var target = 0, cur = 0, visible = true, wordState = 0;
       var progress = function () {
         var b = root.getBoundingClientRect();
         return cl(-b.top / (b.height - window.innerHeight));
       };
-      window.addEventListener('scroll', function () { target = progress(); if (visible) frame(performance.now(), true); }, { passive: true });
-      window.addEventListener('resize', function () { target = progress(); });
+      var travel = root.offsetHeight - window.innerHeight;
+      window.addEventListener('scroll', function () { target = progress(); }, { passive: true });
+      window.addEventListener('resize', function () { travel = root.offsetHeight - window.innerHeight; target = progress(); });
       if ('IntersectionObserver' in window) {
         new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }, { rootMargin: '20% 0px' }).observe(root);
       }
       target = cur = progress();
 
-      function frame(t, once) {
-        if (!once) requestAnimationFrame(frame);
+      function frame(t) {
+        requestAnimationFrame(frame);
         if (!visible) return;
+        target = progress();
         // Sin suavizado: nubes, niebla y VOZ360 usan el mismo progreso real del scroll,
         // así la palabra nunca queda desfasada al subir o bajar rápido
         cur = target;
@@ -124,7 +128,7 @@
         // Línea de tiempo: suben con la portada (0–0.38) · VOZ360 entra (0.26–0.44) · pausa · sale y se abren (0.66–1)
         // El frente de las nubes sigue al borde inferior de la portada: no tapan el
         // título mientras se ve y tampoco dejan huecos cuando la portada sube
-        var travelVh = (root.offsetHeight - window.innerHeight) / vh;
+        var travelVh = travel / vh;
         var heroBottom = 100 - target * travelVh;           // borde inferior de la portada (vh), sin suavizado para no quedarse atrás
         // El frente se monta un poco sobre el borde, sin llegar al texto (en móvil el texto va abajo)
         var overlap = window.innerWidth <= 640 ? 3 : 10;
@@ -140,8 +144,9 @@
           var lift = -part * q.depth * 18, sc = 1 + part * q.depth * 1.4;
           var px = (q.x + drift + spread) * vw - (q.s * u) / 2;
           var py = (q.y + shift + lift) * vh - (q.s * .36 * u);
-          q.el.style.transform = 'translate3d(' + px + 'px,' + py + 'px,0) scale(' + sc + ')';
-          q.el.style.opacity = (1 - part) * (q.sh ? .9 : 1);
+          q.el.style.transform = 'translate3d(' + px.toFixed(1) + 'px,' + py.toFixed(1) + 'px,0) scale(' + sc.toFixed(3) + ')';
+          var op = Math.round((1 - part) * 100) / 100;
+          if (op !== q.op) { q.el.style.opacity = op; q.op = op; }   // solo si cambió
         }
         fog.style.opacity = (rise * (1 - part) * 0.55).toFixed(3);
         haze.style.opacity = (rise * (1 - part)).toFixed(3);   // desenfoque "de sueño" del fondo

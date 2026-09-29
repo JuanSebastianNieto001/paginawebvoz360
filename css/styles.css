@@ -221,22 +221,24 @@ html.intro-active { overflow: hidden; }
 /* Rellena el tramo extra de scroll entre la portada y la siguiente sección con su mismo fondo */
 .cloud-transition::before { content: ""; position: absolute; z-index: -1; left: 0; right: 0; top: 100vh; height: calc(var(--ct-duracion) - 200vh); background: #F5F5F5; }
 .cloud-transition .ct-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
-.cloud-transition .ct-haze { position: absolute; inset: 0; opacity: 0; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
-.cloud-transition .ct-clouds { position: absolute; inset: 0; filter: blur(14px); }
+.cloud-transition .ct-haze { position: absolute; inset: 0; opacity: 0; background: radial-gradient(ellipse at 50% 70%, rgba(255,255,255,.55), rgba(245,248,252,.25) 60%, rgba(245,248,252,0)); }
+.cloud-transition .ct-clouds { position: absolute; inset: 0; contain: strict; }
 .cloud-transition .ct-fog { position: absolute; inset: 0; background: var(--ct-niebla); opacity: 0; }
-.cloud-transition .ct-puff { position: absolute; left: 0; top: 0; width: calc(var(--s) * var(--ct-u)); height: calc(var(--s) * .72 * var(--ct-u)); border-radius: 50%; will-change: transform, opacity;
-  background: radial-gradient(circle at 44% 34%, var(--ct-nube) 0%, rgba(255,255,255,.97) 26%, rgba(238,244,253,.8) 44%, rgba(210,226,247,.35) 58%, rgba(210,226,247,0) 70%); }
-.cloud-transition .ct-puff.sh { background: radial-gradient(circle, rgba(var(--ct-sombra), .42) 0%, rgba(var(--ct-sombra), .2) 40%, rgba(var(--ct-sombra), 0) 70%); }
+.cloud-transition .ct-puff { position: absolute; left: 0; top: 0; width: calc(var(--s) * var(--ct-u)); height: calc(var(--s) * .8 * var(--ct-u)); border-radius: 50%; will-change: transform; backface-visibility: hidden;
+  /* nube + su sombra azulada en un solo elemento, con bordes muy suaves (sin filtros) */
+  background:
+    radial-gradient(ellipse 50% 46% at 45% 38%, var(--ct-nube) 0%, rgba(255,255,255,.96) 34%, rgba(240,246,253,.78) 56%, rgba(222,234,249,.38) 76%, rgba(222,234,249,0) 100%),
+    radial-gradient(ellipse 52% 44% at 50% 62%, rgba(var(--ct-sombra), .34) 0%, rgba(var(--ct-sombra), .16) 50%, rgba(var(--ct-sombra), 0) 100%); }
 /* Palabra VOZ360 que aparece cuando las nubes cubren la pantalla */
 .cloud-transition .ct-word { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; opacity: 0; visibility: hidden; will-change: transform, opacity; transition: opacity .45s ease, transform .7s var(--ease), visibility 0s linear .7s; }
 .cloud-transition .ct-logo { display: flex; font-family: var(--display); font-weight: 800; font-size: clamp(64px, 15vw, 220px); line-height: .9; letter-spacing: -.04em; color: var(--navy); }
-.cloud-transition .ct-logo span { display: inline-block; will-change: transform, opacity, filter; }
+.cloud-transition .ct-logo span { display: inline-block; will-change: transform, opacity; }
 .cloud-transition .ct-logo .ct-accent { color: var(--accent); }
-.cloud-transition .ct-logo span { opacity: 0; transform: translateY(60px) rotate(8deg); filter: blur(12px); transition: opacity .5s ease, transform .75s cubic-bezier(.2, 1.1, .3, 1), filter .6s ease; transition-delay: calc(var(--i) * 70ms); }
+.cloud-transition .ct-logo span { opacity: 0; transform: translateY(60px) rotate(8deg) scale(.9); transition: opacity .5s ease, transform .75s cubic-bezier(.2, 1.1, .3, 1); transition-delay: calc(var(--i) * 70ms); }
 .cloud-transition .ct-tag { opacity: 0; transform: translateY(14px); transition: opacity .5s ease .45s, transform .6s var(--ease) .45s, letter-spacing .8s var(--ease) .45s; }
 .cloud-transition .ct-word.is-in, .cloud-transition .ct-word.is-out { visibility: visible; transition: opacity .45s ease, transform .7s var(--ease), visibility 0s; }
 .cloud-transition .ct-word.is-in { opacity: 1; transform: none; }
-.cloud-transition .ct-word.is-in .ct-logo span, .cloud-transition .ct-word.is-out .ct-logo span { opacity: 1; transform: none; filter: none; }
+.cloud-transition .ct-word.is-in .ct-logo span, .cloud-transition .ct-word.is-out .ct-logo span { opacity: 1; transform: none; }
 .cloud-transition .ct-word.is-in .ct-tag, .cloud-transition .ct-word.is-out .ct-tag { opacity: 1; transform: none; }
 /* Al salir: crece y se desvanece mientras las nubes se abren */
 .cloud-transition .ct-word.is-out { opacity: 0; transform: scale(1.45); transition: opacity .6s ease, transform .9s var(--ease), visibility 0s linear .9s; }
