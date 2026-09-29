@@ -865,6 +865,27 @@
     var sun=$('vzf-sun'),moon=$('vzf-moon'),stars=$('vzf-stars'),clouds=$('vzf-clouds'),birds=$('vzf-birds'),birds2=$('vzf-birds2');
     var s1=$('vzf-s1'),s2=$('vzf-s2'),s3=$('vzf-s3');
     var L=trail.getTotalLength();
+    // Pantallas verticales (celular): la escena se centra en la cima, el mensaje con el
+    // logo se acomoda a la izquierda de la bandera y el muñequito es un poco más pequeño
+    var svgs=root.querySelectorAll('.vzf-bg svg'), badge=$('vzf-sbadge'), HS=1.6;
+    var bRect=badge.querySelector('rect'), bTip=badge.querySelector('path'), bImg=badge.querySelector('image');
+    function layout(){
+      var W=window.innerWidth,H=window.innerHeight,portrait=W/H<.9;
+      // centro horizontal de la vista: 720 = centro del dibujo; en vertical, entre el mensaje y la bandera
+      var cx=portrait?Math.min(800,720+(1-W/H)*150):720;
+      svgs.forEach(function(s){s.setAttribute('viewBox',(cx-720).toFixed(0)+' 0 1440 900');});
+      HS=portrait?1.3:1.6;
+      if(portrait){
+        bRect.setAttribute('x',622);bRect.setAttribute('y',168);bRect.setAttribute('width',196);bRect.setAttribute('height',72);bRect.setAttribute('rx',18);
+        bTip.setAttribute('d','M818 192 l18 11 -18 10z');
+        bImg.setAttribute('x',648);bImg.setAttribute('y',180);bImg.setAttribute('width',144);bImg.setAttribute('height',50);
+      }else{
+        bRect.setAttribute('x',548);bRect.setAttribute('y',200);bRect.setAttribute('width',252);bRect.setAttribute('height',92);bRect.setAttribute('rx',22);
+        bTip.setAttribute('d','M800 232 l22 14 -22 12z');
+        bImg.setAttribute('x',586);bImg.setAttribute('y',214);bImg.setAttribute('width',176);bImg.setAttribute('height',64);
+      }
+    }
+    layout(); window.addEventListener('resize',function(){layout();draw(cur);});
     var money=$('vzf-money'), mvM=$('vzf-mvm'), mvV=$('vzf-mvv');
     var reduce=false;
   
@@ -903,7 +924,7 @@
       // muñequito
       var k=clamp((p-.06)/.76), d=k*L, pt=trail.getPointAtLength(d), nx=trail.getPointAtLength(Math.min(L,d+3)), pv=trail.getPointAtLength(Math.max(0,d-3));
       var dx=nx.x-pv.x, dy=nx.y-pv.y, dir=dx<0?-1:1, ang=Math.atan2(dy,Math.abs(dx))*180/Math.PI*.35;
-      hiker.setAttribute('transform','translate('+pt.x.toFixed(1)+' '+pt.y.toFixed(1)+') scale(1.6)');
+      hiker.setAttribute('transform','translate('+pt.x.toFixed(1)+' '+pt.y.toFixed(1)+') scale('+HS+')');
       flip.setAttribute('transform','scale('+dir+' 1) rotate('+(k>=1?0:ang).toFixed(1)+')');
       lamp.setAttribute('opacity',night*.9);
       var n=Math.max(2,Math.round(k*140)),dd='';for(var i=0;i<=n;i++){var q=trail.getPointAtLength(d*i/n);dd+=(i?'L':'M')+q.x.toFixed(1)+' '+q.y.toFixed(1);} done.setAttribute('d',dd);
