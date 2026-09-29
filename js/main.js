@@ -794,18 +794,26 @@
     var VUELTA=40;            // segundos por vuelta completa (más alto = más lento)
     var reduce=false;
     var ang=0, last=null, paused=false;
-    function place(){
+    // Medidas en caché: leerlas en cada cuadro obligaba al navegador a recalcular el diseño
+    var G={};
+    function measure(){
       var mobile=window.innerWidth<=900, W=orbit.clientWidth, H=orbit.clientHeight;
       var cw=floats[0].offsetWidth, ch=floats[0].offsetHeight;
-      var cx=W/2, cy=mobile?H/2:565;
-      var rx=mobile?(W-cw)/2-6:570, ry=mobile?H/2-ch/2-6:340;
+      G={cw:cw,ch:ch,cx:W/2,cy:mobile?H/2:565,rx:mobile?(W-cw)/2-6:570,ry:mobile?H/2-ch/2-6:340};
+    }
+    measure();
+    window.addEventListener('resize',function(){measure();place();});
+    var zs=floats.map(function(){return -1;});
+    function place(){
+      var cw=G.cw, ch=G.ch, cx=G.cx, cy=G.cy, rx=G.rx, ry=G.ry;
       floats.forEach(function(el,i){
         var a=ang+i*Math.PI*2/floats.length;
         var depth=(Math.sin(a)+1)/2;               // 0 = atrás (arriba), 1 = adelante (abajo)
         var sc=0.88+0.12*depth;
         var x=cx+rx*Math.cos(a)-cw/2, y=cy+ry*Math.sin(a)-ch/2;
-        el.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) scale('+sc.toFixed(3)+')';
-        el.style.zIndex=10+Math.round(depth*10);
+        el.style.transform='translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,0) scale('+sc.toFixed(3)+')';
+        var z=10+Math.round(depth*10);
+        if(z!==zs[i]){el.style.zIndex=z;zs[i]=z;}   // solo si cambió
       });
     }
     var onScreen=true;
@@ -978,6 +986,14 @@
     read(); cur=target; lastT=target; if(target>=.84) celebrated=true; draw(cur);
   
   })();
+
+  /* Pausa las animaciones de las secciones que no están en pantalla */
+  if ('IntersectionObserver' in window) {
+    var offObs = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { e.target.classList.toggle('is-offscreen', !e.isIntersecting); });
+    }, { rootMargin: '150px 0px' });
+    document.querySelectorAll('.hero, main > section, .footer').forEach(function (el) { offObs.observe(el); });
+  }
 
   /* Año del footer */
   var year = document.getElementById('year');
