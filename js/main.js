@@ -12,7 +12,9 @@
   var WHATSAPP_NUMBER = '';
   var WHATSAPP_TEXT = 'Hola VOZ360, quiero más información.';
 
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Las animaciones se muestran siempre, aunque el equipo tenga desactivados los
+  // "efectos de animación" de Windows (común en PCs corporativos o escritorio remoto)
+  var reduceMotion = false;
 
   /* ============================================================
      Intro: el video se reproduce cada vez que se entra o recarga.
@@ -271,7 +273,7 @@
   /* ============================================================
      Efectos de botones: magnético + luz que sigue el cursor +
      onda y pulso al presionar. Solo con puntero fino y sin
-     prefers-reduced-motion. No toca el HTML: añade clases.
+     mouse (puntero fino). No toca el HTML: añade clases.
      ============================================================ */
   (function initButtonEffects() {
     var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -783,7 +785,7 @@
     // ===== Órbita: las tarjetas giran en círculo alrededor de la imagen =====
     var orbit=sec.querySelector('.tec-orbit'), floats=[].slice.call(sec.querySelectorAll('.tec-float'));
     var VUELTA=40;            // segundos por vuelta completa (más alto = más lento)
-    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var reduce=false;
     var ang=0, last=null, paused=false;
     function place(){
       var mobile=window.innerWidth<=900, W=orbit.clientWidth, H=orbit.clientHeight;
@@ -859,7 +861,7 @@
     var s1=$('vzf-s1'),s2=$('vzf-s2'),s3=$('vzf-s3');
     var L=trail.getTotalLength();
     var money=$('vzf-money'), mvM=$('vzf-mvm'), mvV=$('vzf-mvv');
-    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var reduce=false;
   
     // Paleta del cielo: mañana clara → mediodía azul VOZ → atardecer → noche marino
     var SKY=[
