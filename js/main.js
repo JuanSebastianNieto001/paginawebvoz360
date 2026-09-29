@@ -734,7 +734,7 @@
       }
 
       if (!endpoint) {
-        setStatus('El formulario aún no está conectado. Mientras tanto, escríbenos por Instagram: @voz360_contact_center.', 'error');
+        setStatus(form.id === 'job-form' ? 'El formulario aún no está disponible. Puedes enviar tu hoja de vida a seleccion@voz360.co.' : 'El formulario aún no está disponible. Inténtalo de nuevo más tarde.', 'error');
         return;
       }
 

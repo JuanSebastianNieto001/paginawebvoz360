@@ -908,7 +908,7 @@ html.intro-active { overflow: hidden; }
    15. FOOTER
    ========================================================== */
 .footer { padding: 56px 0 30px; background: var(--navy-deep); color: #FFFFFF; }
-.footer-grid { display: grid; grid-template-columns: 1.7fr 1fr 1fr 1fr; gap: 50px; padding-bottom: 60px; }
+.footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1.1fr; gap: 44px; padding-bottom: 60px; }
 .footer-brand { display: flex; flex-direction: column; gap: 12px; }
 .footer-brand .brand-logo { align-self: flex-start; height: 36px; margin-bottom: 4px; }
 .footer-brand p { font-family: var(--alt); max-width: 270px; font-size: 13px; line-height: 1.65; color: #B7B7B7; }
@@ -918,6 +918,8 @@ html.intro-active { overflow: hidden; }
 .footer-col h4 { margin: 0 0 4px; font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #FFFFFF; }
 .footer-col a { font-size: 13px; color: #B7B7B7; }
 .footer-col a:hover { color: var(--cyan); }
+.footer-brand .footer-sgsi { font-family: var(--body); font-size: 12px; line-height: 1.6; color: #8FA3B8; }
+.check a { color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.12); }
 .footer-bottom span { font-size: 11px; color: #B7B7B7; }
 
@@ -929,7 +931,7 @@ html.intro-active { overflow: hidden; }
   .hero h1 { font-size: clamp(44px, min(5.4vw, 10.5vh), 64px); }
   .nav { gap: 22px; }
   .servicios-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
+  .footer-grid { grid-template-columns: 1.3fr 1fr 1fr 1fr 1.1fr; gap: 28px; }
 }
 
 @media (max-width: 960px) {

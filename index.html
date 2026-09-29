@@ -13,16 +13,9 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/audiowide-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/styles.css?v=mum3ilz5">
+  <link rel="stylesheet" href="css/styles.css?v=mun37phx">
   <link rel="preload" href="assets/video/intro-360.mp4" as="video" type="video/mp4">
-  <script>
-    // Al entrar o recargar, la página siempre empieza desde el inicio
-    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-    if (location.hash) history.replaceState(null, "", location.pathname + location.search);
-    window.scrollTo(0, 0);
-    window.addEventListener("pageshow", function () { window.scrollTo({ top: 0, left: 0, behavior: "instant" }); });
-  </script>
-  <script>document.documentElement.classList.add('js', 'intro-active');setTimeout(function(){var i=document.getElementById('intro');if(i)i.classList.add('is-done');document.documentElement.classList.remove('intro-active');},8000);</script>
+  <script src="js/head.js?v=mun37phx"></script>
 </head>
 <body>
 
@@ -141,7 +134,7 @@
         <div class="qs-toast qs-t1"><div class="qs-ic qs-bl"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3 21l2-5.5A8.5 8.5 0 1 1 21 11.5z"/></svg></div><div><b>Nuevo chat entrante</b><small>WhatsApp · hace 2 s</small></div></div>
         <div class="qs-toast qs-t2"><div><small>Satisfacción</small><div class="qs-csat">4.9<span>/5</span></div><div class="qs-stars">★★★★★</div></div></div>
         <div class="qs-toast qs-t3"><div class="qs-ic qs-g"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div><div><b>Caso resuelto</b><small>Primer contacto</small></div></div>
-        <div class="qs-toast qs-t4"><div class="qs-ic qs-nv"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div><div><b>Datos protegidos</b><small>Cifrado extremo a extremo</small></div></div>
+        <div class="qs-toast qs-t4"><div class="qs-ic qs-nv"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div><div><b>Información protegida</b><small>Confidencialidad en cada gestión</small></div></div>
       </div>
     </div>
   </div>
@@ -663,6 +656,7 @@
       <div class="footer-brand" data-reveal>
         <img class="brand-logo" src="assets/img/marca/voz360-blanco.png" width="900" height="323" alt="VOZ360">
         <p>Conecta con soluciones.</p>
+        <p class="footer-sgsi">Comprometidos con la seguridad y la confidencialidad de la información de nuestros clientes, colaboradores y usuarios.</p>
         <div class="eq" aria-hidden="true">
           <span class="vz-bar" style="animation-delay:0s"></span>
           <span class="vz-bar" style="animation-delay:.2s"></span>
@@ -690,6 +684,12 @@
         <a href="#contacto">Contacto</a>
         <a href="#faq">Preguntas frecuentes</a>
         <a href="https://instagram.com/voz360_contact_center" target="_blank" rel="noopener">Instagram</a>
+      </div>
+      <div class="footer-col" data-reveal style="--delay:400ms">
+        <h4>Legal</h4>
+        <a href="politica-datos.html">Tratamiento de datos</a>
+        <a href="politica-seguridad.html">Seguridad de la información</a>
+        <a href="mailto:seguridad@voz360.co?subject=Reporte%20de%20incidente%20de%20seguridad">Reportar un incidente</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -759,7 +759,7 @@
       <div class="bot-flow" id="flow-contacto" hidden>
         <div class="bot-msg bot-msg--user">Contáctanos</div>
         <div class="bot-msg">Escríbenos y diseñamos una solución para tu empresa. Déjanos tus datos:</div>
-        <form class="form bot-form" id="contact-form" novalidate data-endpoint="FORM_ENDPOINT" data-required-msg="Revisa los campos obligatorios: nombre, correo y mensaje." data-ok-msg="¡Gracias! Recibimos tu solicitud y te contactaremos pronto.">
+        <form class="form bot-form" id="contact-form" novalidate data-endpoint="FORM_ENDPOINT" data-required-msg="Revisa los campos obligatorios: nombre, correo, mensaje y la autorización de datos." data-ok-msg="¡Gracias! Recibimos tu solicitud y te contactaremos pronto.">
           <div class="form-grid">
             <div class="field"><label for="f-nombre">Nombre</label><input id="f-nombre" name="nombre" type="text" placeholder="Tu nombre" autocomplete="name" required></div>
             <div class="field"><label for="f-empresa">Empresa</label><input id="f-empresa" name="empresa" type="text" placeholder="Nombre de tu empresa" autocomplete="organization"></div>
@@ -772,6 +772,7 @@
             <label for="f-msg">¿Cómo podemos ayudarte?</label>
             <textarea id="f-msg" name="mensaje" placeholder="Cuéntanos brevemente tu necesidad..." required></textarea>
           </div>
+          <label class="check"><input type="checkbox" name="autoriza_datos" value="Sí" required> <span>Autorizo a VOZ360 el tratamiento de mis datos personales para atender mi solicitud, según la <a href="politica-datos.html" target="_blank" rel="noopener">Política de tratamiento de datos</a> (Ley 1581 de 2012).</span></label>
           <button class="form-submit vz-btn" type="submit">Enviar solicitud</button>
           <p class="form-status" role="status" aria-live="polite"></p>
         </form>
@@ -821,7 +822,7 @@
                 <label><input type="radio" name="experiencia_call_center" value="No"><span>No</span></label>
               </div>
             </fieldset>
-            <label class="check field--full"><input type="checkbox" name="autoriza_datos" value="Sí" required> Autorizo a VOZ360 el tratamiento de mis datos personales para procesos de selección (Ley 1581 de 2012).</label>
+            <label class="check field--full"><input type="checkbox" name="autoriza_datos" value="Sí" required> <span>Autorizo a VOZ360 el tratamiento de mis datos personales para el proceso de selección (verificar identidad, contactarme y evaluar mi perfil), según la <a href="politica-datos.html" target="_blank" rel="noopener">Política de tratamiento de datos</a> (Ley 1581 de 2012). Si no soy seleccionado, mis datos se conservarán máximo 12 meses.</span></label>
           </div>
           <button class="form-submit vz-btn" type="submit">Enviar postulación</button>
           <p class="form-status" role="status" aria-live="polite"></p>
@@ -858,6 +859,6 @@
   </button>
 </div>
 
-<script src="js/main.js?v=mum3ilz5" defer></script>
+<script src="js/main.js?v=mun37phx" defer></script>
 </body>
 </html>
