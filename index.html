@@ -13,7 +13,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/audiowide-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/styles.css?v=mum2pgwc">
+  <link rel="stylesheet" href="css/styles.css?v=mum3bklz">
   <link rel="preload" href="assets/video/intro-360.mp4" as="video" type="video/mp4">
   <script>
     // Al entrar o recargar, la página siempre empieza desde el inicio
@@ -508,8 +508,7 @@
         <linearGradient id="vzf-shade" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d2d52"/><stop offset="1" stop-color="#081c34"/></linearGradient>
         <linearGradient id="vzf-fogg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity="0"/><stop offset=".5" stop-color="#ffffff" stop-opacity=".55"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></linearGradient>
         <radialGradient id="vzf-lampg" cx="0" cy=".5" r="1"><stop offset="0" stop-color="#fff6c8" stop-opacity=".85"/><stop offset="1" stop-color="#fff6c8" stop-opacity="0"/></radialGradient>
-        <filter id="vzf-blur" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
-        <filter id="vzf-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <radialGradient id="vzf-cloudg"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#ffffff" stop-opacity=".75"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
       </defs>
 
       <rect width="1440" height="900" fill="url(#vzf-skyg)"/>
@@ -530,9 +529,9 @@
 
       <!-- nubes -->
       <g id="vzf-clouds" fill="#ffffff">
-        <g class="vzf-drift" opacity=".8" filter="url(#vzf-blur)"><ellipse cx="220" cy="210" rx="170" ry="34"/><ellipse cx="280" cy="188" rx="90" ry="40"/></g>
-        <g class="vzf-drift2" opacity=".65" filter="url(#vzf-blur)"><ellipse cx="880" cy="120" rx="190" ry="30"/><ellipse cx="820" cy="100" rx="90" ry="34"/></g>
-        <g class="vzf-drift" opacity=".55" filter="url(#vzf-blur)"><ellipse cx="1320" cy="340" rx="150" ry="26"/><ellipse cx="1360" cy="322" rx="70" ry="26"/></g>
+        <g class="vzf-drift" opacity=".8" fill="url(#vzf-cloudg)"><ellipse cx="220" cy="210" rx="213" ry="65"/><ellipse cx="280" cy="188" rx="113" ry="76"/></g>
+        <g class="vzf-drift2" opacity=".65" fill="url(#vzf-cloudg)"><ellipse cx="880" cy="120" rx="238" ry="57"/><ellipse cx="820" cy="100" rx="113" ry="65"/></g>
+        <g class="vzf-drift" opacity=".55" fill="url(#vzf-cloudg)"><ellipse cx="1320" cy="340" rx="188" ry="49"/><ellipse cx="1360" cy="322" rx="88" ry="49"/></g>
       </g>
 
       <!-- aves -->
@@ -577,7 +576,8 @@
         </g>
         <!-- sendero -->
         <path id="vzf-trail" d="M300 895 C 420 880 560 860 600 830 C 640 800 470 790 470 760 C 470 730 620 730 660 700 C 700 670 600 670 640 640 C 680 610 740 610 740 570 C 740 530 740 500 770 480 C 790 465 800 440 805 425 C 812 395 836 340 850 302" fill="none" stroke="#9BE7F9" stroke-width="3" stroke-dasharray="1 10" stroke-linecap="round" opacity=".55"/>
-        <path id="vzf-done" d="" fill="none" stroke="#9BE7F9" stroke-width="3.5" stroke-linecap="round" filter="url(#vzf-glow)"/>
+        <path id="vzf-done-glow" d="" fill="none" stroke="#9BE7F9" stroke-width="11" stroke-linecap="round" opacity=".28"/>
+        <path id="vzf-done" d="" fill="none" stroke="#9BE7F9" stroke-width="3.5" stroke-linecap="round"/>
         <!-- bandera -->
         <g id="vzf-flag" opacity="0">
           <line x1="850" y1="302" x2="850" y2="226" stroke="#eaf6fd" stroke-width="3" stroke-linecap="round"/>
@@ -857,6 +857,6 @@
   </button>
 </div>
 
-<script src="js/main.js?v=mum2pgwc" defer></script>
+<script src="js/main.js?v=mum3bklz" defer></script>
 </body>
 </html>

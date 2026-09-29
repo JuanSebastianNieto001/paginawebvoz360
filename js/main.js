@@ -381,7 +381,7 @@
     function gSetBg(i) {
       var img = gItems[i].querySelector('img');
       var next = gBgLayers[1 - gBgIndex];
-      next.style.backgroundImage = 'url("' + (img.currentSrc || img.src) + '")';
+      next.style.backgroundImage = 'url("' + img.getAttribute('src').replace('/galeria/', '/galeria/blur/') + '")';
       next.classList.add('is-on');
       gBgLayers[gBgIndex].classList.remove('is-on');
       gBgIndex = 1 - gBgIndex;
@@ -391,6 +391,8 @@
       gCurrent = (index + gItems.length) % gItems.length;
       var s = gSizes();
       if (instant) gallery.classList.add('no-anim');
+      gallery.style.setProperty('--g-w', Math.round(s[0].w) + 'px');
+      gallery.style.setProperty('--g-h', Math.round(s[0].h) + 'px');
       var widths = gItems.map(function (_, i) { return s[Math.min(3, Math.abs(i - gCurrent))].w; });
       var left = 0;
       for (var i = 0; i < gCurrent; i++) left += widths[i] + G_GAP;
@@ -865,6 +867,8 @@
     var sun=$('vzf-sun'),moon=$('vzf-moon'),stars=$('vzf-stars'),clouds=$('vzf-clouds'),birds=$('vzf-birds'),birds2=$('vzf-birds2');
     var s1=$('vzf-s1'),s2=$('vzf-s2'),s3=$('vzf-s3');
     var L=trail.getTotalLength();
+    var doneGlow=$('vzf-done-glow');
+    [done,doneGlow].forEach(function(pth){pth.setAttribute('d',trail.getAttribute('d'));pth.style.strokeDasharray=L;pth.style.strokeDashoffset=L;});
     // Pantallas verticales (celular): la escena se centra en la cima, el mensaje con el
     // logo se acomoda a la izquierda de la bandera y el muñequito es un poco más pequeño
     var svgs=root.querySelectorAll('.vzf-bg svg'), badge=$('vzf-sbadge'), HS=1.6;
@@ -927,7 +931,7 @@
       hiker.setAttribute('transform','translate('+pt.x.toFixed(1)+' '+pt.y.toFixed(1)+') scale('+HS+')');
       flip.setAttribute('transform','scale('+dir+' 1) rotate('+(k>=1?0:ang).toFixed(1)+')');
       lamp.setAttribute('opacity',night*.9);
-      var n=Math.max(2,Math.round(k*140)),dd='';for(var i=0;i<=n;i++){var q=trail.getPointAtLength(d*i/n);dd+=(i?'L':'M')+q.x.toFixed(1)+' '+q.y.toFixed(1);} done.setAttribute('d',dd);
+      var off=(L-d).toFixed(1); done.style.strokeDashoffset=off; doneGlow.style.strokeDashoffset=off;
       var fl=clamp((p-.82)/.06);
       flag.setAttribute('opacity',k>=1?1:0); cloth.setAttribute('transform','translate(0 '+((1-fl)*46)+')');
       burst.setAttribute('opacity',fl>=1?1:0);
