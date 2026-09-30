@@ -8,6 +8,7 @@ Guía para cambiar textos, fotos y datos sin tocar la lógica del sitio. Despué
 |---|---|---|
 | `FORM_ENDPOINT` | URL del servicio que recibe el formulario **Contáctanos** | ⏳ vacío |
 | `JOBS_ENDPOINT` | URL del servicio que recibe **Trabaja con nosotros** | ⏳ vacío |
+| `PQRS_ENDPOINT` | URL del servicio que recibe **PQRS y sugerencias** | ⏳ vacío |
 | `WHATSAPP_NUMBER` | Número del WhatsApp del bot, solo dígitos con indicativo (ej. `573001234567`) | ⏳ vacío |
 | `WHATSAPP_TEXT` | Mensaje inicial del chat de WhatsApp | listo |
 | `INSTAGRAM_URL` | Perfil de Instagram | listo |
@@ -22,6 +23,7 @@ Casi todos los textos están directamente en `public/index.html`, en la sección
 |---|---|
 | Ventana de cada tarjeta de Tecnología | `DATA` en `public/assets/js/modules/tecnologia.js` |
 | Respuestas de Preguntas frecuentes | `<template id="faq-a-N">` al final del bot en `index.html` (las preguntas son los botones `.bot-chip`) |
+| Tipos de PQRS y su descripción | radios `name="tipo"` (atributo `data-hint`) del formulario `#pqrs-form` en `index.html` |
 | Mensajes de los formularios | atributos `data-required-msg` y `data-ok-msg` de cada `<form>`; avisos en `MESSAGES` de `modules/forms.js` |
 | Datos de la empresa (NIT, dirección, teléfono) | footer de `index.html` y sección 1 de `politica-datos.html` |
 | Políticas | `politica-datos.html` y `politica-seguridad.html`. La de seguridad es el texto aprobado por la Gerencia: solo se cambia con una nueva versión aprobada (actualizar versión y fechas) |

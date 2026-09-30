@@ -13,6 +13,7 @@ window.VOZ360.config = {
      a connect-src y form-action de la Content-Security-Policy en vercel.json. */
   FORM_ENDPOINT: '',   // Contáctanos
   JOBS_ENDPOINT: '',   // Trabaja con nosotros (postulaciones)
+  PQRS_ENDPOINT: '',   // PQRS y sugerencias
 
   /* WhatsApp del bot: número con indicativo, solo dígitos (ej. '573001234567').
      Vacío = el bot avisa que el canal estará disponible pronto. */

@@ -1,12 +1,13 @@
 /* ==========================================================================
    BOT VOZ360 — botón flotante con panel tipo chat
-   Opciones: "Contáctanos", "Trabaja con nosotros" y "Preguntas frecuentes".
+   Opciones: "Contáctanos", "Trabaja con nosotros", "Preguntas frecuentes" y
+   "PQRS y sugerencias".
    - Al abrirlo, el bot "escribe" y los mensajes aparecen uno tras otro.
    - Al elegir una opción se oculta el menú (como en un chat) y aparece una
      flecha para volver.
    - Preguntas frecuentes: la pregunta elegida se envía, el bot "escribe" y
      responde (las respuestas están en <template id="faq-a-N"> del HTML).
-   - Los enlaces a #contacto, #trabaja y #faq de toda la página abren el bot
+   - Los enlaces a #contacto, #trabaja, #faq y #pqrs de toda la página abren el bot
      directamente en esa opción.
    - WhatsApp: usa el número de config.js; si está vacío, el bot avisa.
    Estilos: css/components/bot.css
@@ -20,7 +21,7 @@
 
   var HINT_VISIBLE = 2600;   // ms que se ve la burbuja "¿Hablamos?"
   var HINT_GAP = 4000;       // ms entre una aparición y la siguiente
-  var LINKS = 'a[href="#contacto"], a[href="#trabaja"], a[href="#faq"]';
+  var LINKS = 'a[href="#contacto"], a[href="#trabaja"], a[href="#faq"], a[href="#pqrs"]';
 
   var panel = bot.querySelector('.bot-panel');
   var body = bot.querySelector('.bot-body');
@@ -40,7 +41,7 @@
 
   /* ---------- Flujos (opciones) ---------- */
 
-  // Muestra el flujo elegido ("contacto", "trabaja" o "faq") y oculta el menú
+  // Muestra el flujo elegido ("contacto", "trabaja", "faq" o "pqrs") y oculta el menú
   function showFlow(name) {
     options.forEach(function (b) {
       var on = b.getAttribute('data-flow') === name;
@@ -207,12 +208,12 @@
     if (bot.classList.contains('is-open') && !bot.contains(e.target) && !e.target.closest(LINKS)) close();
   });
 
-  // "Hablemos", "Solicitar propuesta"… abren Contáctanos; "Trabaja con nosotros" y "FAQ", su opción
+  // "Hablemos", "Solicitar propuesta"… abren Contáctanos; "Trabaja con nosotros", "FAQ" y "PQRS", su opción
   document.querySelectorAll(LINKS).forEach(function (a) {
     a.addEventListener('click', function (e) {
       e.preventDefault();
-      var href = a.getAttribute('href');
-      open(href === '#trabaja' ? 'trabaja' : href === '#faq' ? 'faq' : 'contacto');
+      var name = a.getAttribute('href').slice(1);
+      open(document.getElementById('flow-' + name) ? name : 'contacto');
     });
   });
 

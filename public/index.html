@@ -19,26 +19,26 @@
   <link rel="preload" href="assets/fonts/audiowide-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
   <!-- Estilos: el orden importa (cascada). Ver docs/ARQUITECTURA.md -->
-  <link rel="stylesheet" href="assets/css/base/fonts.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/base/tokens.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/base/base.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/base/animations.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/components/buttons.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/sections/intro.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/sections/clouds.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/layout/header.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/sections/hero.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/sections/nosotros.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/sections/galeria.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/sections/servicios.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/sections/tecnologia.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/sections/instagram.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/sections/final.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/components/forms.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/layout/footer.css?v=muoca3ao">
-  <link rel="stylesheet" href="assets/css/components/bot.css?v=muoca3ao">
+  <link rel="stylesheet" href="assets/css/base/fonts.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/base/tokens.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/base/base.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/base/animations.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/components/buttons.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/sections/intro.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/sections/clouds.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/layout/header.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/sections/hero.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/sections/nosotros.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/sections/galeria.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/sections/servicios.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/sections/tecnologia.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/sections/instagram.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/sections/final.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/components/forms.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/layout/footer.css?v=muonjgc9">
+  <link rel="stylesheet" href="assets/css/components/bot.css?v=muonjgc9">
   <link rel="preload" href="assets/video/intro-360.mp4" as="video" type="video/mp4">
-  <script src="assets/js/head.js?v=muoca3ao"></script>
+  <script src="assets/js/head.js?v=muonjgc9"></script>
 </head>
 <body>
 
@@ -73,6 +73,7 @@
       <a href="#instagram">Instagram</a>
       <a href="#tecnologia">Tecnología</a>
       <a href="#faq">FAQ</a>
+      <a href="#pqrs">PQRS</a>
       <a class="nav-ig" href="https://instagram.com/voz360_contact_center" target="_blank" rel="noopener" aria-label="Instagram de VOZ360 (@voz360_contact_center)" title="@voz360_contact_center"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg><span class="nav-ig-txt">@voz360_contact_center</span></a>
       <a class="nav-cta vz-btn" href="#contacto">Hablemos</a>
     </nav>
@@ -703,6 +704,7 @@
         <a href="#contacto">Contacto</a>
         <a href="tel:+573146183746">314 618 3746</a>
         <a href="#faq">Preguntas frecuentes</a>
+        <a href="#pqrs">PQRS y sugerencias</a>
         <a href="https://instagram.com/voz360_contact_center" target="_blank" rel="noopener">Instagram</a>
       </div>
       <div class="footer-col" data-reveal style="--delay:400ms">
@@ -719,9 +721,9 @@
   </div>
 </footer>
 
-<!-- ====== 10. BOT VOZ360 (contacto, postulación y preguntas frecuentes) · css/components/bot.css, css/components/forms.css · js/modules/bot.js, js/modules/forms.js ======
+<!-- ====== 10. BOT VOZ360 (contacto, postulación, preguntas frecuentes y PQRS) · css/components/bot.css, css/components/forms.css · js/modules/bot.js, js/modules/forms.js ======
      Botón flotante con el logo; al abrirlo muestra la sección de contacto.
-     Todos los enlaces a #contacto abren este panel. -->
+     Los enlaces a #contacto, #trabaja, #faq y #pqrs abren el panel en esa opción. -->
 <div class="bot" id="bot">
   <div class="bot-panel" id="contacto" role="dialog" aria-modal="false" aria-labelledby="bot-title" aria-hidden="true">
     <header class="bot-head">
@@ -756,6 +758,10 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.3-2.4 3.8M12 17.2h.01"/></svg>
           Preguntas frecuentes
         </button>
+        <button type="button" class="bot-opt" data-flow="pqrs" aria-expanded="false" aria-controls="flow-pqrs">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8.5 9.5h7M8.5 12.5h4.5"/></svg>
+          PQRS y sugerencias
+        </button>
       </div>
 
       <!-- Flujo: Preguntas frecuentes (conversación) -->
@@ -768,11 +774,13 @@
           <button type="button" class="bot-chip" data-q="1">¿Qué canales de atención manejan?</button>
           <button type="button" class="bot-chip" data-q="2">¿Cómo solicito una propuesta comercial?</button>
           <button type="button" class="bot-chip" data-q="3">¿Cómo envío mi hoja de vida?</button>
+          <button type="button" class="bot-chip" data-q="4">¿Cómo envío una PQRS o una idea de mejora?</button>
         </div>
         <template id="faq-a-0">Somos un contact center omnicanal: atención al cliente, mesa de ayuda, gestión comercial, back office, gestión documental y campañas a la medida.</template>
         <template id="faq-a-1">Teléfono, correo, chat, WhatsApp, redes sociales y videoatención, integrados en una misma experiencia.</template>
         <template id="faq-a-2">Déjanos tus datos en <button type="button" class="bot-go" data-go="contacto">Contáctanos</button> y nuestro equipo comercial te contactará.</template>
         <template id="faq-a-3">Escríbenos a <a href="mailto:seleccion@voz360.co">seleccion@voz360.co</a> o postúlate aquí mismo en <button type="button" class="bot-go" data-go="trabaja">Trabaja con nosotros</button>.</template>
+        <template id="faq-a-4">Entra a <button type="button" class="bot-go" data-go="pqrs">PQRS y sugerencias</button>, elige el tipo y cuéntanos. Te damos un número de radicado y respondemos en máximo 15 días hábiles.</template>
       </div>
 
       <!-- Flujo: Contáctanos -->
@@ -849,6 +857,51 @@
         </form>
       </div>
 
+      <!-- Flujo: PQRS y sugerencias (peticiones, quejas, reclamos, sugerencias y felicitaciones).
+           Radicado, modo anónimo y envío: modules/forms.js -->
+      <div class="bot-flow" id="flow-pqrs" hidden>
+        <div class="bot-msg bot-msg--user">PQRS y sugerencias</div>
+        <div class="bot-msg">Tu opinión nos ayuda a mejorar 💙 Cuéntanos tu petición, queja, reclamo o idea. Te daremos un número de radicado y responderemos en máximo <b>15 días hábiles</b>.</div>
+        <form class="form bot-form" id="pqrs-form" novalidate data-endpoint="PQRS_ENDPOINT" data-required-msg="Revisa los campos marcados: tipo, mensaje y, si no es anónima, nombre, correo y la autorización de datos." data-ok-msg="¡Gracias! Recibimos tu solicitud con el radicado {radicado}. Guárdalo para hacerle seguimiento.">
+          <fieldset class="field choice">
+            <legend>Tipo de solicitud</legend>
+            <div class="choice-row choice-row--wrap">
+              <label><input type="radio" name="tipo" value="Petición" required data-hint="Solicitud de información o de una actuación."><span>Petición</span></label>
+              <label><input type="radio" name="tipo" value="Queja" data-hint="Inconformidad con la atención o el trato recibido."><span>Queja</span></label>
+              <label><input type="radio" name="tipo" value="Reclamo" data-hint="Inconformidad con un servicio, o solicitud de corrección o supresión de tus datos."><span>Reclamo</span></label>
+              <label><input type="radio" name="tipo" value="Sugerencia" data-hint="Idea para mejorar nuestros servicios o procesos."><span>Sugerencia</span></label>
+              <label><input type="radio" name="tipo" value="Felicitación" data-hint="Reconocimiento a una persona o a un servicio."><span>Felicitación</span></label>
+            </div>
+            <small class="field-hint" id="p-tipo-hint">Elige el tipo que mejor describe tu solicitud.</small>
+          </fieldset>
+          <label class="check"><input type="checkbox" id="p-anonimo" name="anonimo" value="Sí"> <span>Enviar de forma <b>anónima</b> (no podremos responderte ni darte seguimiento).</span></label>
+          <div class="form-grid" id="p-datos">
+            <div class="field field--full"><label for="p-nombre">Nombre</label><input id="p-nombre" name="nombre" type="text" placeholder="Nombres y apellidos" autocomplete="name" required></div>
+            <div class="field"><label for="p-correo">Correo</label><input id="p-correo" name="correo" type="email" placeholder="tucorreo@ejemplo.com" autocomplete="email" required></div>
+            <div class="field"><label for="p-tel">Teléfono</label><input id="p-tel" name="telefono" type="tel" inputmode="tel" placeholder="Opcional" autocomplete="tel"></div>
+          </div>
+          <div class="field">
+            <label for="p-relacion">Eres…</label>
+            <select id="p-relacion" name="relacion">
+              <option value="" selected>Selecciona (opcional)</option>
+              <option>Cliente o empresa aliada</option>
+              <option>Usuario atendido por VOZ360</option>
+              <option>Colaborador de VOZ360</option>
+              <option>Aspirante a empleo</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="p-msg">Tu mensaje</label>
+            <textarea id="p-msg" name="mensaje" placeholder="Describe tu solicitud o tu idea con el mayor detalle posible…" maxlength="2000" required></textarea>
+          </div>
+          <label class="check" id="p-autoriza"><input type="checkbox" name="autoriza_datos" value="Sí" required> <span>Autorizo a VOZ360 el tratamiento de mis datos personales para atender y responder mi solicitud, según la <a href="politica-datos.html" target="_blank" rel="noopener">Política de tratamiento de datos</a> (Ley 1581 de 2012).</span></label>
+          <input type="hidden" name="radicado" id="p-radicado">
+          <button class="form-submit vz-btn" type="submit">Enviar</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
       <div class="bot-msg bot-msg--info">
         <div><b>Hoja de vida</b><span>También puedes enviarla a <a href="mailto:seleccion@voz360.co">seleccion@voz360.co</a>.</span></div>
         <div><b>Redes</b><span>Síguenos o escríbenos:</span>
@@ -880,19 +933,19 @@
 </div>
 
 <!-- Scripts: configuración y un módulo por sección (se ejecutan en este orden) -->
-<script src="assets/js/config.js?v=muoca3ao" defer></script>
-<script src="assets/js/modules/intro.js?v=muoca3ao" defer></script>
-<script src="assets/js/modules/reveal.js?v=muoca3ao" defer></script>
-<script src="assets/js/modules/clouds.js?v=muoca3ao" defer></script>
-<script src="assets/js/modules/nosotros.js?v=muoca3ao" defer></script>
-<script src="assets/js/modules/header.js?v=muoca3ao" defer></script>
-<script src="assets/js/modules/buttons.js?v=muoca3ao" defer></script>
-<script src="assets/js/modules/gallery.js?v=muoca3ao" defer></script>
-<script src="assets/js/modules/bot.js?v=muoca3ao" defer></script>
-<script src="assets/js/modules/forms.js?v=muoca3ao" defer></script>
-<script src="assets/js/modules/tecnologia.js?v=muoca3ao" defer></script>
-<script src="assets/js/modules/instagram.js?v=muoca3ao" defer></script>
-<script src="assets/js/modules/final.js?v=muoca3ao" defer></script>
-<script src="assets/js/modules/perf.js?v=muoca3ao" defer></script>
+<script src="assets/js/config.js?v=muonjgc9" defer></script>
+<script src="assets/js/modules/intro.js?v=muonjgc9" defer></script>
+<script src="assets/js/modules/reveal.js?v=muonjgc9" defer></script>
+<script src="assets/js/modules/clouds.js?v=muonjgc9" defer></script>
+<script src="assets/js/modules/nosotros.js?v=muonjgc9" defer></script>
+<script src="assets/js/modules/header.js?v=muonjgc9" defer></script>
+<script src="assets/js/modules/buttons.js?v=muonjgc9" defer></script>
+<script src="assets/js/modules/gallery.js?v=muonjgc9" defer></script>
+<script src="assets/js/modules/bot.js?v=muonjgc9" defer></script>
+<script src="assets/js/modules/forms.js?v=muonjgc9" defer></script>
+<script src="assets/js/modules/tecnologia.js?v=muonjgc9" defer></script>
+<script src="assets/js/modules/instagram.js?v=muonjgc9" defer></script>
+<script src="assets/js/modules/final.js?v=muonjgc9" defer></script>
+<script src="assets/js/modules/perf.js?v=muonjgc9" defer></script>
 </body>
 </html>

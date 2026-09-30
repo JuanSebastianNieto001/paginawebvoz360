@@ -39,6 +39,12 @@
   .nav { gap: 22px; }
 }
 
+/* Pantallas medianas: menú más compacto y sin el lema, para que no choque con el logo */
+@media (max-width: 1100px) {
+  .nav { gap: 16px; }
+  .brand-tag { display: none; }
+}
+
 @media (max-width: 960px) {
   .nav { display: none; }
   .menu-btn { display: flex; }
