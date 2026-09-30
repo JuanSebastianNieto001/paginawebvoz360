@@ -2,3 +2,12 @@ node_modules/
 .DS_Store
 Thumbs.db
 .vercel
+
+# Material original (fotos sin desenfocar, manual de marca, borradores): nunca publicar
+*.zip
+*.pdf
+*.MOV
+*.mov
+Componente_Carrusel/
+reels/
+*.html.bak
