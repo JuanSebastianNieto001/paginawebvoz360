@@ -22,7 +22,8 @@ El sitio web forma parte del alcance del SGSI de VOZ360. Este documento resume l
 - [ ] **Repositorio de GitHub privado**, o historial depurado. El historial contiene versiones antiguas de fotos que no deben ser públicas (ver el reporte interno de riesgos en fotos, que está fuera de este repositorio).
 - [ ] Cuentas de GitHub y Vercel **corporativas**, con verificación en dos pasos y registro de accesos (A.5.18, A.8.2).
 - [ ] Crear los buzones `seguridad@voz360.co` y `datospersonales@voz360.co`, o cambiarlos en la web.
-- [ ] **Aprobación de las políticas** por la Dirección y revisión jurídica de la política de datos.
+- [x] Política de seguridad de la información aprobada por la Gerencia General (DALMARU INVERSIONES S.A.S., v1.0, 02/06/2026) y publicada textualmente en `politica-seguridad.html`.
+- [ ] **Aprobación de la política de tratamiento de datos** por la Gerencia y revisión jurídica.
 - [ ] **Autorizaciones de uso de imagen** de todas las personas que aparecen en fotos y reels. Autorización de los clientes cuya marca aparezca.
 - [ ] Registrar como proveedores en el SGSI: Vercel, GitHub, el proveedor de formularios y las herramientas de IA usadas en el desarrollo (A.5.19–A.5.23).
 - [ ] Procedimiento de **uso de IA en el desarrollo**, aprobado por la Dirección (A.5.10, A.8.30).

@@ -24,7 +24,7 @@ Casi todos los textos están directamente en `public/index.html`, en la sección
 | Respuestas de Preguntas frecuentes | `<template id="faq-a-N">` al final del bot en `index.html` (las preguntas son los botones `.bot-chip`) |
 | Mensajes de los formularios | atributos `data-required-msg` y `data-ok-msg` de cada `<form>`; avisos en `MESSAGES` de `modules/forms.js` |
 | Datos de la empresa (NIT, dirección) | footer de `index.html` y sección 1 de `politica-datos.html` |
-| Políticas | `politica-datos.html` y `politica-seguridad.html` (cambiar también la versión y la fecha) |
+| Políticas | `politica-datos.html` y `politica-seguridad.html`. La de seguridad es el texto aprobado por la Gerencia: solo se cambia con una nueva versión aprobada (actualizar versión y fechas) |
 
 Pendientes de contenido:
 - **Teléfono** de la empresa: agregarlo al footer y a `politica-datos.html` (sección 1).

@@ -3,6 +3,7 @@
 Resumen por versión. El detalle completo está en el historial de Git (`git log`).
 
 ## 2026-09-30 — Reorganización del proyecto
+- Política de seguridad de la información reemplazada por la versión aprobada por la Gerencia General (v1.0, vigente desde 02/06/2026).
 - Estructura profesional: `public/` (lo publicado), `tools/`, `docs/`. Vercel publica solo `public/`.
 - CSS dividido en 18 hojas (base, layout, components, sections) en el mismo orden de cascada. Se verificó que el resultado visual es idéntico comparando los estilos calculados de todos los elementos en 4 tamaños de pantalla.
 - JavaScript dividido en `config.js` y 13 módulos documentados.
