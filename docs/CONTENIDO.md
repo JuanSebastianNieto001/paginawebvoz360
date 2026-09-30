@@ -53,7 +53,7 @@ Si algo aparece, desenfócalo con `tools/blur-regions.js` (ver [DESARROLLO.md](D
 
 ### Portada
 
-`public/assets/img/portada/equipo.jpg`. Si la cambias, usa un **nombre de archivo nuevo** y actualízalo en el `<img class="hero-img">` y en `<meta property="og:image">`. Las imágenes se guardan en la memoria del navegador por un año, así que un nombre nuevo garantiza que todos vean la foto nueva.
+`public/assets/img/portada/equipo-hd.jpg`. Si la cambias, usa un **nombre de archivo nuevo** y actualízalo en el `<img class="hero-img">` y en `<meta property="og:image">`. Las imágenes se guardan en la memoria del navegador por un año, así que un nombre nuevo garantiza que todos vean la foto nueva.
 
 ### Reels (Instagram)
 

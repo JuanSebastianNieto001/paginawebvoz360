@@ -10,6 +10,7 @@ Resumen por versión. El detalle completo está en el historial de Git (`git log
 - Corregido: en tablet y celular, las barras animadas de la ilustración de Tecnología quedaban fuera de lugar.
 - Herramientas nuevas: servidor local con cabeceras de producción, versión de CSS/JS, miniaturas de galería y desenfoque de zonas en fotos.
 - Retiradas de la web las fotos con información sensible visible. La portada usa ahora una foto del equipo.
+- Portada en 2560×1920 (reescalada y enfocada desde el original de WhatsApp de 1280×960) para que no se vea pixelada en pantallas grandes.
 - Material original (fotos sin editar, prototipos, manual de marca) movido fuera del repositorio.
 
 ## 2026-09-29 — Seguridad de la información (ISO/IEC 27001)
