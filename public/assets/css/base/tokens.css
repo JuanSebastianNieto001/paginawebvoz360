@@ -1,0 +1,46 @@
+/* ==========================================================================
+   TOKENS DE DISEÑO — colores, tipografías, espaciado y curvas
+   Fuente única de verdad para la marca. Colores del manual de identidad:
+   Azul Real #0A79E8, Azul Noche #071E3A, Cian #9BE7F9 y grises digitales
+   #F5F5F5 / #DBDBDB / #B7B7B7 / #6A6A6A / #3A3A3A.
+   ========================================================================== */
+
+:root {
+  --accent: #0A79E8;      /* Azul Real: botones, acentos */
+  --navy: #071E3A;        /* Azul Noche: textos y fondos oscuros */
+  --navy-deep: #071E3A;   /* alias de Azul Noche (footer) */
+  --blue-dark: #0A79E8;   /* alias de Azul Real (enlaces y etiquetas) */
+  --cyan: #9BE7F9;
+  --soft: #F5F5F5;        /* grises digitales del manual */
+  --line: #DBDBDB;
+  --ink-2: #3A3A3A;
+  --muted: #6A6A6A;
+  --muted-dark: #B7B7B7;
+  --display: Sora, 'Segoe UI', sans-serif;     /* títulos: Sora Bold/Extrabold */
+  --alt: Audiowide, Sora, sans-serif;           /* tagline y títulos emblema */
+  --body: Sora, 'Segoe UI', sans-serif;
+  --gutter: 120px;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+
+  /* Colores en formato "R G B" para usarlos con transparencia: rgb(var(--accent-rgb) / .4) */
+  --accent-rgb: 10 121 232;
+  --glow-rgb: 155 231 249;
+
+  /* Transición de nubes (portada → Quiénes somos) */
+  --ct-duracion: 360vh;          /* más alto = transición más lenta */
+  --ct-nube: #ffffff;
+  --ct-sombra: 120, 160, 225;    /* tono azulado de la sombra (RGB) */
+  --ct-niebla: #ffffff;
+  --ct-u: max(1vw, .55vh);       /* unidad de tamaño: en pantallas verticales las nubes crecen con el alto */
+}
+
+/* Margen lateral del contenido según el ancho de pantalla */
+@media (max-width: 1200px) {
+  :root { --gutter: 56px; }
+}
+@media (max-width: 960px) {
+  :root { --gutter: 40px; }
+}
+@media (max-width: 640px) {
+  :root { --gutter: 20px; }
+}

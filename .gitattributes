@@ -1,0 +1,7 @@
+# Finales de línea normalizados en el repositorio (LF); binarios sin tocar
+* text=auto eol=lf
+*.jpg binary
+*.png binary
+*.ico binary
+*.mp4 binary
+*.woff2 binary

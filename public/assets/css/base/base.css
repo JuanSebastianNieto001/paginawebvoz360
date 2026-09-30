@@ -1,0 +1,32 @@
+/* ==========================================================================
+   BASE — reset, elementos HTML y utilidades de maquetación
+   Reglas globales que comparten todas las secciones: caja, desplazamiento
+   con "snap" por secciones, enlaces, contenedor .wrap y títulos reutilizables.
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scrollbar-gutter: stable; scroll-snap-type: y proximity; }
+body { margin: 0; background: #FFFFFF; color: var(--navy); font-family: var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img { max-width: 100%; }
+/* Evita que las animaciones laterales ensanchen la página en móvil */
+main, .footer { overflow-x: clip; }
+a { color: var(--blue-dark); text-decoration: none; }
+a:hover { color: var(--accent); }
+h1, h2, h3, h4, p { margin: 0; }
+button { font-family: inherit; }
+.accent { color: var(--accent); }
+.cyan { color: var(--cyan); }
+.wrap { width: 100%; max-width: 1440px; margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--blue-dark); }
+.eyebrow-row { display: flex; align-items: center; gap: 12px; }
+.eyebrow-line { display: block; width: 32px; height: 2px; background: var(--accent); }
+.h2 { font-family: var(--display); font-weight: 700; font-size: 44px; line-height: 1.05; letter-spacing: -.03em; }
+
+/* Secciones fuera de pantalla: sus animaciones infinitas se pausan (la clase la pone modules/perf.js) */
+.is-offscreen, .is-offscreen *, .is-offscreen *::before, .is-offscreen *::after { animation-play-state: paused !important; }
+
+@media (max-width: 640px) {
+  .eyebrow { font-size: 9px; letter-spacing: .18em; }
+  .h2 { font-size: 30px; }
+}

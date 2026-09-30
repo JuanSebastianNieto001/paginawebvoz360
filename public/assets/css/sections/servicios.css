@@ -1,0 +1,102 @@
+/* ==========================================================================
+   SERVICIOS — encabezado + cuadrícula de 8 tarjetas
+   Ocupa una pantalla: en pantallas bajas (≤ 820 px de alto) las tarjetas se
+   compactan (ícono junto al título); en móvil van en 2 columnas con el texto
+   recortado a 3 líneas. .scard--dark es la variante azul noche.
+   ========================================================================== */
+
+.servicios { padding: clamp(28px, 5vh, 80px) 0; background: var(--soft); min-height: 100vh; min-height: 100svh; display: flex; align-items: center; scroll-snap-align: start; }
+.servicios > .wrap { width: 100%; }
+.servicios-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 60px; margin-bottom: 40px; }
+.servicios-head-txt { display: flex; flex-direction: column; gap: 14px; max-width: 830px; }
+.servicios-head-txt .eyebrow-line { width: 26px; background: var(--blue-dark); }
+.servicios-head-txt .h2 { font-weight: 800; font-size: 50px; line-height: 1.04; }
+.servicios-head-txt p { margin-top: 4px; max-width: 560px; font-size: 15px; line-height: 1.6; color: var(--muted); }
+.servicios-cta { position: relative; flex-shrink: 0; margin-top: 30px; }
+.servicios-cta .sparks { position: absolute; right: -34px; top: -30px; }
+.servicios-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.servicios-mobile-cta { display: none; }
+
+.scard { position: relative; overflow: hidden; min-height: clamp(150px, calc((100svh - 310px) / 2), 268px); padding: 22px; border-radius: 20px; background: #FFFFFF; border: 1px solid var(--line); display: flex; flex-direction: column; transition: transform .45s var(--ease), border-color .45s ease, box-shadow .45s ease; }
+.scard:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 24px 46px rgba(7,30,58,.12); }
+.scard-art { position: absolute; top: 0; right: 0; width: 150px; height: 150px; border-bottom-left-radius: 100%; overflow: hidden; background: linear-gradient(140deg, #D8E9F8, #F3F9FD); }
+.scard-art svg { position: absolute; top: 16px; right: 16px; width: 102px; height: 102px; }
+.scard-body { position: relative; z-index: 2; display: flex; flex-direction: column; flex: 1; }
+.scard-top { display: flex; align-items: center; gap: 9px; }
+.scard-num { font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--blue-dark); }
+.scard-rule { display: block; width: 16px; height: 1px; background: #A9C9E6; }
+.scard-icon { margin-top: 20px; display: block; line-height: 0; }
+.scard h3 { margin: 16px 0 7px; font-family: var(--display); font-weight: 700; font-size: 19px; line-height: 1.12; letter-spacing: -.03em; color: var(--navy); }
+.scard p { font-size: 13px; line-height: 1.55; color: var(--muted); }
+.scard-body > p { margin-bottom: 16px; }
+.scard-deco { position: absolute; z-index: 2; right: 74px; bottom: 30px; }
+
+/* Pantallas bajas: tarjetas compactas (ícono junto al título) para que la sección quepa en una pantalla */
+@media (min-width: 981px) and (max-height: 820px) {
+  .servicios-head { margin-bottom: 20px; }
+  .servicios-head-txt { gap: 10px; }
+  .servicios-head-txt .h2 { font-size: 40px; }
+  .servicios-head-txt p { font-size: 14px; }
+  .servicios-cta { margin-top: 18px; }
+  .scard { padding: 18px 20px; }
+  .scard-art, .scard-deco { display: none; }
+  .scard-body { display: grid; grid-template-columns: auto 1fr auto; grid-template-rows: auto 1fr auto; column-gap: 12px; align-items: center; }
+  .scard-icon { grid-column: 1; grid-row: 1; margin: 0; width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(140deg, #D8E9F8, #F3F9FD); display: flex; align-items: center; justify-content: center; }
+  .scard--dark .scard-icon { background: linear-gradient(140deg, #0E3054, #071E3A); }
+  .scard h3 { grid-column: 2; grid-row: 1; margin: 0; font-size: 17px; }
+  .scard-top { grid-column: 3; grid-row: 1; align-self: start; }
+  .scard-rule { display: none; }
+  .scard p { grid-column: 1 / -1; align-self: start; margin-top: 12px; font-size: 12.5px; line-height: 1.5; }
+  .scard-body > p { margin-bottom: 12px; }
+}
+@media (min-width: 981px) and (max-height: 700px) { .servicios-head-txt p { display: none; } .scard { padding: 15px 18px; } .scard p { margin-top: 9px; font-size: 12px; line-height: 1.45; } .scard-body > p { margin-bottom: 9px; } }
+
+.scard--dark { background: var(--navy); border-color: var(--navy); }
+.scard--dark .scard-art { background: linear-gradient(140deg, #0E3054, #071E3A); }
+.scard--dark .scard-num { color: var(--cyan); }
+.scard--dark .scard-rule { background: rgba(155,231,249,.45); }
+.scard--dark h3 { color: #FFFFFF; }
+.scard--dark p { color: var(--muted-dark); }
+
+@media (max-width: 1200px) {
+  .servicios-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 960px) {
+  .servicios-head { flex-direction: column; gap: 10px; }
+}
+
+@media (max-width: 640px) {
+  .servicios { padding: 64px 0 20px; }
+  .servicios-head { margin-bottom: 14px; }
+  .servicios-head-txt { gap: 8px; }
+  .servicios-head-txt .eyebrow-line { width: 20px; }
+  .servicios-head-txt .h2 { font-size: 28px; }
+  .servicios-head-txt p { margin-top: 0; font-size: 13px; }
+  .servicios-cta { display: none; }
+  .servicios-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .servicios-mobile-cta { display: flex; margin-top: 14px; height: 46px; padding: 0; width: 100%; }
+  .scard { min-height: 0; padding: 12px; border-radius: 16px; }
+  .scard:hover { transform: none; }
+  .scard:active { transform: scale(.98); }
+  .scard-art, .scard-deco, .scard-rule { display: none; }
+  .scard-body { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto 1fr; column-gap: 8px; align-content: start; align-items: center; }
+  .scard-icon { grid-column: 1; grid-row: 1; margin-top: 0; width: 34px; height: 34px; border-radius: 11px; background: linear-gradient(140deg, #D8E9F8, #F3F9FD); display: flex; align-items: center; justify-content: center; }
+  .scard-icon svg { width: 19px; height: 19px; }
+  .scard--dark .scard-icon { background: linear-gradient(140deg, #0E3054, #071E3A); }
+  .scard-top { display: none; }
+  .scard-num { font-size: 10px; }
+  .scard h3 { grid-column: 2; grid-row: 1; margin: 0; font-size: 14px; line-height: 1.15; }
+  .scard p { grid-column: 1 / -1; margin-top: 8px; font-size: 11px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .scard-body > p { margin-bottom: 0; }
+}
+
+/* Móvil con poca altura */
+@media (max-width: 640px) and (max-height: 760px) {
+  .servicios { padding-top: 50px; }
+  .servicios-head-txt p { display: none; }
+  .scard { padding: 10px 12px; }
+  .scard p { -webkit-line-clamp: 2; }
+  .servicios-mobile-cta { margin-top: 10px; height: 44px; }
+  .servicios-head-txt .h2 { font-size: 26px; }
+}

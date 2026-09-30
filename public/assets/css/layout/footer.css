@@ -1,0 +1,41 @@
+/* ==========================================================================
+   FOOTER — marca, navegación, enlaces legales y datos de la empresa
+   La columna "Legal" enlaza las políticas de datos y de seguridad y el canal
+   para reportar incidentes (ISO/IEC 27001 A.5.24).
+   ========================================================================== */
+
+.footer { padding: 56px 0 30px; background: var(--navy-deep); color: #FFFFFF; }
+.footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1.1fr; gap: 44px; padding-bottom: 60px; }
+.footer-brand { display: flex; flex-direction: column; gap: 12px; }
+.footer-brand .brand-logo { align-self: flex-start; height: 36px; margin-bottom: 4px; }
+.footer-brand p { font-family: var(--alt); max-width: 270px; font-size: 13px; line-height: 1.65; color: #B7B7B7; }
+.eq { display: flex; align-items: flex-end; gap: 3px; height: 20px; margin-top: 4px; }
+.eq span { display: block; width: 3px; height: 20px; border-radius: 2px; background: rgba(155,231,249,.7); }
+.footer-col { display: flex; flex-direction: column; gap: 10px; }
+.footer-col h4 { margin: 0 0 4px; font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #FFFFFF; }
+.footer-col a { font-size: 13px; color: #B7B7B7; }
+.footer-col a:hover { color: var(--cyan); }
+.footer-brand .footer-sgsi { font-family: var(--body); font-size: 12px; line-height: 1.6; color: #8FA3B8; }
+.footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.12); }
+.footer-bottom span { font-size: 11px; color: #B7B7B7; }
+
+@media (max-width: 1200px) {
+  .footer-grid { grid-template-columns: 1.3fr 1fr 1fr 1fr 1.1fr; gap: 28px; }
+}
+
+@media (max-width: 960px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
+}
+
+@media (max-width: 640px) {
+  .footer { padding: 40px 0 26px; }
+  .footer-grid { gap: 20px; padding-bottom: 32px; }
+  .footer-brand .brand-logo { height: 32px; }
+  .footer-brand p { font-size: 12px; }
+  .footer-col { gap: 9px; }
+  .footer-col h4 { font-size: 10px; margin-bottom: 3px; }
+  .footer-col a { font-size: 12px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 4px; padding-top: 14px; }
+  .footer-bottom span { font-size: 10px; }
+}

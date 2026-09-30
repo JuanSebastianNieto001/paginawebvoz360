@@ -1,0 +1,65 @@
+/* ==========================================================================
+   HEADER — barra superior fija con logo y menú
+   Transparente sobre la portada; al bajar se vuelve sólida (.is-solid) y se
+   oculta (.is-hidden). Con mouse reaparece al acercar el puntero arriba; en
+   pantallas táctiles, al subir. Lógica: modules/header.js.
+   Desde 960 px el menú pasa a un botón (hamburguesa) con menú desplegable.
+   ========================================================================== */
+
+.site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 900; border-bottom: 1px solid rgba(255,255,255,.18); transition: transform .45s var(--ease), background-color .35s ease, border-color .35s ease, box-shadow .35s ease; }
+.site-header.is-solid { background: rgba(7,30,58,.94); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom-color: rgba(155,231,249,.14); box-shadow: 0 10px 30px rgba(4,23,44,.25); }
+.site-header.is-hidden { transform: translateY(-100%); box-shadow: none; }
+.header-inner { position: relative; height: 76px; display: flex; align-items: center; justify-content: space-between; }
+.brand { display: flex; align-items: baseline; gap: 10px; color: #FFFFFF; }
+.brand:hover { color: #FFFFFF; }
+.brand-logo { display: block; width: auto; height: 30px; }
+.brand-tag { font-family: var(--alt); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #B7B7B7; }
+.nav { display: flex; align-items: center; gap: 30px; }
+.nav a { font-size: 13px; color: #E8F2FA; }
+
+/* Enlaces del menú: suben un poco y aparece una línea desde el centro */
+.nav a:not(.nav-cta):not(.nav-ig) { position: relative; display: inline-block; padding: 6px 0; transition: color .25s ease, transform .3s var(--ease); }
+.nav a:not(.nav-cta):not(.nav-ig)::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px; background: var(--cyan); transform: scaleX(0); transition: transform .35s var(--ease); }
+.nav a:not(.nav-cta):not(.nav-ig):hover { color: var(--cyan); transform: translateY(-2px); }
+.nav a:not(.nav-cta):not(.nav-ig):hover::after { transform: scaleX(1); }
+/* Icono de Instagram: abre el perfil @voz360_contact_center */
+.nav .nav-ig { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255,255,255,.28); color: #FFFFFF; transition: transform .35s var(--ease), border-color .3s ease, box-shadow .3s ease; position: relative; overflow: hidden; isolation: isolate; }
+.nav .nav-ig::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(circle at 30% 110%, #FDD775 0%, #F77737 28%, #E1306C 52%, #C13584 70%, #5B51D8 100%); opacity: 0; transition: opacity .3s ease; }
+.nav .nav-ig:hover { color: #FFFFFF; border-color: transparent; transform: translateY(-2px) rotate(-8deg) scale(1.08); box-shadow: 0 10px 24px rgba(225,48,108,.35); }
+.nav .nav-ig:hover::before { opacity: 1; }
+.nav-ig-txt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.nav .nav-cta { font-weight: 600; color: #FFFFFF; background: var(--accent); padding: 12px 22px; border-radius: 999px; }
+.nav .nav-cta:hover { color: #FFFFFF; }
+.menu-btn { display: none; width: 44px; height: 44px; border: 1px solid rgba(255,255,255,.4); border-radius: 12px; background: none; cursor: pointer; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+.menu-btn span { display: block; width: 16px; height: 1.5px; background: #FFFFFF; transition: transform .3s ease; }
+.menu-btn[aria-expanded="true"] span:first-child { transform: translateY(2.75px) rotate(45deg); }
+.menu-btn[aria-expanded="true"] span:last-child { transform: translateY(-2.75px) rotate(-45deg); }
+
+@media (max-width: 1200px) {
+  .nav { gap: 22px; }
+}
+
+@media (max-width: 960px) {
+  .nav { display: none; }
+  .menu-btn { display: flex; }
+
+  /* Menú desplegable */
+  .nav.is-open { display: flex; position: absolute; top: calc(100% + 1px); left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 12px var(--gutter) 24px; background: rgba(7,30,58,.97); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,.12); animation: menu-in .35s var(--ease); }
+  .nav.is-open a { padding: 14px 0; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .nav.is-open .nav-cta { margin-top: 16px; text-align: center; border-bottom: 0; }
+  .nav.is-open a:not(.nav-cta):not(.nav-ig)::after { display: none; }
+  .nav.is-open a:not(.nav-cta):not(.nav-ig):hover { transform: none; }
+  .nav.is-open .nav-ig { display: flex; justify-content: flex-start; gap: 10px; width: auto; height: auto; border: 0; border-bottom: 1px solid rgba(255,255,255,.08); border-radius: 0; overflow: visible; }
+  .nav.is-open .nav-ig::before { display: none; }
+  .nav.is-open .nav-ig:hover { transform: none; box-shadow: none; color: var(--cyan); }
+  .nav.is-open .nav-ig-txt { position: static; width: auto; height: auto; clip: auto; }
+}
+
+/* Aparición del menú desplegable */
+@keyframes menu-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 640px) {
+  .header-inner { height: 64px; }
+  .brand-logo { height: 26px; }
+  .brand-tag { display: none; }
+}

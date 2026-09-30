@@ -1,13 +1,28 @@
+# Dependencias y archivos del sistema
 node_modules/
 .DS_Store
 Thumbs.db
+desktop.ini
+
+# Vercel (configuración local de la CLI)
 .vercel
 
-# Material original (fotos sin desenfocar, manual de marca, borradores): nunca publicar
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Material original: NUNCA se publica (ISO/IEC 27001 A.5.12 / A.7.7)
+# Fotos sin desenfocar, videos en bruto, manual de marca, prototipos y comprimidos.
+# Ese material vive fuera del repositorio (carpeta VOZ360-material-original).
 *.zip
 *.pdf
+*.heic
+*.HEIC
 *.MOV
 *.mov
-Componente_Carrusel/
-reels/
-*.html.bak
+*.psd
+*.ai
+*.bak
+material-original/
+originales/

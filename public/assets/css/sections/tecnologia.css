@@ -1,0 +1,87 @@
+/* ==========================================================================
+   TECNOLOGÍA — tarjetas en órbita alrededor de una ilustración
+   Escena de diseño fijo 1440×1000 que modules/tecnologia.js escala para caber
+   en la pantalla (min(ancho/1440, alto/1000)). Las 8 tarjetas giran en una
+   elipse; al tocarlas se abre una ventana (burbuja) con el detalle.
+   Nota: estilo compacto (sin espacios) heredado del diseño original.
+   ========================================================================== */
+
+.tec-tec{--tec-accent:#0A79E8;--tec-navy:#071E3A;--tec-muted:#6A6A6A;font-family:var(--body);color:var(--tec-navy);background:radial-gradient(ellipse 55% 45% at 12% 10%,rgb(var(--glow-rgb) / .38),transparent 70%),radial-gradient(ellipse 50% 45% at 90% 92%,rgb(var(--accent-rgb) / .14),transparent 70%),linear-gradient(180deg,#EBFAFE 0%,#D7F5FD 100%);overflow:hidden;position:relative;height:100vh;height:100svh;min-height:560px;scroll-snap-align:start}
+.tec-scaler{position:relative;width:100%;height:100%}
+.tec-stage{position:relative;width:1440px;height:1000px;transform-origin:top left}
+.tec-head{position:absolute;left:0;top:40px;z-index:30;width:100%;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;padding:0 16px}
+.tec-eyebrow{font-size:13px;font-weight:700;letter-spacing:3px;color:#0A79E8}
+.tec-title{margin:0;font-size:46px;line-height:1.06;letter-spacing:-1.5px;font-weight:700}
+.tec-title span{color:var(--tec-accent)}
+.tec-hint{margin:0;font-size:16px;color:var(--tec-muted)}
+.tec-orbit{position:absolute;left:0;top:0;width:1440px;height:1000px;overflow:visible}
+.tec-ilus{position:absolute;left:220px;top:120px;width:1000px;height:890px;contain:strict}
+.tec-cards{position:absolute;inset:0;pointer-events:none}
+.tec-float{position:absolute;left:0;top:0;will-change:transform;backface-visibility:hidden;pointer-events:auto}
+/* Capa aparte con las piezas animadas de la ilustración (barras, puntos, cursor):
+   así solo se repinta esta capa y no toda la ilustración */
+.tec-fx{position:absolute;left:220px;top:120px;width:1000px;height:890px;pointer-events:none;will-change:transform}
+.tec-card{position:relative;overflow:hidden;width:262px;display:flex;flex-direction:column;gap:4px;padding:16px 18px;background:#fff;border:1px solid #DBDBDB;border-radius:16px;box-shadow:0 14px 34px rgba(11,37,64,.14),0 0 0 6px rgba(10,114,220,.06);text-align:left;font-family:inherit;color:var(--tec-navy);cursor:pointer;transition:box-shadow .25s,border-color .25s,transform .25s}
+/* Al pasar el mouse la tarjeta se ilumina (sigue girando) */
+.tec-card::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(115deg,transparent 30%,rgba(155,231,249,.55) 48%,transparent 66%);transform:translateX(-120%);pointer-events:none}
+.tec-card:hover{background:#fff;border-color:var(--tec-accent);transform:scale(1.05);box-shadow:0 0 0 6px rgba(10,121,232,.28),0 0 42px 14px rgba(10,121,232,.5),0 0 100px 30px rgba(155,231,249,.75)}
+.tec-card:hover::before{animation:tec-shine .9s ease forwards}
+.tec-card:hover .tec-num{color:var(--tec-accent)}
+.tec-card:hover .tec-name{color:var(--tec-accent)}
+@keyframes tec-shine{to{transform:translateX(120%)}}
+.tec-card:focus-visible{outline:3px solid var(--tec-accent);outline-offset:3px}
+.tec-card:active{transform:scale(.96)}
+.tec-num{font-size:12px;font-weight:700;color:var(--tec-accent)}
+.tec-name{font-size:18px;font-weight:600}
+.tec-sub{font-size:13px;color:var(--tec-muted)}
+.tec-cur{animation:tec-blink 1s steps(1) infinite}
+.tec-bar{transform-box:fill-box;transform-origin:bottom;animation:tec-grow 2.4s ease-in-out infinite alternate}
+.tec-dot{transform-box:fill-box;transform-origin:center;animation:tec-dot 1.4s ease-out infinite}
+
+/* Modal burbuja */
+.tec-modal{position:fixed;inset:0;z-index:1100;display:none}
+.tec-modal.is-open{display:block}
+.tec-bubble{position:fixed;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;background:rgba(11,37,64,.88);transform:scale(0)}
+.tec-modal.is-open .tec-bubble{animation:tec-bubble .6s cubic-bezier(.3,.7,.2,1) forwards}
+.tec-modal.is-closing .tec-bubble{animation:tec-bubble-out .35s ease-in forwards}
+.tec-backdrop{position:absolute;inset:0;width:100%;height:100%;background:transparent;border:0;cursor:pointer}
+.tec-panel{position:absolute;left:50%;top:50%;width:min(580px,calc(100% - 32px));max-height:calc(100% - 32px);overflow:auto;padding:40px;background:#fff;border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;gap:16px;font-family:var(--body);color:var(--tec-navy);transform:translate(-50%,-50%) scale(.4);opacity:0}
+.tec-modal.is-open .tec-panel{animation:tec-pop .5s cubic-bezier(.3,1.4,.5,1) .22s forwards}
+.tec-modal.is-closing .tec-panel{animation:tec-pop-out .25s ease-in forwards}
+.tec-ptop{display:flex;align-items:center;justify-content:space-between}
+.tec-badge{width:56px;height:56px;border-radius:50%;background:var(--tec-accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700}
+.tec-close{width:44px;height:44px;border-radius:50%;border:1px solid #DBDBDB;background:#f7fafe;color:var(--tec-navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.tec-close:hover{background:#e3effc}
+.tec-body{display:flex;flex-direction:column;gap:14px;opacity:0}
+.tec-modal.is-open .tec-body{animation:tec-rise .4s ease .45s forwards}
+.tec-psub{font-size:13px;font-weight:700;letter-spacing:2px;color:#0A79E8}
+.tec-ptitle{margin:0;font-size:32px;font-weight:700;letter-spacing:-.8px;line-height:1.1}
+.tec-ptext{margin:0;font-size:17px;line-height:1.6;color:#3A3A3A}
+.tec-points{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.tec-points li{display:flex;align-items:center;gap:12px;font-size:15px;font-weight:600}
+.tec-points li::before{content:"";flex-shrink:0;width:24px;height:24px;border-radius:50%;background:#e3effc url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%230a72dc' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='5 12 10 17 19 7'/%3E%3C/svg%3E") center/14px no-repeat}
+
+@keyframes tec-blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes tec-grow{0%{transform:scaleY(.35)}100%{transform:scaleY(1)}}
+@keyframes tec-dot{0%{transform:scale(0);opacity:0}40%{opacity:.8}100%{transform:scale(1) translateY(-40px);opacity:0}}
+@keyframes tec-bubble{to{transform:scale(70)}}
+@keyframes tec-bubble-out{from{transform:scale(70)}to{transform:scale(0)}}
+@keyframes tec-pop{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}60%{transform:translate(-50%,-50%) scale(1.04);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+@keyframes tec-pop-out{from{transform:translate(-50%,-50%) scale(1);opacity:1}to{transform:translate(-50%,-50%) scale(.6);opacity:0}}
+@keyframes tec-rise{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+
+/* Celular / tablet: órbita compacta (la escena ya no se escala, se reacomoda) */
+@media (max-width:900px){
+  .tec-stage{width:100%;height:100%;transform:none!important;margin:0!important;padding:64px 0 12px;display:flex;flex-direction:column}
+  .tec-head{position:static;padding:0 16px}
+  .tec-title{font-size:34px;letter-spacing:-1px}
+  .tec-orbit{position:relative;width:100%;height:auto;flex:1;min-height:0}
+  .tec-ilus,.tec-fx{left:50%;top:50%;width:calc(100% + 40px);max-width:560px;height:auto;aspect-ratio:640/570;transform:translate(-50%,-50%)}
+  .tec-card{width:116px;padding:9px 10px;border-radius:13px;gap:2px}
+  .tec-sub{display:none}
+  .tec-name{font-size:12px;line-height:1.25}
+  .tec-num{font-size:11px}
+  .tec-panel{padding:28px 22px}
+  .tec-ptitle{font-size:26px}
+  .tec-ptext{font-size:15px}
+}

@@ -1,0 +1,43 @@
+/* ==========================================================================
+   PORTADA (HERO) — foto del equipo con el titular
+   Ocupa exactamente el alto de la pantalla (svh evita saltos por la barra del
+   navegador en móvil). Dos degradados oscurecen la foto para que el texto
+   se lea; en móvil el texto baja y el degradado es vertical.
+   ========================================================================== */
+
+.hero { position: relative; height: 100vh; height: 100svh; min-height: 540px; overflow: hidden; background: var(--navy); }
+.hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 58% 64%; display: block; }
+.hero-shade-1 { position: absolute; inset: 0; background: linear-gradient(100deg, rgba(7,30,58,.96) 0%, rgba(7,30,58,.9) 32%, rgba(7,30,58,.62) 56%, rgba(7,30,58,.24) 82%, rgba(7,30,58,.12) 100%); }
+.hero-shade-2 { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,30,58,.6) 0%, rgba(7,30,58,0) 18%, rgba(7,30,58,0) 62%, rgba(7,30,58,.45) 100%); }
+.hero-aurora { position: absolute; top: -200px; right: -140px; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(155,231,249,.3), rgba(155,231,249,0) 62%); }
+
+.hero-content { position: absolute; inset: 0; z-index: 3; padding-top: 76px; display: flex; flex-direction: column; justify-content: center; gap: 24px; }
+.hero-content > * { max-width: 680px; }
+.hero-eyebrow { display: flex; align-items: center; gap: 12px; }
+.hero-eyebrow .line { display: block; width: 42px; height: 2px; background: var(--cyan); }
+.hero-eyebrow .txt { font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--cyan); }
+.hero h1 { font-family: var(--display); font-weight: 800; font-size: clamp(44px, min(5.4vw, 10.5vh), 78px); line-height: .97; letter-spacing: -.03em; color: #FFFFFF; }
+.hero-content > h1 { max-width: 8.7em; } /* mantiene el corte de 4 líneas del diseño a cualquier tamaño */
+.hero h1 span { color: var(--cyan); }
+
+@media (max-width: 1200px) {
+  .hero h1 { font-size: clamp(44px, min(5.4vw, 10.5vh), 64px); }
+}
+
+@media (max-width: 960px) {
+  .hero h1 { font-size: clamp(40px, min(7vw, 9vh), 56px); }
+}
+
+@media (max-width: 640px) {
+  .hero { min-height: 520px; }
+  .hero-img { object-position: 56% 20%; }
+  .hero-shade-1 { background: linear-gradient(180deg, rgba(7,30,58,.86) 0%, rgba(7,30,58,.3) 22%, rgba(7,30,58,.62) 46%, rgba(7,30,58,.95) 72%, rgba(7,30,58,1) 100%); }
+  .hero-shade-2 { display: none; }
+  .hero-aurora { top: -130px; right: -150px; width: 420px; height: 420px; background: radial-gradient(circle, rgba(155,231,249,.32), rgba(155,231,249,0) 62%); }
+  .hero-content { top: auto; justify-content: flex-end; padding-top: 0; padding-bottom: 32px; gap: 14px; }
+  .hero-eyebrow { gap: 10px; }
+  .hero-eyebrow .line { width: 26px; }
+  .hero-eyebrow .txt { font-size: 9px; letter-spacing: .18em; }
+  .hero h1 { font-size: 42px; line-height: .98; }
+  .hero h1 br { display: none; }
+}

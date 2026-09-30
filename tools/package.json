@@ -1,0 +1,14 @@
+{
+  "name": "voz360-web-tools",
+  "private": true,
+  "description": "Herramientas de mantenimiento del sitio VOZ360 (no se publican). Ver docs/DESARROLLO.md",
+  "scripts": {
+    "serve": "node serve.js",
+    "version": "node bump-version.js",
+    "thumbs": "node gallery-thumbs.js",
+    "blur": "node blur-regions.js"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.0"
+  }
+}
