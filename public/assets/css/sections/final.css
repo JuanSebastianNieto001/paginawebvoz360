@@ -6,16 +6,38 @@
    Todo lo mueve modules/final.js según el progreso del scroll.
    Sin filtros SVG de desenfoque: nubes con degradado radial y el brillo del
    sendero es un trazo translúcido (mucho más liviano).
+   La escena son capas apiladas (cielo, estrellas, sol, luna, nubes, aves,
+   cordilleras, niebla, montaña y muñequito): cada una se mueve con transform u
+   opacity en la GPU. Solo mientras la sección está cerca se reservan sus capas
+   (will-change); fuera de pantalla se liberan.
    ========================================================================== */
 
 .vzf{--navy:#071E3A;--blue:#0A79E8;--sky:#9BE7F9;--mut:#4d6177;position:relative;font-family:var(--body);color:var(--navy);background:#071E3A;isolation:isolate;height:420vh}   /* alto = recorrido del scroll: más alto, animación más lenta */
 
 /* Escena fija mientras se recorre el bloque */
 .vzf-bg{position:sticky;top:0;height:100vh;overflow:hidden;z-index:0;pointer-events:none}
-.vzf-bg svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* overflow visible: al mover una capa no se recorta lo que estaba fuera de su caja */
+.vzf-bg svg{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:visible}
+.vzf-bg svg.vzf-defs{width:0;height:0}
+/* Muñequito: capa pequeña (final.js le da tamaño y posición) */
+.vzf-bg svg.vzf-hikerl{inset:auto;left:0;top:0;width:200px;height:100px;will-change:transform}
+.vzf.is-offscreen .vzf-hikerl{will-change:auto}
+.vzf-sky,.vzf-sky i,.vzf-stars,#vzf-clouds{position:absolute;inset:0}
+/* Cielo: mañana (k0) → mediodía azul VOZ (k1) → atardecer (k2) → noche (k3), fundidos por opacidad */
+.vzf-sky i{display:block;opacity:0}
+.vzf-sky .k0{opacity:1;background:linear-gradient(180deg,#bfe6fb,#d9f0fc 55%,#f3fbff)}
+.vzf-sky .k1{background:linear-gradient(180deg,#4aa0e8,#8ccdf5 55%,#d2f0fc)}
+.vzf-sky .k2{background:linear-gradient(180deg,#1c4c96,#4a8cd2 55%,#ffd6be)}
+.vzf-sky .k3{background:linear-gradient(180deg,#061428,#0b2540 55%,#1a4678)}
+.vzf-stars,#vzf-moon{opacity:0}
+.vzf-layer,.vzf-birds,.vzf-sky i,.vzf-stars{will-change:transform,opacity}
+.vzf.is-offscreen .vzf-layer,.vzf.is-offscreen .vzf-birds,.vzf.is-offscreen .vzf-sky i,.vzf.is-offscreen .vzf-stars{will-change:auto}
+.vzf-birds.is-gone{visibility:hidden}
+.vzf-birds.is-gone .vzf-wing{animation:none}
+/* Estrellas: 3 grupos que parpadean a distinto ritmo */
 .vzf-tw{animation:vzf-tw 3s ease-in-out infinite}
-.vzf-tw:nth-child(3n){animation-delay:-1s;animation-duration:2.4s}
-.vzf-tw:nth-child(3n+1){animation-delay:-2s;animation-duration:3.6s}
+.vzf-tw1{animation-delay:-1s;animation-duration:2.4s}
+.vzf-tw2{animation-delay:-2s;animation-duration:3.6s}
 @keyframes vzf-tw{0%,100%{opacity:1}50%{opacity:.25}}
 .vzf-drift{animation:vzf-drift 60s linear infinite alternate}
 .vzf-drift2{animation:vzf-drift 90s linear infinite alternate-reverse}
@@ -23,8 +45,11 @@
 .vzf-wing{transform-box:fill-box;transform-origin:center;animation:vzf-flap .5s ease-in-out infinite alternate}
 @keyframes vzf-flap{from{transform:scaleY(1)}to{transform:scaleY(-.6)}}
 .vzf-shoot{animation:vzf-shoot 5s ease-in infinite}
-@keyframes vzf-shoot{0%,78%{transform:translate(0,0);opacity:0}80%{opacity:1}92%{transform:translate(-420px,210px);opacity:0}100%{opacity:0}}
-.vzf-flagcloth{transform-box:fill-box;transform-origin:left center;animation:vzf-wave 1.2s ease-in-out infinite alternate}
+/* 420×210 unidades del dibujo, en % del tamaño de la capa */
+@keyframes vzf-shoot{0%,78%{transform:translate(0,0);opacity:0}80%{opacity:1}92%{transform:translate(-29%,23%);opacity:0}100%{opacity:0}}
+/* La bandera ondea solo cuando ya está arriba (antes de eso está oculta) */
+.vzf-flagcloth{transform-box:fill-box;transform-origin:left center}
+.vzf-win .vzf-flagcloth{animation:vzf-wave 1.2s ease-in-out infinite alternate}
 @keyframes vzf-wave{from{transform:skewY(-6deg) scaleX(1)}to{transform:skewY(5deg) scaleX(.92)}}
 .vzf-legs line,.vzf-arms line{transform-box:fill-box;transform-origin:top center}
 .vzf-walking .vzf-l1,.vzf-walking .vzf-a2{animation:vzf-step .42s ease-in-out infinite alternate}

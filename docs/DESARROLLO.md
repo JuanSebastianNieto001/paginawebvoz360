@@ -39,7 +39,7 @@ Este flujo es la evidencia de gestión de cambios que pide ISO/IEC 27001 (A.8.32
 ## Convenciones de código
 
 - **Idioma:** comentarios, textos y nombres de archivo en español. Los nombres de variables y funciones pueden ir en inglés si son términos técnicos (`open`, `close`, `render`).
-- **CSS:** colores y tipografías siempre desde `base/tokens.css`; un archivo por sección; las reglas `@media` al final de su archivo. Animar solo `transform` y `opacity`.
+- **CSS:** colores y tipografías siempre desde `base/tokens.css`; un archivo por sección; las reglas `@media` al final de su archivo. Animar solo `transform` y `opacity`; antes de añadir animaciones, leer las reglas de rendimiento de [ARQUITECTURA.md](ARQUITECTURA.md#rendimiento-decisiones-importantes).
 - **JS:** un módulo por sección con `'use strict'`, sin variables globales; constantes de ajuste en MAYÚSCULAS al inicio del módulo; nada de `innerHTML` con datos del usuario.
 - **HTML:** sin estilos ni scripts en línea nuevos (la CSP no los permite para scripts). Los `style="--delay:…"` de las animaciones de entrada sí se permiten.
 - `.editorconfig` define codificación UTF-8, finales de línea LF y sangría de 2 espacios.

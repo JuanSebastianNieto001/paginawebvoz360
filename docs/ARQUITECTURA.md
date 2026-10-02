@@ -20,7 +20,7 @@ Cada sección tiene su hoja de estilos y, si tiene comportamiento, su módulo de
 | 9 | Footer | `.footer` | `layout/footer.css` | `modules/perf.js` (año) |
 | 10 | Bot Voz360 | `#bot` | `components/bot.css`, `components/forms.css` | `modules/bot.js`, `modules/forms.js` |
 
-Transversales: `base/animations.css` y `modules/reveal.js` (entrada al hacer scroll), `components/buttons.css` y `modules/buttons.js` (efectos de botones), `modules/perf.js` (pausa de animaciones fuera de pantalla).
+Transversales: `base/animations.css` y `modules/reveal.js` (entrada al hacer scroll), `components/buttons.css` y `modules/buttons.js` (efectos de botones), `modules/perf.js` (animaciones y escenas fuera de pantalla).
 
 ## CSS
 
@@ -44,14 +44,17 @@ Estas decisiones se tomaron midiendo con la CPU limitada a 4× (equipos modestos
 
 | Dónde | Decisión | Por qué |
 |---|---|---|
-| Nubes | Un elemento por nube, sin `filter: blur` ni `backdrop-filter`; menos nubes en celular o con ≤ 4 núcleos | Los filtros sobre toda la pantalla eran lo más costoso (7 → 12 fps). |
-| Galería | Fondo con miniaturas ya desenfocadas (`galeria/blur/`); bordes con degradados en vez de `mask-image`; la foto no se re-escala en cada cuadro | 10 → 22 fps al cambiar de foto. |
-| Montaña | Nubes con degradado radial en vez de `feGaussianBlur`; sendero con `stroke-dashoffset` | 6 → 23 fps al hacer scroll. |
-| Tecnología | Sin `backdrop-filter` en tarjetas que se mueven; medidas en caché; animaciones de la ilustración en una capa SVG aparte (`.tec-fx`) | El diseño se recalculaba en cada cuadro. |
-| Quiénes somos | La onda de audio usa `transform: scaleY` y no `height` | Animar `height` recalculaba el diseño de **toda la página** 60 veces por segundo. |
-| Global | `.is-offscreen` pausa las animaciones CSS de las secciones que no se ven | Ahorra trabajo mientras se está en otra sección. |
+| Nubes | Un elemento por nube, sin `filter: blur` ni `backdrop-filter`; 20 nubes en celular y 30 en PC. Con `ScrollTimeline` el recorrido se calcula una vez y el navegador lo reproduce en la GPU al ritmo del scroll; sin soporte, JS mueve las nubes solo cuando el scroll cambia | Recalcular el estilo de las nubes en cada cuadro era casi la mitad del trabajo en PC (20 → 58 fps). |
+| Galería | Fondo con miniaturas ya desenfocadas (`galeria/blur/`); bordes con degradados en vez de `mask-image`; la foto no se re-escala en cada cuadro; `contain: layout` en el carrusel | El cambio de tamaño de las fotos solo recalcula el carrusel, no la página (25 → 50 fps en PC). |
+| Montaña | Escena en capas apiladas (cielo en 4 degradados que se funden, estrellas, sol, luna, nubes, aves, cordilleras, niebla, montaña, sendero, muñequito y cima), cada una movida con `transform`/`opacity`; sendero muestreado una vez; los atributos SVG solo se escriben si cambian; la bandera ondea solo en la cima | Antes era un único SVG que se repintaba completo en cada cuadro (29 → 40 fps en celular, 32 → 42 en PC). |
+| Tecnología | Sin `backdrop-filter` en tarjetas que se mueven; medidas en caché; barras, puntos y cursor de la ilustración son elementos HTML (`.tec-fx i`) animados en la GPU | Dentro del SVG obligaban a repintar la ilustración en cada cuadro. |
+| Quiénes somos | La onda de audio usa `transform: scaleY` y no `height`; el fondo de puntos se desplaza con `transform` (no `background-position`); manchas de color con degradado radial (no `filter: blur`) | Animar `height`, `background-position` o un desenfoque obliga a recalcular o repintar en cada cuadro (13 → 50 fps en PC). |
+| Instagram | Figuras desenfocadas: el filtro va en el hijo y la animación en el contenedor (el desenfoque se calcula una vez); botón de play sin `backdrop-filter` | El desenfoque animado se recalculaba en cada cuadro, y el del play, sobre el video. |
+| Header | Fondo casi opaco, sin `backdrop-filter` | Desenfocaba lo que pasa por debajo en cada cuadro del scroll. |
+| Global | Fuera de pantalla (`.is-offscreen`, margen de 150 px) las animaciones se **quitan**, no solo se pausan (una animación pausada sigue ocupando una capa en la GPU), y las escenas de nubes y montaña no se dibujan (`content-visibility: hidden`). La montaña además usa `.is-asleep` con margen 0. Los elementos con entrada al hacer scroll no tienen `will-change` permanente | Bajó de ~210 a ~110 capas en la GPU. |
+| Bot | Los ojos parpadean con una animación corta cada 4,5 s (no una infinita) | La animación infinita recalculaba estilos en cada cuadro. |
 
-Reglas generales: animar solo `transform` y `opacity`; no leer medidas del DOM (`offsetWidth`, `getBoundingClientRect`) dentro de un bucle de animación; no usar filtros de desenfoque en vivo sobre áreas grandes.
+Reglas generales: animar solo `transform` y `opacity`, y sobre elementos HTML (una animación dentro de un SVG repinta todo el SVG); no leer medidas del DOM (`offsetWidth`, `getBoundingClientRect`) dentro de un bucle de animación; no usar `filter: blur` ni `backdrop-filter` animados o sobre áreas grandes; no dejar `will-change` permanente en muchos elementos; en bucles con JS, escribir estilos y atributos solo si cambiaron.
 
 ## Accesibilidad
 

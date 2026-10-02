@@ -77,7 +77,7 @@
 .vzi-reel:hover img{filter:brightness(1.08) saturate(1.1)}
 .vzi-reel::after{content:"";position:absolute;inset:var(--bz);border-radius:31px;background:linear-gradient(180deg,rgba(7,30,58,.35) 0%,rgba(7,30,58,0) 30%,rgba(7,30,58,0) 55%,rgba(7,30,58,.7) 100%);pointer-events:none}
 .vzi-island{position:absolute;left:50%;top:calc(var(--bz) + 10px);z-index:3;width:30%;height:18px;margin-left:-15%;border-radius:12px;background:#050F1F}
-.vzi-play{position:absolute;left:50%;top:50%;z-index:2;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;background:rgba(255,255,255,.22);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1.5px solid rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;transition:transform .25s,background .25s}
+.vzi-play{position:absolute;left:50%;top:50%;z-index:2;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;background:rgba(7,30,58,.38);border:1.5px solid rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;transition:transform .25s,background .25s}
 .vzi-play svg{width:24px;height:24px;margin-left:3px}
 .vzi-reel:hover .vzi-play{transform:scale(1.1);background:rgba(10,121,232,.85)}
 .vzi-tag{position:absolute;left:calc(var(--bz) + 12px);top:calc(var(--bz) + 38px);z-index:2;display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:rgba(7,30,58,.7);font-size:11px;font-weight:600;color:#fff}
@@ -88,13 +88,16 @@
 
 /* Fondo: íconos y piezas de redes sociales, difuminados y flotando */
 .vzi-social{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
-.vzi-s{position:absolute;display:block;height:auto;transform:rotate(var(--r,0deg));animation:vzi-float 9s ease-in-out infinite}
-.vzi-s.b1{filter:blur(3px);opacity:.34}
-.vzi-s.b2{filter:blur(6px);opacity:.28;animation-duration:12s;animation-delay:-3s}
-.vzi-s.b3{filter:blur(10px);opacity:.3;animation-duration:15s;animation-delay:-6s}
+/* Cada figura: contenedor que flota (.vzi-s) con el dibujo desenfocado dentro (.vzi-ico / .vzi-post).
+   El filtro va en el hijo para que se rasterice una sola vez dentro de la capa que se mueve. */
+.vzi-s{position:absolute;display:block;transform:rotate(var(--r,0deg));animation:vzi-float 9s ease-in-out infinite}
+.vzi-ico{display:block;width:100%;height:auto}
+.vzi-s.b1{opacity:.34}.vzi-s.b1>*{filter:blur(3px)}
+.vzi-s.b2{opacity:.28;animation-duration:12s;animation-delay:-3s}.vzi-s.b2>*{filter:blur(6px)}
+.vzi-s.b3{opacity:.3;animation-duration:15s;animation-delay:-6s}.vzi-s.b3>*{filter:blur(10px)}
 .vzi-s.c-cyan{color:var(--sky)}
 .vzi-s.c-real{color:var(--blue)}
-.vzi-post{width:150px;height:190px;border-radius:22px;background:linear-gradient(160deg,rgba(10,121,232,.55),rgba(155,231,249,.25));border:1px solid rgba(155,231,249,.35)}
+.vzi-post{display:block;width:150px;height:190px;border-radius:22px;background:linear-gradient(160deg,rgba(10,121,232,.55),rgba(155,231,249,.25));border:1px solid rgba(155,231,249,.35)}
 @keyframes vzi-float{0%,100%{transform:rotate(var(--r,0deg)) translateY(0)}50%{transform:rotate(var(--r,0deg)) translateY(-18px)}}
 .vzi-note{margin-top:20px;font-size:14px;color:#B7B7B7}
 

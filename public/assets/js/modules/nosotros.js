@@ -24,6 +24,7 @@
     var pad = function (n) { return String(n).padStart(2, '0'); };
     setInterval(function () {
       seconds++;
+      if (timer.closest('.is-offscreen')) return;   // fuera de pantalla solo cuenta, no redibuja
       timer.textContent = pad(Math.floor(seconds / 60)) + ':' + pad(seconds % 60);
     }, 1000);
   }

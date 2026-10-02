@@ -31,7 +31,6 @@
     box-shadow .45s ease,
     background-color .35s ease,
     padding-left .35s ease;
-  will-change: opacity, translate;
 }
 .js [data-reveal="left"]  { translate: -70px 0; }
 .js [data-reveal="right"] { translate: 70px 0; }

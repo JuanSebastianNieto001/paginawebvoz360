@@ -2,6 +2,12 @@
 
 Resumen por versión. El detalle completo está en el historial de Git (`git log`).
 
+## 2026-10-02 — Rendimiento
+- Optimización general medida con la CPU limitada 4× en celular y PC: las secciones que iban a 13–32 fps van ahora a 40–60 fps. Detalle de cada decisión en [ARQUITECTURA.md](ARQUITECTURA.md#rendimiento-decisiones-importantes).
+- Nubes con animaciones ligadas al scroll (GPU); montaña separada en capas; ilustración de Tecnología, figuras de Instagram y fondo de Quiénes somos sin repintado por cuadro; header sin desenfoque de fondo; fuera de pantalla las animaciones se quitan y las escenas pesadas no se dibujan.
+- Corregido: en el celular, al abrir el menú después de bajar por la página, el menú quedaba invisible.
+- El botón de play de los reels pasa de vidrio esmerilado a azul translúcido.
+
 ## 2026-09-30 — Reorganización del proyecto
 - PQRS y sugerencias: nueva opción del bot, enlazada desde el header y el footer. Tipo de solicitud, envío anónimo opcional, autorización de datos y número de radicado (PQRS-AAAAMMDD-XXXX). Nueva finalidad en la política de datos.
 - Teléfono de contacto en el footer y las políticas.

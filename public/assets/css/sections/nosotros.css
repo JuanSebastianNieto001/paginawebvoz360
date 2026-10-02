@@ -9,11 +9,14 @@
 .qs { position: relative; overflow: hidden; padding: 70px 0 80px; background: #F5F5F5; --qs-ok: #16A36B; --qs-sky: #E4EFFC; --qs-line: #DCE7F4; --qs-muted: #6A6A6A; --qs-blue-2: #3B8EF5; }
 
 /* Fondo vivo */
-.qs-grid-bg { position: absolute; inset: 0; background-image: radial-gradient(#C9DAF0 1.2px, transparent 1.2px); background-size: 26px 26px; -webkit-mask-image: radial-gradient(ellipse 70% 60% at 70% 40%, #000 30%, transparent 75%); mask-image: radial-gradient(ellipse 70% 60% at 70% 40%, #000 30%, transparent 75%); animation: qs-drift 30s linear infinite; }
-@keyframes qs-drift { to { background-position: 260px 130px; } }
-.qs-blob { position: absolute; z-index: 1; border-radius: 50%; filter: blur(70px); opacity: .55; }
-.qs-b1 { width: 520px; height: 520px; background: #BCD6FA; right: -80px; top: -60px; animation: qs-float 14s ease-in-out infinite; }
-.qs-b2 { width: 340px; height: 340px; background: #D8E8FD; left: -120px; bottom: 40px; animation: qs-float 18s ease-in-out infinite reverse; }
+.qs-grid-bg { position: absolute; inset: 0; overflow: hidden; -webkit-mask-image: radial-gradient(ellipse 70% 60% at 70% 40%, #000 30%, transparent 75%); mask-image: radial-gradient(ellipse 70% 60% at 70% 40%, #000 30%, transparent 75%);  }
+.qs-grid-bg::before { content: ''; position: absolute; top: -130px; left: -260px; right: 0; bottom: 0; background-image: radial-gradient(#C9DAF0 1.2px, transparent 1.2px); background-size: 26px 26px; animation: qs-drift 30s linear infinite; }
+/* El patrón se repite cada 26 px: desplazarlo 260×130 px vuelve al mismo dibujo, sin saltos */
+@keyframes qs-drift { to { transform: translate(260px, 130px); } }
+/* Manchas de color difuminadas: degradado radial (equivale a blur(70px) sin su costo) */
+.qs-blob { position: absolute; z-index: 1; border-radius: 50%; opacity: .55; margin: -70px; padding: 70px; box-sizing: content-box; background: radial-gradient(closest-side, var(--blob) 45%, transparent 100%); }
+.qs-b1 { width: 520px; height: 520px; --blob: #BCD6FA; right: -80px; top: -60px; animation: qs-float 14s ease-in-out infinite; }
+.qs-b2 { width: 340px; height: 340px; --blob: #D8E8FD; left: -120px; bottom: 40px; animation: qs-float 18s ease-in-out infinite reverse; }
 @keyframes qs-float { 50% { transform: translate(-40px, 50px) scale(1.08); } }
 
 .qs-top { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
@@ -59,7 +62,7 @@
 .qs-meta small { display: block; margin-top: 3px; color: var(--qs-muted); font-size: 12px; }
 .qs-timer { padding: 6px 10px; border-radius: 8px; background: var(--qs-sky); color: var(--accent); font: 600 13px var(--body); font-variant-numeric: tabular-nums; }
 .qs-wave { display: flex; gap: 4px; align-items: center; height: 34px; margin-top: 14px; }
-.qs-wave i { flex: 1; height: 100%; border-radius: 3px; background: var(--accent); opacity: .85; transform: scaleY(.3); will-change: transform; animation: qs-eq 1.1s ease-in-out infinite; }
+.qs-wave i { flex: 1; height: 100%; border-radius: 3px; background: var(--accent); opacity: .85; transform: scaleY(.3); animation: qs-eq 1.1s ease-in-out infinite; }
 @keyframes qs-eq { 50% { transform: scaleY(1); } }   /* scale en vez de height: no recalcula el diseño de la página */
 
 .qs-toast { position: absolute; z-index: 4; display: flex; gap: 12px; align-items: center; padding: 12px 16px; border-radius: 16px; background: #FFFFFF; border: 1px solid var(--qs-line); box-shadow: 0 20px 40px -20px rgba(7,30,58,.35); font-size: 13px; animation: qs-bob 6s ease-in-out infinite; }

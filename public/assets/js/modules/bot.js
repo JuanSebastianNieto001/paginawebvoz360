@@ -217,6 +217,14 @@
     });
   });
 
+  /* ---------- Parpadeo de la carita del botón ---------- */
+  // Una animación corta cada 4,5 s en vez de una infinita: entre parpadeos no hay trabajo
+  setInterval(function () {
+    if (document.hidden || bot.classList.contains('is-open')) return;
+    bot.classList.add('is-blinking');
+    setTimeout(function () { bot.classList.remove('is-blinking'); }, 300);
+  }, 4500);
+
   /* ---------- Burbuja "¿Hablamos?" ---------- */
   // Aparece, se queda un rato, se va y vuelve a salir. Se pausa con el chat abierto o la intro.
   (function hintLoop() {

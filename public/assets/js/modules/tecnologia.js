@@ -83,7 +83,7 @@
   measure();
   window.addEventListener('resize', function () { fit(); measure(); place(); });
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (e) { onScreen = e[0].isIntersecting; last = null; }, { rootMargin: '100px 0px' }).observe(sec);
+    new IntersectionObserver(function (e) { onScreen = e[0].isIntersecting; last = null; }, { rootMargin: '0px' }).observe(sec);
   }
   requestAnimationFrame(tick);
 

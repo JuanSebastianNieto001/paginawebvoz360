@@ -18,9 +18,14 @@
 .tec-ilus{position:absolute;left:220px;top:120px;width:1000px;height:890px;contain:strict}
 .tec-cards{position:absolute;inset:0;pointer-events:none}
 .tec-float{position:absolute;left:0;top:0;will-change:transform;backface-visibility:hidden;pointer-events:auto}
-/* Capa aparte con las piezas animadas de la ilustración (barras, puntos, cursor):
-   así solo se repinta esta capa y no toda la ilustración */
-.tec-fx{position:absolute;left:220px;top:120px;width:1000px;height:890px;pointer-events:none;will-change:transform}
+/* Piezas animadas de la ilustración (barras, puntos, cursor) como elementos HTML encima del
+   dibujo, posicionadas en % del mismo encuadre: se animan con transform/opacity en el
+   compositor, sin repintar la ilustración en cada cuadro */
+.tec-fx{position:absolute;left:220px;top:120px;width:1000px;height:890px;pointer-events:none}
+.tec-fx i{position:absolute;display:block}
+.tec-cur{background:#fff}
+.tec-bar{border-radius:4px}
+.tec-dot{border-radius:50%}
 .tec-card{position:relative;overflow:hidden;width:262px;display:flex;flex-direction:column;gap:4px;padding:16px 18px;background:#fff;border:1px solid #DBDBDB;border-radius:16px;box-shadow:0 14px 34px rgba(11,37,64,.14),0 0 0 6px rgba(10,114,220,.06);text-align:left;font-family:inherit;color:var(--tec-navy);cursor:pointer;transition:box-shadow .25s,border-color .25s,transform .25s}
 /* Al pasar el mouse la tarjeta se ilumina (sigue girando) */
 .tec-card::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(115deg,transparent 30%,rgba(155,231,249,.55) 48%,transparent 66%);transform:translateX(-120%);pointer-events:none}
@@ -35,8 +40,8 @@
 .tec-name{font-size:18px;font-weight:600}
 .tec-sub{font-size:13px;color:var(--tec-muted)}
 .tec-cur{animation:tec-blink 1s steps(1) infinite}
-.tec-bar{transform-box:fill-box;transform-origin:bottom;animation:tec-grow 2.4s ease-in-out infinite alternate}
-.tec-dot{transform-box:fill-box;transform-origin:center;animation:tec-dot 1.4s ease-out infinite}
+.tec-bar{transform-origin:bottom;animation:tec-grow 2.4s ease-in-out infinite alternate}
+.tec-dot{transform-origin:center;opacity:0;animation:tec-dot 1.4s ease-out infinite}
 
 /* Modal burbuja */
 .tec-modal{position:fixed;inset:0;z-index:1100;display:none}
@@ -63,7 +68,7 @@
 
 @keyframes tec-blink{0%,49%{opacity:1}50%,100%{opacity:0}}
 @keyframes tec-grow{0%{transform:scaleY(.35)}100%{transform:scaleY(1)}}
-@keyframes tec-dot{0%{transform:scale(0);opacity:0}40%{opacity:.8}100%{transform:scale(1) translateY(-40px);opacity:0}}
+@keyframes tec-dot{0%{transform:scale(0);opacity:0}40%{opacity:.8}100%{transform:translateY(var(--ty)) scale(1);opacity:0}}
 @keyframes tec-bubble{to{transform:scale(70)}}
 @keyframes tec-bubble-out{from{transform:scale(70)}to{transform:scale(0)}}
 @keyframes tec-pop{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}60%{transform:translate(-50%,-50%) scale(1.04);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}

@@ -29,13 +29,15 @@
 
 /* Carita feliz: ojos que parpadean y pequeño saludo */
 .bot-face { position: absolute; z-index: 3; left: -6px; top: -6px; width: 28px; height: 28px; filter: drop-shadow(0 3px 6px rgba(7,30,58,.3)); animation: bot-wave 4s ease-in-out infinite; transform-origin: 70% 90%; }
-.bot-eyes { transform-origin: 16px 13px; animation: bot-blink 4.5s ease-in-out infinite; }
-@keyframes bot-blink { 0%, 44%, 50%, 100% { transform: scaleY(1); } 47% { transform: scaleY(.1); } }
+.bot-eyes { transform-origin: 16px 13px; }
+.bot.is-blinking .bot-eyes { animation: bot-blink .28s ease-in-out; }   /* la clase la pone modules/bot.js cada 4,5 s */
+@keyframes bot-blink { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.1); } }
 @keyframes bot-wave { 0%, 70%, 100% { rotate: 0deg; } 76% { rotate: -14deg; } 84% { rotate: 10deg; } 92% { rotate: -6deg; } }
 .bot-launcher:hover .bot-face { scale: 1.12; }
 
 /* Abierto: el botón se inclina y se ocultan anillo, burbuja y nombre */
 .bot.is-open .bot-ring, .bot.is-open .bot-hint, .bot.is-open .bot-name { display: none; }
+.bot.is-open .bot-launcher img, .bot.is-open .bot-face { animation-play-state: paused; }
 .bot.is-open .bot-launcher { transform: scale(.86) rotate(-8deg); }
 
 /* Panel tipo chat */

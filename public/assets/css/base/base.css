@@ -23,8 +23,14 @@ button { font-family: inherit; }
 .eyebrow-line { display: block; width: 32px; height: 2px; background: var(--accent); }
 .h2 { font-family: var(--display); font-weight: 700; font-size: 44px; line-height: 1.05; letter-spacing: -.03em; }
 
-/* Secciones fuera de pantalla: sus animaciones infinitas se pausan (la clase la pone modules/perf.js) */
-.is-offscreen, .is-offscreen *, .is-offscreen *::before, .is-offscreen *::after { animation-play-state: paused !important; }
+/* Secciones fuera de pantalla (clases de modules/perf.js y modules/clouds.js):
+   - sus animaciones se quitan, no solo se pausan: una animación pausada sigue
+     ocupando una capa en la GPU. Al volver empiezan de nuevo. El header (fijo,
+     dentro de la portada) queda fuera de la regla.
+   - el contenido de las escenas más pesadas no se dibuja y libera sus capas. */
+.is-offscreen :not(.site-header, .site-header *), .is-offscreen :not(.site-header, .site-header *)::before, .is-offscreen :not(.site-header, .site-header *)::after,
+.is-asleep *, .is-asleep *::before, .is-asleep *::after { animation-name: none !important; }
+.vzf.is-offscreen .vzf-bg, .cloud-transition.is-idle .ct-stage { content-visibility: hidden; }
 
 @media (max-width: 640px) {
   .eyebrow { font-size: 9px; letter-spacing: .18em; }
