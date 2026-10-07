@@ -79,9 +79,9 @@ Genera `dist/hosting/` y `dist/voz360-hosting.zip` (no se versionan). El `.htacc
 
 | Dato | Valor |
 |---|---|
-| Hosting | GoDaddy, plan Web Hosting Inicial (cuenta de Fabián Mauricio Valencia; acceso delegado a `lider.ti@voz360.co`) |
-| Servidor / IP | cPanel `p3plzcpnl508582.prod.phx3.secureserver.net`, IP `216.69.169.106`, carpeta `public_html` |
-| Dominio | `voz360.co`, registrado con Google Workspace y administrado en **Squarespace Domains** (cuenta `webadmin@voz360.co`, alias de `direccion@`; administrador invitado: `lider.ti@voz360.co`) |
+| Hosting | GoDaddy, plan Web Hosting Inicial (cPanel). Accesos: ver el registro interno de activos del SGSI |
+| IP del hosting | `216.69.169.106`, carpeta `public_html` |
+| Dominio | `voz360.co`, registrado con Google Workspace y administrado en **Squarespace Domains**. Accesos: ver el registro interno del SGSI |
 | DNS de la web | A `@` → `216.69.169.106` · CNAME `www` → `voz360.co` |
 | DNS del correo (no tocar) | MX `smtp.google.com` · TXT SPF `v=spf1 include:_spf.google.com ~all` · TXT `google._domainkey` (DKIM) |
 | Certificado | Let's Encrypt para `voz360.co` y `www.voz360.co`. **Vence el 5 de enero de 2027** |
