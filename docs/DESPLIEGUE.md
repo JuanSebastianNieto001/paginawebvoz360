@@ -50,6 +50,31 @@ npx vercel rm <url-del-deploy> --yes
 
 El historial completo sigue en Git, así que cualquier versión anterior se puede volver a publicar.
 
+## Hosting de GoDaddy (dominio voz360.co)
+
+El hosting de GoDaddy (cPanel) usa Apache, que **no lee `vercel.json`**. Las mismas cabeceras de seguridad, HTTPS obligatorio, redirección de `www` y caché van en un `.htaccess` que genera la herramienta:
+
+```bash
+node tools/build-hosting.js            # dominio por defecto: voz360.co
+```
+
+Genera `dist/hosting/` y `dist/voz360-hosting.zip` (no se versionan). El `.htaccess` y `security.txt` salen con el dominio definitivo.
+
+**Subir:** cPanel → Administrador de archivos → `public_html/` → borrar el contenido de ejemplo → *Cargar* `voz360-hosting.zip` → clic derecho → *Extraer* → borrar el `.zip`. Activar "Mostrar archivos ocultos" para ver `.htaccess`.
+
+**DNS** (el dominio está en Google; se administra desde la Consola del administrador de Google → Dominios → Administrar dominios → configuración de DNS):
+
+| Tipo | Nombre | Valor | Nota |
+|---|---|---|---|
+| A | `@` | IP compartida del hosting (cPanel → *Información general* → "Dirección IP compartida") | Reemplaza los registros A existentes de `@` |
+| CNAME | `www` | `voz360.co.` | |
+
+**No tocar** los registros MX, TXT (SPF, verificación de Google), ni los CNAME/TXT de DKIM (`google._domainkey`): son los del correo de Google Workspace. Si se borran, el correo deja de funcionar.
+
+**HTTPS:** cuando el dominio ya apunte al hosting, activar el certificado en cPanel → *SSL/TLS Status* (AutoSSL). El `.htaccess` fuerza HTTPS, así que el sitio no abre bien hasta que el certificado esté activo (suele tardar de minutos a pocas horas).
+
+**Comprobar:** `https://voz360.co` carga, `http://` y `www.` redirigen, `/.well-known/security.txt` responde, `/.htaccess` da 403 y securityheaders.com sigue en A+.
+
 ## Volver a una versión anterior
 
 - **Rápido:** en Vercel → Deployments → el deploy anterior → *Promote to Production*.

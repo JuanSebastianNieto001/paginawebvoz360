@@ -26,3 +26,6 @@ desktop.ini
 *.bak
 material-original/
 originales/
+
+# Paquete generado para hosting (tools/build-hosting.js)
+dist/
