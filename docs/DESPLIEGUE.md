@@ -75,6 +75,21 @@ Genera `dist/hosting/` y `dist/voz360-hosting.zip` (no se versionan). El `.htacc
 
 **Comprobar:** `https://voz360.co` carga, `http://` y `www.` redirigen, `/.well-known/security.txt` responde, `/.htaccess` da 403 y securityheaders.com sigue en A+.
 
+### Estado actual (7 oct 2026)
+
+| Dato | Valor |
+|---|---|
+| Hosting | GoDaddy, plan Web Hosting Inicial (cuenta de Fabián Mauricio Valencia; acceso delegado a `lider.ti@voz360.co`) |
+| Servidor / IP | cPanel `p3plzcpnl508582.prod.phx3.secureserver.net`, IP `216.69.169.106`, carpeta `public_html` |
+| Dominio | `voz360.co`, registrado con Google Workspace y administrado en **Squarespace Domains** (cuenta `webadmin@voz360.co`, alias de `direccion@`; administrador invitado: `lider.ti@voz360.co`) |
+| DNS de la web | A `@` → `216.69.169.106` · CNAME `www` → `voz360.co` |
+| DNS del correo (no tocar) | MX `smtp.google.com` · TXT SPF `v=spf1 include:_spf.google.com ~all` · TXT `google._domainkey` (DKIM) |
+| Certificado | Let's Encrypt para `voz360.co` y `www.voz360.co`. **Vence el 5 de enero de 2027** |
+
+**Renovar el certificado antes del 5 de diciembre de 2026.** El plan no incluye AutoSSL ni SSL de GoDaddy. Hay dos opciones: comprar el SSL administrado de GoDaddy, que se renueva solo, o emitir de nuevo uno de Let's Encrypt (validación HTTP-01: publicar el reto en `public_html/.well-known/acme-challenge/` y luego instalarlo en cPanel → SSL/TLS → *Instalar*). No dejes la clave privada en `public_html`.
+
+**Pendiente en GoDaddy:** desactivar *Configuración → Métrica del sitio web*. GoDaddy inyecta un script de analítica (`img1.wsimg.com/.../tccl.min.js`) en cada página. La CSP lo bloquea, pero contradice la política de datos ("sin analítica de terceros").
+
 ## Volver a una versión anterior
 
 - **Rápido:** en Vercel → Deployments → el deploy anterior → *Promote to Production*.
