@@ -51,6 +51,26 @@ Se ejecuta en GitHub (Actions → *Pruebas ISO del sitio*) después de cada publ
 
 A mano: `node tools/iso-web-check.js`. El hosting tiene una protección anti-bots que, ante muchas peticiones seguidas desde una misma IP, responde con una página de verificación; por eso las pruebas van espaciadas y, si la verificación persiste, la prueba queda como AVISO "no se pudo comprobar" en lugar de un resultado falso.
 
+## Escaneos externos (evidencia para auditoría)
+
+Herramientas reconocidas e independientes, ejecutadas sobre `https://voz360.co`:
+
+| Herramienta | Qué evalúa | Resultado (8 oct 2026) | Cómo repetirlo |
+|---|---|---|---|
+| OWASP ZAP (baseline, pasivo) | Vulnerabilidades web conocidas y configuración insegura | 65 pruebas superadas, 0 fallas, 2 avisos (script de GoDaddy) | Actions → *Escaneo de vulnerabilidades (OWASP ZAP)*; automático el primer lunes de cada mes. Informe HTML descargable |
+| Mozilla HTTP Observatory | Cabeceras y políticas de seguridad | A+ (135/100), 11 de 12 pruebas (falla SRI por el script de GoDaddy) | developer.mozilla.org/observatory |
+| securityheaders.com | Cabeceras de seguridad | A+ | securityheaders.com |
+| Qualys SSL Labs | Configuración TLS y certificado | A- | ssllabs.com/ssltest |
+| `tools/iso-web-check.js` | Pruebas por control del Anexo A | 70 OK, 0 fallas | Ver arriba |
+
+**Riesgos aceptados** (justificación para el auditor):
+
+- **SSL Labs A- y no A+.** El servidor compartido de GoDaddy solo ofrece TLS 1.2 y mantiene cifrados antiguos (CBC y sin *forward secrecy*). Ambos dependen de la configuración de Apache del proveedor y no se pueden cambiar desde cPanel. TLS 1.0 y 1.1 están deshabilitados y el cifrado preferido es ECDHE + AES-GCM. Para llegar a A+ habría que poner un proxy (p. ej. Cloudflare) delante del hosting o cambiar a un plan con configuración propia.
+- **`style-src 'unsafe-inline'` en la CSP.** Lo requieren unos 110 estilos decorativos de las animaciones, escritos como atributos. El riesgo es bajo: `script-src 'self'` impide ejecutar código inyectado, el sitio no muestra contenido enviado por usuarios y no se usa `innerHTML` con datos externos.
+- **Recursos estáticos en caché** (CSS, JS, imágenes): es intencional; las páginas HTML y `security.txt` se sirven sin caché.
+
+**Pendiente:** desactivar en GoDaddy la *Métrica del sitio web*. Es la causa de los avisos que quedan en ZAP (script de otro dominio sin SRI) y de la prueba que falla en Observatory.
+
 ## Si se detecta un problema
 
 1. Retirar de inmediato el contenido afectado (commit + push; verificar el deploy).
