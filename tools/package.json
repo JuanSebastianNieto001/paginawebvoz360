@@ -6,9 +6,11 @@
     "serve": "node serve.js",
     "version": "node bump-version.js",
     "thumbs": "node gallery-thumbs.js",
-    "blur": "node blur-regions.js"
+    "blur": "node blur-regions.js",
+    "renew-ssl": "node renew-ssl.js"
   },
   "devDependencies": {
+    "acme-client": "^5.4.0",
     "sharp": "^0.34.0"
   }
 }

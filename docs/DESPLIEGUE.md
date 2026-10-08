@@ -93,9 +93,11 @@ Descomprimir sobrescribe los archivos, pero **no borra** los que se eliminaron d
 | Dominio | `voz360.co`, registrado con Google Workspace y administrado en **Squarespace Domains**. Accesos: ver el registro interno del SGSI |
 | DNS de la web | A `@` → `216.69.169.106` · CNAME `www` → `voz360.co` |
 | DNS del correo (no tocar) | MX `smtp.google.com` · TXT SPF `v=spf1 include:_spf.google.com ~all` · TXT `google._domainkey` (DKIM) |
-| Certificado | Let's Encrypt para `voz360.co` y `www.voz360.co`. **Vence el 5 de enero de 2027** |
+| Certificado TLS | Let's Encrypt para `voz360.co` y `www.voz360.co`, renovación automática semanal (ver abajo) |
 
-**Renovar el certificado antes del 5 de diciembre de 2026.** El plan no incluye AutoSSL ni SSL de GoDaddy. Hay dos opciones: comprar el SSL administrado de GoDaddy, que se renueva solo, o emitir de nuevo uno de Let's Encrypt (validación HTTP-01: publicar el reto en `public_html/.well-known/acme-challenge/` y luego instalarlo en cPanel → SSL/TLS → *Instalar*). No dejes la clave privada en `public_html`.
+**Certificado TLS (renovación automática).** El plan de GoDaddy no incluye AutoSSL ni certificado. El flujo [`.github/workflows/ssl-renew.yml`](../.github/workflows/ssl-renew.yml) se ejecuta **cada lunes**: si al certificado le quedan menos de 30 días, `tools/renew-ssl.js` pide uno nuevo a Let's Encrypt (validación HTTP-01 publicada con la API de cPanel), lo instala y comprueba que el servidor ya lo entregue. Si falla, o si quedan menos de 20 días, el flujo termina en rojo y GitHub avisa por correo (Let's Encrypt ya no envía avisos de vencimiento). A mano: Actions → *Certificado TLS* → *Run workflow* (`forzar` renueva ya; `prueba` recorre todo el proceso con el entorno de pruebas de Let's Encrypt, sin instalar).
+
+**Protocolos:** el servidor de GoDaddy acepta solo TLS 1.2, con cifrado ECDHE + AES-GCM. TLS 1.0 y 1.1 están deshabilitados. TLS 1.3 no está disponible en el hosting compartido y no se puede activar desde cPanel.
 
 **Pendiente en GoDaddy:** desactivar *Configuración → Métrica del sitio web*. GoDaddy inyecta un script de analítica (`img1.wsimg.com/.../tccl.min.js`) en cada página. La CSP lo bloquea, pero contradice la política de datos ("sin analítica de terceros").
 

@@ -1,0 +1,62 @@
+# ============================================================================
+# Certificado TLS de voz360.co (Let's Encrypt) — revisión y renovación
+#
+# Cada lunes revisa el certificado publicado; si le quedan menos de 30 días
+# lo renueva e instala en el hosting de GoDaddy (tools/renew-ssl.js).
+# Si algo falla, o si quedan menos de 20 días, el flujo termina en rojo y
+# GitHub avisa por correo: hay varias semanas de margen antes del vencimiento.
+#
+# A mano: Actions → "Certificado TLS" → Run workflow
+#   forzar = renovar ya · prueba = circuito completo con Let's Encrypt de
+#   pruebas, sin instalar nada.
+# Usa los mismos secretos que la publicación: CPANEL_HOST, CPANEL_USER, CPANEL_TOKEN.
+# ============================================================================
+name: Certificado TLS
+
+on:
+  schedule:
+    - cron: '0 13 * * 1'   # lunes 8:00 a. m. hora de Colombia
+  workflow_dispatch:
+    inputs:
+      forzar:
+        description: 'Renovar aunque falten muchos días'
+        type: boolean
+        default: false
+      prueba:
+        description: 'Prueba con Let''s Encrypt staging (no instala)'
+        type: boolean
+        default: false
+
+concurrency:
+  group: deploy-godaddy   # no coincide con una publicación del sitio
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  certificado:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: produccion
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Dependencias (solo JavaScript, sin compilar)
+        working-directory: tools
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Revisar y renovar
+        working-directory: tools
+        env:
+          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+          CPANEL_USER: ${{ secrets.CPANEL_USER }}
+          CPANEL_TOKEN: ${{ secrets.CPANEL_TOKEN }}
+          DOMINIO: voz360.co
+          FORZAR: ${{ inputs.forzar && '1' || '' }}
+          PRUEBA: ${{ inputs.prueba && '1' || '' }}
+        run: node renew-ssl.js
