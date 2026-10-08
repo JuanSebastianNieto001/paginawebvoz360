@@ -1,0 +1,35 @@
+# ============================================================================
+# Escaneo de vulnerabilidades web con OWASP ZAP (evidencia ISO/IEC 27001 A.8.8)
+#
+# Escaneo "baseline": recorre el sitio y analiza las respuestas de forma pasiva
+# (no envía ataques). Se ejecuta el primer lunes de cada mes y a mano:
+# Actions → "Escaneo de vulnerabilidades (OWASP ZAP)" → Run workflow.
+# El informe HTML queda como archivo descargable (evidencia, 90 días).
+# Las reglas aceptadas con su justificación están en .zap/reglas.tsv.
+# ============================================================================
+name: Escaneo de vulnerabilidades (OWASP ZAP)
+
+on:
+  schedule:
+    - cron: '0 14 1-7 * 1'   # primer lunes del mes, 9:00 a. m. hora de Colombia
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  zap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: OWASP ZAP baseline sobre https://voz360.co
+        uses: zaproxy/action-baseline@v0.14.0
+        with:
+          target: 'https://voz360.co'
+          rules_file_name: '.zap/reglas.tsv'
+          cmd_options: '-a -j -m 2'
+          allow_issue_writing: false
+          fail_action: false
+          artifact_name: informe-zap
