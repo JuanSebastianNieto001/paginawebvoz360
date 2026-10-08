@@ -27,5 +27,17 @@ desktop.ini
 material-original/
 originales/
 
+# Documentos de oficina (Word, Excel, PowerPoint): fuentes de textos legales y
+# material interno. No se versionan; el contenido publicado vive en public/ y docs/.
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.ppt
+*.pptx
+*.odt
+*.ods
+~$*
+
 # Paquete generado para hosting (tools/build-hosting.js)
 dist/

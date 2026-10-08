@@ -14,32 +14,57 @@
   document.querySelectorAll(SELECTOR).forEach(function (el) {
     el.classList.add('magnetic', 'btn-glow');
     var pressed = false;
+    var rect = null;            // caja sin desplazar: se mide al entrar el puntero y se reutiliza
+    var tx = 0, ty = 0;         // desplazamiento que se aplicó por última vez
+
+    // Mide una sola vez por entrada (medir en cada pointermove, justo después de escribir
+    // transform, obliga a recalcular el layout). El centro no cambia con el scale de :hover
+    // y el tamaño sale de offsetWidth/offsetHeight, que no incluyen transform.
+    function measure() {
+      var r = el.getBoundingClientRect();
+      var w = el.offsetWidth, h = el.offsetHeight;
+      var cx = r.left + r.width / 2 - tx, cy = r.top + r.height / 2 - ty;   // sin el desplazamiento aplicado
+      rect = { left: cx - w / 2, top: cy - h / 2, width: w, height: h, cx: cx, cy: cy };
+      return rect;
+    }
+    function invalidate() { rect = null; }   // la página se desplazó con el puntero encima
 
     // El botón se desplaza un poco hacia el cursor (más en vertical que en horizontal)
     function applyTransform(e) {
-      var r = el.getBoundingClientRect();
-      var dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
-      el.style.transform = 'translate(' + (dx * 0.14) + 'px, ' + (dy * 0.22) + 'px) scale(' + (pressed ? 0.96 : 1) + ')';
+      var r = rect || measure();
+      tx = (e.clientX - r.cx) * 0.14;
+      ty = (e.clientY - r.cy) * 0.22;
+      el.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(' + (pressed ? 0.96 : 1) + ')';
       return r;
     }
 
+    el.addEventListener('pointerenter', function () {
+      measure();
+      window.addEventListener('scroll', invalidate, { passive: true });
+    });
+
     el.addEventListener('pointermove', function (e) {
       var r = applyTransform(e);
-      el.style.setProperty('--mx', (e.clientX - r.left) + 'px');   // posición de la luz
-      el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      el.style.setProperty('--mx', (e.clientX - r.left - tx) + 'px');   // posición de la luz
+      el.style.setProperty('--my', (e.clientY - r.top - ty) + 'px');
     });
 
     el.addEventListener('pointerdown', function (e) {
       pressed = true;
-      spawnRipple(el, e, applyTransform(e));
+      var r = applyTransform(e);
+      spawnRipple(el, e, { left: r.left + tx, top: r.top + ty, width: r.width, height: r.height });
       el.classList.remove('btn-pulse');
       void el.offsetWidth;                    // reinicia la animación del pulso
       el.classList.add('btn-pulse');
     });
 
-    function release() { pressed = false; el.style.transform = ''; }
+    function release() { pressed = false; tx = ty = 0; el.style.transform = ''; }
     el.addEventListener('pointerup', release);
-    el.addEventListener('pointerleave', release);
+    el.addEventListener('pointerleave', function () {
+      release();
+      rect = null;
+      window.removeEventListener('scroll', invalidate);
+    });
   });
 
   // Onda de color que nace donde se hizo clic

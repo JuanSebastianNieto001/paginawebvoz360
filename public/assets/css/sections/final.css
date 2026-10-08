@@ -70,7 +70,8 @@
 @keyframes vzf-rise{0%{transform:translateY(0) rotate(0);opacity:0}8%{opacity:1}85%{opacity:1}100%{transform:translateY(-115vh) rotate(260deg);opacity:0}}
 
 /* Misión y Visión (imágenes PNG) */
-.vzf-mvimg{position:absolute;top:9%;width:min(500px,38vw);height:auto;opacity:0;will-change:transform,opacity;filter:drop-shadow(0 0 0 transparent)}
+.vzf-mvimg{position:absolute;top:9%;width:min(500px,38vw);height:auto;opacity:0;will-change:transform,opacity}
+.vzf.is-offscreen .vzf-mvimg{will-change:auto}
 /* Misión arriba a la izquierda y Visión debajo, a la derecha */
 #vzf-mvm{left:3%;top:5%}
 #vzf-mvv{right:3%;top:calc(5% + min(500px,38vw) * .5 + 4px)}

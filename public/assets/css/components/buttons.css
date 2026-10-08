@@ -6,7 +6,7 @@
    ========================================================================== */
 
 /* Botón principal (pastilla azul) */
-.btn-primary { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px; font-weight: 700; color: #FFFFFF; background: var(--accent); padding: 16px 26px; border-radius: 999px; }
+.btn-primary { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px; font-weight: 700; color: #FFFFFF; background: var(--accent-text); padding: 16px 26px; border-radius: 999px; }
 .btn-primary:hover { color: #FFFFFF; }
 
 /* ---------- Botón magnético ---------- */

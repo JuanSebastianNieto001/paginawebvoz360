@@ -4,6 +4,10 @@
 # Escaneo "baseline": recorre el sitio y analiza las respuestas de forma pasiva
 # (no envía ataques). Se ejecuta el primer lunes de cada mes y a mano:
 # Actions → "Escaneo de vulnerabilidades (OWASP ZAP)" → Run workflow.
+# En cron, si se fijan día del mes y día de la semana a la vez se combinan con
+# "O" (correría los días 1-7 Y todos los lunes). Por eso el cron se dispara
+# cada lunes y el primer paso solo deja seguir si el día del mes es 1 a 7.
+# La ejecución a mano (workflow_dispatch) siempre escanea.
 # El informe HTML queda como archivo descargable (evidencia, 90 días).
 # Las reglas aceptadas con su justificación están en .zap/reglas.tsv.
 # ============================================================================
@@ -11,7 +15,7 @@ name: Escaneo de vulnerabilidades (OWASP ZAP)
 
 on:
   schedule:
-    - cron: '0 14 1-7 * 1'   # primer lunes del mes, 9:00 a. m. hora de Colombia
+    - cron: '0 14 * * 1'   # cada lunes 9:00 a. m. hora de Colombia; solo escanea el primero del mes
   workflow_dispatch:
 
 permissions:
@@ -22,9 +26,24 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
+      - name: Primer lunes del mes
+        id: cuando
+        env:
+          EVENTO: ${{ github.event_name }}
+        run: |
+          DIA=$(date -u +%-d)
+          if [ "$EVENTO" != "schedule" ] || [ "$DIA" -le 7 ]; then
+            echo "seguir=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "seguir=false" >> "$GITHUB_OUTPUT"
+            echo "Día $DIA: no es el primer lunes del mes, no se escanea." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
       - uses: actions/checkout@v4
+        if: steps.cuando.outputs.seguir == 'true'
 
       - name: OWASP ZAP baseline sobre https://voz360.co
+        if: steps.cuando.outputs.seguir == 'true'
         uses: zaproxy/action-baseline@v0.14.0
         with:
           target: 'https://voz360.co'

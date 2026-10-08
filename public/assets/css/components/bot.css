@@ -104,10 +104,10 @@
 
 /* ---------- Bot: opciones y flujos (Contáctanos / Trabaja con nosotros) ---------- */
 .bot-options { display: flex; flex-wrap: wrap; gap: 8px; }
-.bot-opt { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 999px; border: 1.5px solid var(--accent); background: #FFFFFF; color: var(--accent); font-family: var(--body); font-size: 13px; font-weight: 700; cursor: pointer; transition: background .25s ease, color .25s ease, transform .25s ease, box-shadow .25s ease; }
+.bot-opt { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 999px; border: 1.5px solid var(--accent); background: #FFFFFF; color: var(--accent-text); font-family: var(--body); font-size: 13px; font-weight: 700; cursor: pointer; transition: background .25s ease, color .25s ease, transform .25s ease, box-shadow .25s ease; }
 .bot-opt svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .bot-opt:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(10,121,232,.18); }
-.bot-opt.is-active { background: var(--accent); color: #FFFFFF; }
+.bot-opt.is-active { background: var(--accent-text); color: #FFFFFF; }
 
 .bot-flow { display: flex; flex-direction: column; gap: 10px; }
 .bot-flow[hidden] { display: none; }
@@ -132,8 +132,8 @@
 .bot-msg--typing span:nth-child(3) { animation-delay: .3s; }
 .bot-chips { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
 .bot-chips[hidden] { display: none; }
-.bot-chip { max-width: 92%; padding: 9px 13px; border-radius: 16px 4px 16px 16px; border: 1.5px solid var(--accent); background: #FFFFFF; color: var(--accent); font-family: inherit; font-size: 12.5px; font-weight: 600; text-align: right; line-height: 1.35; cursor: pointer; transition: background .2s, color .2s, transform .2s; }
-.bot-chip:hover, .bot-chip:focus-visible { background: var(--accent); color: #FFFFFF; transform: translateX(-3px); }
+.bot-chip { max-width: 92%; padding: 9px 13px; border-radius: 16px 4px 16px 16px; border: 1.5px solid var(--accent); background: #FFFFFF; color: var(--accent-text); font-family: inherit; font-size: 12.5px; font-weight: 600; text-align: right; line-height: 1.35; cursor: pointer; transition: background .2s, color .2s, transform .2s; }
+.bot-chip:hover, .bot-chip:focus-visible { background: var(--accent-text); color: #FFFFFF; transform: translateX(-3px); }
 .bot-chip.is-asked { border-color: var(--line); color: var(--muted); }
 .bot-chip.is-asked:hover { background: var(--soft); color: var(--ink-2); }
 .bot-go { padding: 0; border: 0; background: none; font: inherit; font-weight: 600; color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }

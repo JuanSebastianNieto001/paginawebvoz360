@@ -21,6 +21,8 @@
   var clamp = function (v, a, b) { a = a === undefined ? 0 : a; b = b === undefined ? 1 : b; return Math.min(b, Math.max(a, v)); };
   var ease = function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
   var SAMPLES = 60;   // puntos por recorrido con ScrollTimeline (entre ellos se interpola)
+  var RESIZE_DEBOUNCE = 120;   // ms: los resize seguidos se agrupan en uno
+  var RESIZE_MIN_DH = 120;     // px: en táctiles se ignoran cambios menores de alto (barra de direcciones)
   var useTimeline = typeof window.ScrollTimeline === 'function' && typeof Element.prototype.animate === 'function';
 
   document.querySelectorAll('.cloud-transition').forEach(function (root) {
@@ -145,7 +147,7 @@
     }
 
     /* ---------- Arranque y bucle ---------- */
-    var visible = true, lastP = -1, lastW = 0, rebuildQueued = false;
+    var visible = !('IntersectionObserver' in window), lastP = -1, lastW = 0, rebuildQueued = false, rafId = 0;
     function refresh() {
       measure();
       lastP = -1;
@@ -155,17 +157,26 @@
       }
     }
     refresh();
-    window.addEventListener('resize', refresh);
+    onResize(refresh);
     window.addEventListener('load', refresh);
     if ('ResizeObserver' in window) new ResizeObserver(refresh).observe(document.body);
     if ('IntersectionObserver' in window) {
       // Lejos de la pantalla, la escena no se dibuja (.is-idle → content-visibility en CSS)
-      new IntersectionObserver(function (e) { visible = e[0].isIntersecting; root.classList.toggle('is-idle', !visible); lastP = -1; }, { rootMargin: '20% 0px' }).observe(root);
+      new IntersectionObserver(function (e) {
+        visible = e[0].isIntersecting;
+        root.classList.toggle('is-idle', !visible);
+        lastP = -1;
+        syncLoop();
+      }, { rootMargin: '20% 0px' }).observe(root);
     }
 
+    // El bucle solo existe con la escena cerca de la pantalla: lejos no se pide ningún cuadro
+    function syncLoop() {
+      if (visible && !rafId) rafId = requestAnimationFrame(frame);
+      else if (!visible && rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+    }
     function frame() {
-      requestAnimationFrame(frame);
-      if (!visible) return;
+      rafId = requestAnimationFrame(frame);
       // Sin suavizado: la escena usa el progreso real del scroll, así la palabra
       // nunca queda desfasada al subir o bajar rápido
       var p = progress();
@@ -174,6 +185,23 @@
       if (!useTimeline) drawFrame(p);
       updateWord(p);
     }
-    requestAnimationFrame(frame);
+    syncLoop();
   });
+
+  // Resize agrupado; en pantallas táctiles se ignora el que solo cambia un poco el alto
+  // (la barra de direcciones del celular lo dispara al hacer scroll y rehacer las
+  // animaciones de las nubes en cada uno es costoso)
+  function onResize(fn) {
+    var coarse = window.matchMedia('(pointer: coarse)').matches;
+    var w = window.innerWidth, h = window.innerHeight, timer = 0;
+    window.addEventListener('resize', function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        var nw = window.innerWidth, nh = window.innerHeight;
+        if (coarse && nw === w && Math.abs(nh - h) < RESIZE_MIN_DH) return;
+        w = nw; h = nh;
+        fn();
+      }, RESIZE_DEBOUNCE);
+    });
+  }
 })();

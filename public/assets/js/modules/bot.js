@@ -217,6 +217,17 @@
     });
   });
 
+  // Enlace directo (voz360.co/#pqrs, #faq, #trabaja): abre esa opción del bot
+  // (head.js quita el # de la dirección y lo deja en <html data-hash>); se abre al terminar la intro
+  var hash = document.documentElement.getAttribute('data-hash') || '';
+  if (/^(faq|pqrs|trabaja)$/.test(hash) && document.getElementById('flow-' + hash)) {
+    var waitIntro = setInterval(function () {
+      if (document.documentElement.classList.contains('intro-active')) return;
+      clearInterval(waitIntro);
+      open(hash);
+    }, 300);
+  }
+
   /* ---------- Parpadeo de la carita del botón ---------- */
   // Una animación corta cada 4,5 s en vez de una infinita: entre parpadeos no hay trabajo
   setInterval(function () {

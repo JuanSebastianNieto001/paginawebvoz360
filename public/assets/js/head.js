@@ -9,7 +9,8 @@
    pueda prohibir scripts en línea (script-src 'self').
    ========================================================================== */
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+// El enlace (#pqrs, #faq…) se guarda en <html data-hash> para que el bot abra esa opción
+if (location.hash) { document.documentElement.setAttribute('data-hash', location.hash.slice(1)); history.replaceState(null, '', location.pathname + location.search); }
 window.scrollTo(0, 0);
 window.addEventListener('pageshow', function () { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); });
 

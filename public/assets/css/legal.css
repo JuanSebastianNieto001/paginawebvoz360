@@ -1,6 +1,6 @@
 /* Páginas legales: política de datos y política de seguridad */
 @font-face { font-family: 'Sora'; font-style: normal; font-weight: 100 800; font-display: swap; src: url('../fonts/sora-latin.woff2') format('woff2'); }
-:root { --navy: #071E3A; --accent: #0A79E8; --cyan: #9BE7F9; --ink: #3A3A3A; --muted: #6A6A6A; --line: #DBDBDB; --soft: #F5F5F5; }
+:root { --navy: #071E3A; --accent: #0A6CD2; --cyan: #9BE7F9; --ink: #3A3A3A; --muted: #6A6A6A; --line: #DBDBDB; --soft: #F5F5F5; }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: #FFFFFF; color: var(--ink); font-family: Sora, 'Segoe UI', sans-serif; font-size: 15px; line-height: 1.75; -webkit-font-smoothing: antialiased; }

@@ -25,16 +25,12 @@
     opacity .8s var(--ease) var(--delay),
     translate .95s var(--ease) var(--delay),
     scale .95s var(--ease) var(--delay),
-    filter .95s var(--ease) var(--delay),
     transform .45s var(--ease),
     border-color .45s ease,
     box-shadow .45s ease,
-    background-color .35s ease,
-    padding-left .35s ease;
+    background-color .35s ease;
 }
 .js [data-reveal="left"]  { translate: -70px 0; }
 .js [data-reveal="right"] { translate: 70px 0; }
 .js [data-reveal="zoom"]  { translate: 0 24px; scale: .92; }
-.js [data-reveal="blur"]  { translate: 0 20px; filter: blur(10px); }
-.js [data-reveal="line"]  { translate: 0 0; scale: 0 1; transform-origin: left center; }
-.js [data-reveal].is-in { opacity: 1; translate: 0 0; scale: 1; filter: none; }
+.js [data-reveal].is-in { opacity: 1; translate: 0 0; scale: 1; }

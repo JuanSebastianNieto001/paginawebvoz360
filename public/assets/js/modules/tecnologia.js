@@ -6,7 +6,8 @@
      abajo quedan "adelante" (más grandes y con mayor z-index).
    - Al tocar una tarjeta se abre una ventana con el detalle (textos en DATA).
    Rendimiento: las medidas se leen solo al cargar y al redimensionar, y el
-   z-index se cambia solo cuando varía.
+   z-index se cambia solo cuando varía. El bucle de la órbita corre solo con
+   la sección en pantalla y la ventana cerrada.
    Estilos: css/sections/tecnologia.css
    ========================================================================== */
 (function () {
@@ -18,6 +19,8 @@
   var STAGE_W = 1440, STAGE_H = 1000;   // tamaño de diseño de la escena
   var LAP_SECONDS = 40;                 // segundos por vuelta completa (más alto = más lento)
   var MOBILE_MAX = 900;
+  var RESIZE_DEBOUNCE = 120;            // ms: los resize seguidos se agrupan en uno
+  var RESIZE_MIN_DH = 120;              // px: en táctiles se ignoran cambios menores de alto (barra de direcciones)
 
   // ✏️ Textos de la ventana de cada tarjeta (el número es data-tec del HTML)
   var DATA = {
@@ -48,7 +51,8 @@
   }
 
   /* ---------- Órbita ---------- */
-  var angle = 0, last = null, paused = false, onScreen = true;
+  var angle = 0, last = null, paused = false, rafId = 0;
+  var onScreen = !('IntersectionObserver' in window);   // con observador, lo decide su primer aviso
   var G = {};                                     // medidas en caché
   var zIndexes = floats.map(function () { return -1; });
 
@@ -71,21 +75,44 @@
     });
   }
 
+  // El bucle solo existe con la sección en pantalla y sin la ventana abierta:
+  // fuera de eso no se pide ningún cuadro
   function tick(t) {
-    requestAnimationFrame(tick);
-    if (!onScreen) return;
-    if (last !== null && !paused) angle += ((t - last) / 1000) * (Math.PI * 2 / LAP_SECONDS);
+    if (last !== null) angle += ((t - last) / 1000) * (Math.PI * 2 / LAP_SECONDS);
     last = t;
     place();
+    rafId = requestAnimationFrame(tick);
+  }
+  function syncLoop() {
+    var run = onScreen && !paused;
+    if (run && !rafId) { last = null; rafId = requestAnimationFrame(tick); }
+    else if (!run && rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+  }
+
+  // Resize agrupado; en pantallas táctiles se ignora el que solo cambia un poco el alto
+  // (la barra de direcciones del celular lo dispara al hacer scroll)
+  function onResize(fn) {
+    var coarse = window.matchMedia('(pointer: coarse)').matches;
+    var w = window.innerWidth, h = window.innerHeight, timer = 0;
+    window.addEventListener('resize', function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        var nw = window.innerWidth, nh = window.innerHeight;
+        if (coarse && nw === w && Math.abs(nh - h) < RESIZE_MIN_DH) return;
+        w = nw; h = nh;
+        requestAnimationFrame(fn);
+      }, RESIZE_DEBOUNCE);
+    });
   }
 
   fit();
   measure();
-  window.addEventListener('resize', function () { fit(); measure(); place(); });
+  place();
+  onResize(function () { fit(); measure(); place(); });
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (e) { onScreen = e[0].isIntersecting; last = null; }, { rootMargin: '0px' }).observe(sec);
+    new IntersectionObserver(function (e) { onScreen = e[0].isIntersecting; syncLoop(); }, { rootMargin: '0px' }).observe(sec);
   }
-  requestAnimationFrame(tick);
+  syncLoop();
 
   /* ---------- Ventana con el detalle ---------- */
   var lastBtn = null, closing = false;
@@ -107,6 +134,7 @@
     void modal.offsetWidth;                       // reinicia las animaciones
     modal.classList.add('is-open');
     paused = true;                                // la órbita se detiene mientras está abierta
+    syncLoop();
     document.body.style.overflow = 'hidden';
     setTimeout(function () { modal.querySelector('.tec-close').focus({ preventScroll: true }); }, 300);
   }
@@ -119,6 +147,7 @@
       modal.classList.remove('is-open', 'is-closing');
       document.body.style.overflow = '';
       paused = false;
+      syncLoop();
       if (lastBtn) lastBtn.focus({ preventScroll: true });
     }, 350);
   }

@@ -16,6 +16,8 @@
   var AUTOPLAY_MS = 2000;   // cambia de foto cada 2 segundos
   var GAP = 16;             // separación entre fotos (igual que .gallery-track en CSS)
   var SWIPE_PX = 40;        // desplazamiento mínimo para considerar un arrastre
+  var RESIZE_DEBOUNCE = 120;   // ms: los resize seguidos se agrupan en uno
+  var RESIZE_MIN_DH = 120;     // px: en táctiles se ignoran cambios menores de alto (barra de direcciones)
 
   var track = gallery.querySelector('.gallery-track');
   var outer = gallery.querySelector('.gallery-track-outer');
@@ -138,6 +140,22 @@
     visible = true;
   }
 
-  window.addEventListener('resize', function () { requestAnimationFrame(function () { go(current, false, true); }); });
+
+  // Resize agrupado; en pantallas táctiles se ignora el que solo cambia un poco el alto
+  // (la barra de direcciones del celular lo dispara al hacer scroll))
+  function onResize(fn) {
+    var coarse = window.matchMedia('(pointer: coarse)').matches;
+    var w = window.innerWidth, h = window.innerHeight, timer = 0;
+    window.addEventListener('resize', function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        var nw = window.innerWidth, nh = window.innerHeight;
+        if (coarse && nw === w && Math.abs(nh - h) < RESIZE_MIN_DH) return;
+        w = nw; h = nh;
+        requestAnimationFrame(fn);
+      }, RESIZE_DEBOUNCE);
+    });
+  }
+  onResize(function () { go(current, false, true); });
   requestAnimationFrame(function () { go(0, false, true); start(); });
 })();

@@ -18,7 +18,7 @@ button { font-family: inherit; }
 .cyan { color: var(--cyan); }
 .wrap { width: 100%; max-width: 1440px; margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
 
-.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--blue-dark); }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--accent-text); }
 .eyebrow-row { display: flex; align-items: center; gap: 12px; }
 .eyebrow-line { display: block; width: 32px; height: 2px; background: var(--accent); }
 .h2 { font-family: var(--display); font-weight: 700; font-size: 44px; line-height: 1.05; letter-spacing: -.03em; }

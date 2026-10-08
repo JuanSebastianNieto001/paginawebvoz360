@@ -23,7 +23,7 @@
 .scard-art svg { position: absolute; top: 16px; right: 16px; width: 102px; height: 102px; }
 .scard-body { position: relative; z-index: 2; display: flex; flex-direction: column; flex: 1; }
 .scard-top { display: flex; align-items: center; gap: 9px; }
-.scard-num { font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--blue-dark); }
+.scard-num { font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--accent-text); }
 .scard-rule { display: block; width: 16px; height: 1px; background: #A9C9E6; }
 .scard-icon { margin-top: 20px; display: block; line-height: 0; }
 .scard h3 { margin: 16px 0 7px; font-family: var(--display); font-weight: 700; font-size: 19px; line-height: 1.12; letter-spacing: -.03em; color: var(--navy); }

@@ -40,6 +40,8 @@
 
   var SMOOTHING = .09;   // fracción del camino recorrida por cuadro (más bajo = más inercia)
   var TRAIL_SAMPLES = 400;
+  var RESIZE_DEBOUNCE = 120;   // ms: los resize seguidos se agrupan en uno
+  var RESIZE_MIN_DH = 120;     // px: en táctiles se ignoran cambios menores de alto (barra de direcciones)
 
   /* Sendero: el tramo recorrido se dibuja con stroke-dashoffset (sin recalcular puntos) */
   var L = trail.getTotalLength();
@@ -206,7 +208,23 @@
 
   layout();
   measure();
-  window.addEventListener('resize', function () { layout(); measure(); draw(current); kick(); });
+
+  // Resize agrupado; en pantallas táctiles se ignora el que solo cambia un poco el alto
+  // (la barra de direcciones del celular lo dispara al hacer scroll y layout() reescribe el viewBox de todas las capas))
+  function onResize(fn) {
+    var coarse = window.matchMedia('(pointer: coarse)').matches;
+    var w = window.innerWidth, h = window.innerHeight, timer = 0;
+    window.addEventListener('resize', function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        var nw = window.innerWidth, nh = window.innerHeight;
+        if (coarse && nw === w && Math.abs(nh - h) < RESIZE_MIN_DH) return;
+        w = nw; h = nh;
+        requestAnimationFrame(fn);
+      }, RESIZE_DEBOUNCE);
+    });
+  }
+  onResize(function () { layout(); measure(); draw(current); kick(); });
   window.addEventListener('load', function () { measure(); kick(); });
   if ('ResizeObserver' in window) new ResizeObserver(function () { measure(); }).observe(document.body);
   window.addEventListener('scroll', kick, { passive: true });
