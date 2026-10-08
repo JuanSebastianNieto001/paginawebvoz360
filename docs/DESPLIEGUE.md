@@ -1,7 +1,8 @@
-# Despliegue (Vercel)
+# Despliegue
 
 - **Repositorio:** GitHub `JuanSebastianNieto001/paginawebvoz360`, rama `main`.
-- **Producción:** <https://paginawebvoz360.vercel.app>
+- **Producción:** <https://voz360.co> (hosting de GoDaddy). Se publica sola en cada push a `main` (ver [Hosting de GoDaddy](#hosting-de-godaddy-dominio-voz360co)).
+- **Copia en Vercel:** <https://paginawebvoz360.vercel.app>, también automática.
 - **Proyecto Vercel:** `paginawebvoz360`. Preset "Other", sin build. Publica la carpeta `public/`, definida en `vercel.json` (`outputDirectory`).
 
 Cada push a `main` publica automáticamente. Cada push a otra rama genera una vista previa con su propia URL, protegida con el inicio de sesión de Vercel.
@@ -60,7 +61,15 @@ node tools/build-hosting.js            # dominio por defecto: voz360.co
 
 Genera `dist/hosting/` y `dist/voz360-hosting.zip` (no se versionan). El `.htaccess` y `security.txt` salen con el dominio definitivo.
 
-**Subir:** cPanel → Administrador de archivos → `public_html/` → borrar el contenido de ejemplo → *Cargar* `voz360-hosting.zip` → clic derecho → *Extraer* → borrar el `.zip`. Activar "Mostrar archivos ocultos" para ver `.htaccess`.
+### Publicación automática (GitHub Actions)
+
+El flujo [`.github/workflows/deploy-godaddy.yml`](../.github/workflows/deploy-godaddy.yml) se ejecuta en cada push a `main` que cambie `public/`, `vercel.json` o la herramienta de empaquetado. Arma el paquete, lo sube a `public_html` con la API de cPanel, lo descomprime y comprueba que `https://voz360.co` muestre la versión nueva con sus cabeceras de seguridad. Se ve en GitHub → **Actions**, y si falla GitHub avisa por correo. También se puede lanzar a mano: Actions → *Publicar en GoDaddy* → *Run workflow*.
+
+Usa tres secretos cifrados del repositorio (Settings → Secrets and variables → Actions): `CPANEL_HOST`, `CPANEL_USER` y `CPANEL_TOKEN`. El token se crea en cPanel → *Seguridad* → *Administrar tokens de API*. Si se revoca o vence, hay que crear otro y actualizar `CPANEL_TOKEN`.
+
+Descomprimir sobrescribe los archivos, pero **no borra** los que se eliminaron del repositorio. Si se quita un archivo de `public/`, hay que borrarlo también en el Administrador de archivos de cPanel.
+
+**Subida manual (si el flujo no está disponible):** cPanel → Administrador de archivos → `public_html/` → borrar el contenido de ejemplo → *Cargar* `voz360-hosting.zip` → clic derecho → *Extraer* → borrar el `.zip`. Activar "Mostrar archivos ocultos" para ver `.htaccess`.
 
 **DNS** (el dominio está en Google; se administra desde la Consola del administrador de Google → Dominios → Administrar dominios → configuración de DNS):
 

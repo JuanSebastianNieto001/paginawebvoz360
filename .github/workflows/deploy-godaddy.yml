@@ -1,0 +1,109 @@
+# ============================================================================
+# Publicación automática en el hosting de GoDaddy (https://voz360.co)
+#
+# En cada push a main que cambie el sitio (public/, vercel.json o la
+# herramienta de empaquetado):
+#   1. Arma el paquete con tools/build-hosting.js (public/ + .htaccess con las
+#      cabeceras de seguridad de vercel.json).
+#   2. Lo sube a public_html con la API de cPanel y lo descomprime.
+#   3. Comprueba que https://voz360.co responde con la versión nueva.
+# También se puede lanzar a mano: Actions → "Publicar en GoDaddy" → Run workflow.
+#
+# Secretos del repositorio (Settings → Secrets and variables → Actions):
+#   CPANEL_HOST   servidor de cPanel, sin https ni puerto
+#   CPANEL_USER   usuario de cPanel
+#   CPANEL_TOKEN  token de API de cPanel (cPanel → Seguridad → Administrar tokens de API)
+# Los secretos van cifrados: no se ven en el repositorio ni en los registros.
+# Ver docs/DESPLIEGUE.md.
+# ============================================================================
+name: Publicar en GoDaddy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/**'
+      - 'vercel.json'
+      - 'tools/build-hosting.js'
+      - '.github/workflows/deploy-godaddy.yml'
+  workflow_dispatch:
+
+# Una publicación a la vez; si llega otra, espera a que termine la anterior
+concurrency:
+  group: deploy-godaddy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: produccion
+    env:
+      DOMAIN: voz360.co
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Armar el paquete
+        run: node tools/build-hosting.js "$DOMAIN"
+
+      - name: Subir y descomprimir en public_html
+        env:
+          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+          CPANEL_USER: ${{ secrets.CPANEL_USER }}
+          CPANEL_TOKEN: ${{ secrets.CPANEL_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "$CPANEL_HOST" ] || [ -z "$CPANEL_USER" ] || [ -z "$CPANEL_TOKEN" ]; then
+            echo "::error::Faltan los secretos CPANEL_HOST, CPANEL_USER o CPANEL_TOKEN"; exit 1
+          fi
+          API="https://${CPANEL_HOST}:2083"
+          AUTH="Authorization: cpanel ${CPANEL_USER}:${CPANEL_TOKEN}"
+          DOCROOT="/home/${CPANEL_USER}/public_html"
+
+          # 1. Subir el ZIP (sobrescribe si quedó uno anterior)
+          curl -sS --fail-with-body -H "$AUTH" \
+            -F "dir=${DOCROOT}" -F "overwrite=1" -F "file-1=@dist/voz360-hosting.zip" \
+            "${API}/execute/Fileman/upload_files" -o upload.json
+          node -e "const r=require('./upload.json'); if(!r.status||r.data.failed){console.error(JSON.stringify(r.errors||r.data));process.exit(1)} console.log('Subido:', r.data.uploads.map(u=>u.file).join(', '))"
+
+          # 2. Descomprimir encima de lo publicado
+          curl -sS --fail-with-body -H "$AUTH" -G \
+            --data-urlencode "cpanel_jsonapi_apiversion=2" \
+            --data-urlencode "cpanel_jsonapi_module=Fileman" \
+            --data-urlencode "cpanel_jsonapi_func=fileop" \
+            --data-urlencode "op=extract" \
+            --data-urlencode "sourcefiles=${DOCROOT}/voz360-hosting.zip" \
+            --data-urlencode "destfiles=${DOCROOT}" \
+            "${API}/json-api/cpanel" -o extract.json
+          node -e "const r=require('./extract.json').cpanelresult; const d=(r&&r.data||[])[0]||{}; if(r.error||!d.result){console.error(r.error||d.err||'error al descomprimir');process.exit(1)} console.log('Descomprimido en public_html')"
+
+          # 3. Borrar el ZIP del servidor
+          curl -sS --fail-with-body -H "$AUTH" -G \
+            --data-urlencode "cpanel_jsonapi_apiversion=2" \
+            --data-urlencode "cpanel_jsonapi_module=Fileman" \
+            --data-urlencode "cpanel_jsonapi_func=fileop" \
+            --data-urlencode "op=unlink" \
+            --data-urlencode "sourcefiles=${DOCROOT}/voz360-hosting.zip" \
+            "${API}/json-api/cpanel" -o /dev/null
+
+      - name: Comprobar el sitio publicado
+        run: |
+          set -euo pipefail
+          # La versión de CSS/JS (?v=) del index publicado debe coincidir con la del repositorio
+          esperado=$(grep -o 'v=[a-z0-9]*' public/index.html | head -1)
+          for i in 1 2 3 4 5 6; do
+            publicado=$(curl -sS --max-time 20 "https://${DOMAIN}/" | grep -o 'v=[a-z0-9]*' | head -1 || true)
+            [ "$publicado" = "$esperado" ] && break
+            sleep 10
+          done
+          echo "Versión esperada: $esperado · publicada: $publicado"
+          [ "$publicado" = "$esperado" ] || { echo "::error::El sitio no muestra la versión nueva"; exit 1; }
+          curl -sSI "https://${DOMAIN}/" | grep -i '^content-security-policy' >/dev/null || { echo "::error::Falta la cabecera Content-Security-Policy"; exit 1; }
+          echo "✓ https://${DOMAIN} actualizado y con cabeceras de seguridad"
