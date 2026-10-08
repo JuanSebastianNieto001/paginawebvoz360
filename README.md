@@ -10,7 +10,7 @@ Se publica en Vercel en <https://paginawebvoz360.vercel.app>. Cada push a `main`
 paginawebvoz360/
 ├── public/                     ← lo único que se publica (Vercel: outputDirectory)
 │   ├── index.html              página principal
-│   ├── politica-datos.html     política de tratamiento de datos (Ley 1581)
+│   ├── politica-datos.html     política de tratamiento de datos de DALMARU – VOZ360 (Ley 1581)
 │   ├── politica-seguridad.html política de seguridad de la información (ISO 27001)
 │   ├── favicon.ico
 │   ├── .well-known/security.txt  contacto para reportar vulnerabilidades

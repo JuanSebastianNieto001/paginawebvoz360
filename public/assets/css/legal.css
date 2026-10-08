@@ -30,3 +30,6 @@ th { color: var(--navy); background: var(--soft); }
 .lg-foot .in { max-width: 880px; margin: 0 auto; padding: 22px 20px; font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; }
 @media (max-width: 560px) { body { font-size: 14px; } table, thead, tbody, tr, th, td { display: block; } thead { display: none; } td { border: 0; padding: 4px 0; } tr { padding: 10px 0; border-bottom: 1px solid var(--line); } td:first-child { font-weight: 700; color: var(--navy); } }
 @media print { .lg-head, .lg-foot { display: none; } .lg-hero { background: none; color: #000; } }
+main p, main td { overflow-wrap: anywhere; }
+.lg-toc { columns: 2 280px; column-gap: 32px; padding-left: 0; list-style: none; font-size: 14px; }
+.lg-toc li { break-inside: avoid; }

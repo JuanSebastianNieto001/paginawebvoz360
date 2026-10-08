@@ -1,0 +1,48 @@
+# ============================================================================
+# Pruebas de seguridad del sitio publicado (evidencia ISO/IEC 27001:2022)
+#
+# Ejecuta tools/iso-web-check.js contra https://voz360.co:
+#   - después de cada publicación en GoDaddy,
+#   - cada lunes (revisión periódica),
+#   - a mano: Actions → "Pruebas ISO del sitio" → Run workflow.
+# El informe queda en el resumen de cada ejecución y como archivo descargable
+# (evidencia con fecha, conservada 90 días). Si hay una FALLA, GitHub avisa por correo.
+# ============================================================================
+name: Pruebas ISO del sitio
+
+on:
+  workflow_run:
+    workflows: ['Publicar en GoDaddy']
+    types: [completed]
+  schedule:
+    - cron: '30 13 * * 1'   # lunes 8:30 a. m. hora de Colombia
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pruebas:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Pruebas de seguridad de https://voz360.co
+        env:
+          INFORME: informe-iso-web.md
+        run: node tools/iso-web-check.js https://voz360.co
+
+      - name: Guardar el informe como evidencia
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: informe-iso-web-${{ github.run_number }}
+          path: informe-iso-web.md
+          retention-days: 90
+          if-no-files-found: ignore

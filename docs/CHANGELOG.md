@@ -2,6 +2,11 @@
 
 Resumen por versión. El detalle completo está en el historial de Git (`git log`).
 
+## 2026-10-08 — Política de datos y pruebas ISO
+- Política de tratamiento de datos reemplazada por la Política de tratamiento de la información y protección de datos personales de DALMARU INVERSIONES S.A.S. – VOZ360, publicada tal cual del documento Word, con tabla de contenido, aviso de privacidad y formatos.
+- Razón social DALMARU INVERSIONES S.A.S. en el footer, las políticas y la autorización de datos de los formularios.
+- Pruebas de seguridad automáticas del sitio publicado con el control ISO/IEC 27001 de cada una (`tools/iso-web-check.js`), después de cada publicación y cada lunes, con informe como evidencia.
+
 ## 2026-10-02 — Rendimiento
 - Optimización general medida con la CPU limitada 4× en celular y PC: las secciones que iban a 13–32 fps van ahora a 40–60 fps. Detalle de cada decisión en [ARQUITECTURA.md](ARQUITECTURA.md#rendimiento-decisiones-importantes).
 - Nubes con animaciones ligadas al scroll (GPU); montaña separada en capas; ilustración de Tecnología, figuras de Instagram y fondo de Quiénes somos sin repintado por cuadro; header sin desenfoque de fondo; fuera de pantalla las animaciones se quitan y las escenas pesadas no se dibujan.

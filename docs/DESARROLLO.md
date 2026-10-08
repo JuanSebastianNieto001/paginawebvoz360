@@ -22,6 +22,7 @@ cd tools && npm install
 |---|---|---|
 | `node tools/bump-version.js` | Cambia el `?v=` de todos los CSS/JS en los HTML para que los navegadores descarguen la versión nueva | Antes de cada commit que toque CSS o JS |
 | `node tools/renew-ssl.js` | Revisa y renueva el certificado TLS de voz360.co (Let's Encrypt) en el hosting de GoDaddy. Lo ejecuta GitHub cada lunes; necesita las variables `CPANEL_*` | No hace falta a mano (ver DESPLIEGUE.md) |
+| `node tools/iso-web-check.js [url]` | Pruebas de seguridad del sitio publicado, con el control ISO/IEC 27001 de cada una (ver [SEGURIDAD.md](SEGURIDAD.md#pruebas-de-seguridad-del-sitio)) | Lo ejecuta GitHub después de cada publicación y cada lunes; a mano para una revisión puntual |
 | `node tools/build-hosting.js [dominio]` | Arma `dist/voz360-hosting.zip` para un hosting con Apache (GoDaddy): copia `public/`, genera `.htaccess` con las cabeceras de `vercel.json` y ajusta `security.txt` al dominio | Lo ejecuta GitHub en cada push a `main`; a mano solo para una subida manual (ver [DESPLIEGUE.md](DESPLIEGUE.md#hosting-de-godaddy-dominio-voz360co)) |
 | `node tools/gallery-thumbs.js` | Crea las miniaturas desenfocadas de `galeria/blur/` y borra las que sobran | Al agregar, cambiar o quitar fotos de la galería |
 | `node tools/blur-regions.js entrada.jpg salida.jpg "x0,y0,x1,y1;…"` | Desenfoca zonas de una foto (en % del ancho y alto). El resultado no conserva metadatos (GPS, modelo del teléfono) | Antes de publicar fotos con pantallas o documentos |
