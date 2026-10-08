@@ -1,0 +1,3 @@
+10049	IGNORE	(Contenido publico estatico: el cache de CSS, JS, fuentes e imagenes es intencional y se invalida con ?v=)
+90005	IGNORE	(Sec-Fetch-* son cabeceras que envia el navegador en la peticion; no dependen del sitio)
+10055	IGNORE	(Riesgo aceptado y documentado en docs/SEGURIDAD.md: style-src unsafe-inline para estilos decorativos; script-src self impide ejecutar codigo inyectado)

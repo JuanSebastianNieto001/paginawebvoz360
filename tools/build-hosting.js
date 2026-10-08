@@ -72,7 +72,7 @@ lines.push('', '  # Imágenes, fuentes, CSS y JS: un año en el navegador (los C
 lines.push('  <If "%{REQUEST_URI} =~ m#^/assets/#">');
 for (const h of assetHeaders) lines.push(`    Header set ${h.key} "${esc(h.value)}"`);
 lines.push('  </If>', '  # Las páginas se revalidan siempre (así se ve cada cambio publicado)');
-lines.push('  <FilesMatch "\\.html$">', '    Header set Cache-Control "no-cache"', '  </FilesMatch>', '</IfModule>', '');
+lines.push('  <FilesMatch "\\.(html|txt|xml)$">', '    Header set Cache-Control "no-cache, no-store, must-revalidate"', '  </FilesMatch>', '</IfModule>', '');
 lines.push(
   '# Tipos de archivo',
   '<IfModule mod_mime.c>',

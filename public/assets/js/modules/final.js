@@ -1,6 +1,6 @@
 /* ==========================================================================
    FINAL — montaña animada con Misión y Visión
-   Todo depende del progreso del scroll dentro de la sección #vzf (0–1):
+   La escena completa depende del progreso del scroll dentro de la sección #vzf (0–1):
      cielo          mañana → mediodía → atardecer → noche (4 capas que se funden)
      montaña        las capas suben con distinta velocidad (paralaje)
      muñequito      recorre el sendero (#vzf-trail) de 0.06 a 0.82 y el tramo

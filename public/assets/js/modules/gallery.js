@@ -64,10 +64,10 @@
   /**
    * Muestra la foto `index`.
    * @param {number}  index    posición (se ajusta en ciclo)
-   * @param {boolean} [user]   true si lo pidió el usuario (reinicia el autoplay)
+   * @param {boolean} [manual] true si lo pidió la persona (reinicia el autoplay)
    * @param {boolean} [instant] sin transición (al cargar o redimensionar)
    */
-  function go(index, user, instant) {
+  function go(index, manual, instant) {
     current = (index + items.length) % items.length;
     var s = sizes();
     if (instant) gallery.classList.add('no-anim');
@@ -90,7 +90,7 @@
     counter.textContent = pad2(current + 1) + ' / ' + pad2(items.length);
     setBackground(current);
     if (instant) { void track.offsetWidth; gallery.classList.remove('no-anim'); }
-    if (user) restart();
+    if (manual) restart();
   }
 
   /* ---------- Autoplay ---------- */
