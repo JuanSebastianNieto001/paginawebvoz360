@@ -7,8 +7,9 @@
    2) Ayudas del formulario de PQRS: descripción de cada tipo, modo anónimo
       (desactiva los datos personales y la autorización) y número de radicado.
    3) Envío: valida (incluida la casilla de autorización de datos), y envía por
-      POST al servicio configurado en config.js. Sin servicio configurado no se
-      envía nada y se muestra un aviso.
+      POST al servicio configurado en config.js. La postulación, si no hay
+      servicio pero sí JOBS_WHATSAPP, se envía por WhatsApp con los datos ya
+      escritos. Sin ninguno de los dos no se envía nada y se muestra un aviso.
    Estilos: css/components/forms.css
    ========================================================================== */
 (function () {
@@ -105,10 +106,29 @@
   }
 
   /* ---------- 3. Envío ---------- */
+  // Postulación por WhatsApp: mensaje con los datos del formulario (en el orden del formulario).
+  // Incluye la autorización de datos, que así queda como prueba en la conversación.
+  var JOB_FIELDS = [
+    ['tipo_documento', 'Tipo de documento'], ['numero_documento', 'N.º de documento'], ['nombre', 'Nombre completo'],
+    ['telefono', 'Número de contacto'], ['whatsapp', 'WhatsApp'], ['correo', 'Correo electrónico'],
+    ['fecha_nacimiento', 'Fecha de nacimiento'], ['ciudad_nacimiento', 'Ciudad de nacimiento'],
+    ['fecha_expedicion', 'Fecha de expedición'], ['ciudad_expedicion', 'Ciudad de expedición'],
+    ['experiencia_call_center', '¿Experiencia en call center?']
+  ];
+  function jobWhatsAppText(form) {
+    var data = new FormData(form);
+    var lines = ['Hola VOZ360, quiero postularme para trabajar con ustedes. Estos son mis datos:', ''];
+    JOB_FIELDS.forEach(function (f) { lines.push('*' + f[1] + ':* ' + (data.get(f[0]) || '').toString().trim()); });
+    lines.push('', 'Autorizo a DALMARU INVERSIONES S.A.S. (VOZ360) el tratamiento de mis datos personales para el proceso de selección, según su Política de tratamiento de datos (Ley 1581 de 2012).');
+    lines.push('', 'Adjunto mi hoja de vida.');
+    return lines.join('\n');
+  }
+
   var MESSAGES = {
     unavailableJob: 'El formulario aún no está disponible. Puedes enviar tu hoja de vida a seleccion@voz360.co.',
     unavailablePqrs: 'El formulario aún no está disponible. Mientras tanto, llámanos al 314 618 3746.',
     unavailable: 'El formulario aún no está disponible. Inténtalo de nuevo más tarde.',
+    jobWhatsApp: '¡Listo! Te llevamos a WhatsApp con tus datos: revisa el mensaje, envíalo y adjunta tu hoja de vida.',
     sending: 'Enviando…',
     failed: 'No pudimos enviar el formulario. Inténtalo de nuevo en unos minutos.'
   };
@@ -133,6 +153,15 @@
         var custom = firstInvalid && firstInvalid.id === 'j-exp' && firstInvalid.value ? firstInvalid.validationMessage : '';
         setStatus(custom || form.getAttribute('data-required-msg'), 'error');
         if (firstInvalid) firstInvalid.focus();
+        return;
+      }
+
+      // Postulación sin servicio configurado: se envía por WhatsApp
+      if (!endpoint && form.id === 'job-form' && config.JOBS_WHATSAPP) {
+        var url = 'https://wa.me/' + config.JOBS_WHATSAPP + '?text=' + encodeURIComponent(jobWhatsAppText(form));
+        var win = window.open(url, '_blank', 'noopener');
+        if (!win) window.location.href = url;   // si el navegador bloquea la ventana nueva
+        setStatus(MESSAGES.jobWhatsApp, 'ok');
         return;
       }
 

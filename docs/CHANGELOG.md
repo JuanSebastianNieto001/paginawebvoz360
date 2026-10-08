@@ -2,6 +2,11 @@
 
 Resumen por versión. El detalle completo está en el historial de Git (`git log`).
 
+## 2026-10-08 — WhatsApp e Instagram
+- WhatsApp del bot conectado al +57 314 618 3746.
+- Trabaja con nosotros: al enviar la postulación se abre WhatsApp con los datos ya escritos (incluida la autorización de datos) para que la persona lo envíe y adjunte su hoja de vida.
+- Enlaces de Instagram con la dirección oficial del perfil.
+
 ## 2026-10-08 — Política de datos y pruebas ISO
 - Política de tratamiento de datos reemplazada por la Política de tratamiento de la información y protección de datos personales de DALMARU INVERSIONES S.A.S. – VOZ360, publicada tal cual del documento Word, con tabla de contenido, aviso de privacidad y formatos.
 - Razón social DALMARU INVERSIONES S.A.S. en el footer, las políticas y la autorización de datos de los formularios.

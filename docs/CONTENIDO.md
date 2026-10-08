@@ -7,9 +7,10 @@ Guía para cambiar textos, fotos y datos sin tocar la lógica del sitio. Despué
 | Dato | Para qué | Estado |
 |---|---|---|
 | `FORM_ENDPOINT` | URL del servicio que recibe el formulario **Contáctanos** | ⏳ vacío |
-| `JOBS_ENDPOINT` | URL del servicio que recibe **Trabaja con nosotros** | ⏳ vacío |
+| `JOBS_ENDPOINT` | URL del servicio que recibe **Trabaja con nosotros** | ⏳ vacío (mientras tanto se usa WhatsApp) |
+| `JOBS_WHATSAPP` | Si `JOBS_ENDPOINT` está vacío, la postulación abre WhatsApp con los datos ya escritos para este número | ✅ 573146183746 |
 | `PQRS_ENDPOINT` | URL del servicio que recibe **PQRS y sugerencias** | ⏳ vacío |
-| `WHATSAPP_NUMBER` | Número del WhatsApp del bot, solo dígitos con indicativo (ej. `573001234567`) | ⏳ vacío |
+| `WHATSAPP_NUMBER` | Número del WhatsApp del bot, solo dígitos con indicativo (ej. `573001234567`) | ✅ 573146183746 |
 | `WHATSAPP_TEXT` | Mensaje inicial del chat de WhatsApp | listo |
 | `INSTAGRAM_URL` | Perfil de Instagram | listo |
 
